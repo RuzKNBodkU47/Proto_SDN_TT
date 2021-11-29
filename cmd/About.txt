@@ -1,0 +1,2 @@
+----- Directorio cmd -----
+Directorio donde se encuentra los componentes que hacen parte de la interfaz por linea de comandos.

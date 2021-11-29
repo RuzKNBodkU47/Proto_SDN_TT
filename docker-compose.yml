@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  mariadb:
+    image: mariadb:10.6
+    container_name: "${PROJECT_NAME}_DB"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASS}"
+    volumes:
+      #- ./data:/var/lib/mysql
+      - ./init:/docker-entrypont-initdb.d
+    ports:
+      - "${DB_PORT_EXT}:3306"

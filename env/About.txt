@@ -1,0 +1,2 @@
+----- Directorio env -----
+Directorio donde se encuentran los archivos con las variables de entorno.

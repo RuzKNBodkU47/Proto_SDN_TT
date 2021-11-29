@@ -1,0 +1,2 @@
+----- Directorio docs -----
+Directorio donde se encuentran los archivos para realizar las configuraciones.

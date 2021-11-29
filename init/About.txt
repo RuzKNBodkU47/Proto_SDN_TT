@@ -1,0 +1,2 @@
+----- Directorio Init -----
+Directorio con los archivos necesarios para iniciar el prototipo.

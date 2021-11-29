@@ -1,0 +1,2 @@
+----- Directorio dbconfig -----
+Directorio donde se encuentra los archivos que hacen parte de la base de datos.
