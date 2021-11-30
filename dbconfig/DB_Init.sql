@@ -68,6 +68,7 @@ CREATE TABLE Administradores(
 	Nombre_Usuario varchar(60) NOT NULL,
 	Password_Hash varchar(60) NOT NULL,
 	Fecha_Ultimo_Cambio_Pass datetime NOT NULL,
+	Cant_dias_limit int(2)NOT NULL,
 	PRIMARY KEY(Id_Administradores),
 	FOREIGN KEY (Id_Status_Admin) REFERENCES Status_admin(Id_Tipo_Admin),
 	FOREIGN KEY (Id_Tipo_Admin) REFERENCES Tipo_Admin(Id_Tipo_Admin)

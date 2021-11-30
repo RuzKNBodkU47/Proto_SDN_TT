@@ -6,9 +6,17 @@ services:
     container_name: "${PROJECT_NAME}_DB"
     restart: always
     environment:
+      MYSQL_DATABASE: "${DB_DATABASE_NAME}"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASS}"
       MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASS}"
+      INSTALL_SDNTT: 1
+    logging:
+      driver: syslog
     volumes:
       #- ./data:/var/lib/mysql
       - ./init:/docker-entrypont-initdb.d
     ports:
       - "${DB_PORT_EXT}:3306"
+    expose:
+      - 1117
