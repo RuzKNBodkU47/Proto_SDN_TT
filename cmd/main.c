@@ -10,9 +10,13 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include "mainlogin.h"
 #include <string.h>
 #include <time.h>
+
+#include "mainlogin.h"
+#include "mainverif.h"
+#include "mainfunusers.h"
+
 /**
  * @brief  definiendo macros de la funcion main
  * 
@@ -73,7 +77,7 @@ int main(int argc, char * argv[])
             {
                 if(obtener_fecha_sys()==0)
                     return 0;
-                printf("\nSDNTT> bye :3\n");
+                printf("\nbye :3");
                 printf("\nCierre de sesion %s\n",Fecha);
 
                 return 1;
@@ -89,7 +93,12 @@ int main(int argc, char * argv[])
             }
             else if(strcmp(comando,USERS_CMD)==0)
             {
+                /*validar si el usuario tiene funciones para entrar a estas opcionees**/
                 funcion_users();
+            }
+            else
+            {
+                printf("\nEl comando %s no existe.",comando);   
             }
         }
      }   
@@ -108,8 +117,20 @@ void funcion_users()
     {
         printf("\nSDNTT>USERS>");
         scanf("%s",subcomando);
-        if(strcmp(subcomando,EXIT_CMD)==0)
+        if(strcmp(subcomando,USERS_CMD_1)==0)
+        {
+            /*verificar permisos del usuario si tiene permitido usar esta funcion**/
+            if(regis_user()==1)
+                printf("\n[+]Usuario agregado con exito. ");
+            else
+                printf("\n[X]Usuario no se agrego con exito.");
+        }
+        else if(strcmp(subcomando,EXIT_CMD)==0)
             break;
+        else
+        {
+            printf("\nEl comando %s no existe.",subcomando);            
+        }
     }              
 }
 /**
@@ -163,7 +184,7 @@ int obtener_fecha_sys()
  */
 int imprimir_arch_help()
 {
-    char Nom_arch="Help.txt";
+    char Nom_arch[40]="Help.txt";
     FILE *archivo_ayuda;
     archivo_ayuda=fopen(Nom_arch,"r");
     if(archivo_ayuda==NULL)
