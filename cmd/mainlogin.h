@@ -15,7 +15,16 @@
 #define HELP_CMD "help"
 #define EXIT_CMD "exit"
 #define CONFIG_CMD "config"
+#define CONFIG_CMD_1 "router"
+#define CONFIG_CMD_2 "switch"
+#define CONFIG_CMD_3 "server"
+
 #define USERS_CMD "users"
+#define USERS_CMD_1 "agregar"
+#define USERS_CMD_2 "modificar"
+#define USERS_CMD_3 "eliminar"
+#define USERS_CMD_4 "listar"
+
 
 
 

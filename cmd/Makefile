@@ -1,5 +1,5 @@
 #MAKEFILE PARA COMPILAR TODO CMD
-OBJS = main.o mainlogin.o mainverif.o
+OBJS = main.o mainlogin.o mainverif.o mainfunusers.o
 BINARY = exefin
 #CFLAGS = -g -Wall
 
@@ -18,6 +18,8 @@ mainlogin.o: mainlogin.c mainlogin.h
 #MAINVERIF OBTIENE EL ARCHIVO OBJETO DE MAINVERIF.C
 mainverif.o: mainverif.c mainverif.h
 	gcc  -c mainverif.c
-
+#MAINFUNUSERS OBTIENE EL ARCHIVO OBEJETO DE MAINFUNUSERS,C
+mainfunusers.o: mainfunusers.c mainfunusers.h
+	gcc -c mainfunusers.c
 clean:
 	rm -f exefin *.o

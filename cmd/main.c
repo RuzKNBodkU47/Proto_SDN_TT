@@ -26,7 +26,11 @@ char Fecha[70]="";
 /**
  * @brief prototipo de funcion para obtener la fecha del sistema 
  */
+void funcion_users();
+void funcion_config();
 int obtener_fecha_sys();
+int imprimir_arch_help();
+
 
 /**
  * @brief funcion principal del programa SDNTT de la linea de comandos
@@ -65,7 +69,7 @@ int main(int argc, char * argv[])
         {
             printf("\nSDNTT> ");
             scanf("%s",comando);
-            if(strcmp(comando,QUIT_CMD)==0)
+            if(strcmp(comando,QUIT_CMD)==0)//opcion de salir de la aplicacion
             {
                 if(obtener_fecha_sys()==0)
                     return 0;
@@ -74,19 +78,61 @@ int main(int argc, char * argv[])
 
                 return 1;
             }
-            else if( strcmp(comando,HELP_CMD)==0)
+            else if( strcmp(comando,HELP_CMD)==0)// opcion de imprimir el archivo de ayuda
             {
                if(imprimir_arch_help()==0)
                 return 0; 
+            }
+           else if(strcmp(comando,CONFIG_CMD)==0)
+            {
+                funcion_config();
+            }
+            else if(strcmp(comando,USERS_CMD)==0)
+            {
+                funcion_users();
             }
         }
      }   
     return 1;    
 }
 /**
- * @brief funcion
+ * @brief funcion para las opciones de usuarios
  * 
- * @return int 
+ */
+void funcion_users()
+{
+    int indice=1;
+    char * subcomando;
+    subcomando =(char *) malloc(sizeof(char)*MAX_COMMAND_TAM);
+    while(indice!=0)
+    {
+        printf("\nSDNTT>USERS>");
+        scanf("%s",subcomando);
+        if(strcmp(subcomando,EXIT_CMD)==0)
+            break;
+    }              
+}
+/**
+ * @brief Funcion para las opciones de configuracion
+ * 
+ */
+void funcion_config()
+{
+    int indice=1;
+    char * subcomando;
+    subcomando = (char *) malloc(sizeof(char)*MAX_COMMAND_TAM);
+    while(indice!=0)
+    {
+        printf("\nSDNTT>CONFIG>");
+        scanf("%s",subcomando);
+        if(strcmp(subcomando,EXIT_CMD)==0)
+            break;
+    }       
+}
+/**
+ * @brief funcion que permite obtener la fecha del sistema
+ * 
+ * @return variable de tipo entero que regresa la comprobacion de la funcion
  */
 int obtener_fecha_sys()
 {
@@ -117,5 +163,12 @@ int obtener_fecha_sys()
  */
 int imprimir_arch_help()
 {
-
+    char Nom_arch="Help.txt";
+    FILE *archivo_ayuda;
+    archivo_ayuda=fopen(Nom_arch,"r");
+    if(archivo_ayuda==NULL)
+    {
+        printf("Error al abrir el archivo de ayuda.\n");
+        return 0;
+    }
 }
