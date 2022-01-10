@@ -125,6 +125,18 @@ void funcion_users()
             else
                 printf("\n[X]Usuario no se agrego con exito.");
         }
+        else if(strcmp(subcomando,USERS_CMD_2)==0)
+        {
+            /*verficar los permisos del usuario si tiene permitido usar esta funcion*/
+        }
+        else if(strcmp(subcomando,USERS_CMD_3)==0)
+        {
+            /*verificar los permisos del usuario si tiene permitido usar esta funcion*/
+        }
+        else if(strcmp(subcomando,USERS_CMD_4)==0)
+        {
+            /*verificar los permisos del usuario si tiene permitido usar esta funcion*/    
+        }
         else if(strcmp(subcomando,EXIT_CMD)==0)
             break;
         else
@@ -146,8 +158,24 @@ void funcion_config()
     {
         printf("\nSDNTT>CONFIG>");
         scanf("%s",subcomando);
-        if(strcmp(subcomando,EXIT_CMD)==0)
+        if(strcmp(subcomando,CONFIG_CMD_1)==0)
+        {
+            /**verificar los permisos del usuario si tiene permitido usar esta funcion**/
+        }
+        else if(strcmp(subcomando,CONFIG_CMD_2)==0)
+        {
+            /**verificar los permisos del usuario si tiene permitido usar esta funcion**/
+        }
+        else if(strcmp(subcomando,CONFIG_CMD_3)==0)
+        {
+            /**verificar los permisos del usuario si tiene permitido usar esta funcion**/
+        }
+        else if(strcmp(subcomando,EXIT_CMD)==0)
             break;
+        else
+        {
+             printf("\nEl comando %s no existe.",subcomando);   
+        }
     }       
 }
 /**
@@ -162,7 +190,6 @@ int obtener_fecha_sys()
     struct tm tiempoLocal = *localtime(&t);
     // El lugar en donde se pondrá la fecha y hora formateadas
     //char fechaHora[70];
-    // El formato. Mira más en https://en.cppreference.com/w/c/chrono/strftime
     char *formato = "%Y-%m-%d %H:%M:%S";
     // Intentar formatear
     int bytesEscritos = strftime(Fecha, sizeof(Fecha), formato, &tiempoLocal);
@@ -184,6 +211,7 @@ int obtener_fecha_sys()
  */
 int imprimir_arch_help()
 {
+    char cadenas[100];
     char Nom_arch[40]="Help.txt";
     FILE *archivo_ayuda;
     archivo_ayuda=fopen(Nom_arch,"r");
@@ -192,4 +220,11 @@ int imprimir_arch_help()
         printf("Error al abrir el archivo de ayuda.\n");
         return 0;
     }
+    while(feof(archivo_ayuda)==0)
+    {
+        fgets(cadenas,100,archivo_ayuda);
+        printf("%s",cadenas);
+    }
+    fclose(archivo_ayuda);
+    return 1;
 }

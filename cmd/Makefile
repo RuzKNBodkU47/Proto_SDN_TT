@@ -18,8 +18,12 @@ mainlogin.o: mainlogin.c mainlogin.h
 #MAINVERIF OBTIENE EL ARCHIVO OBJETO DE MAINVERIF.C
 mainverif.o: mainverif.c mainverif.h
 	gcc  -c mainverif.c
-#MAINFUNUSERS OBTIENE EL ARCHIVO OBEJETO DE MAINFUNUSERS,C
+#MAINFUNUSERS OBTIENE EL ARCHIVO OBJETO DE MAINFUNUSERS,C
 mainfunusers.o: mainfunusers.c mainfunusers.h
 	gcc -c mainfunusers.c
+
+#MAINCONFIG OBTIENE EL ARCHIVO OBJETO DE MAINCONFIG.C
+mainconfig.o: mainconfig.c mainconfig.h
+	gcc -c mainconfig.c
 clean:
 	rm -f exefin *.o

@@ -1,0 +1,25 @@
+<< Bienvenido a la ayuda de SDNTT >>
+
+#- SDNTT es un prototipo de red definida por sofware desarrollado especificamente para el Instituto Politecnico Nacional.
+
+<Comandos>
+    [X] salir.- el comando salir permite salir de la linea de comandos.
+                Ejemplo:
+                SDNTT> salir
+
+    [X] help.- despliega el listado de comandos junto con sus descripciones y ejemplos.
+                Ejemplo:
+                SDNTT> help
+    [X] exit.-
+    [X] config.-
+        
+        [-] router
+        [-] switch
+        [-] server
+
+    [X] users.-
+
+        [-] agregar
+        [-] modificar
+        [-] eliminar
+        [-] listar
