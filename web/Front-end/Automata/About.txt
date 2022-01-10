@@ -1,0 +1,1 @@
+Directorio para poner especificamente los archivos relacionados al autómata
