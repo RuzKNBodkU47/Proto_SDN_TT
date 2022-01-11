@@ -213,13 +213,80 @@ class Router {
     }
 
     getColor = () => {
-        return this.Color
+        return this.color;
+    }
+
+    getDirMAC = () =>{
+        return this.dirMAC;
+    }
+
+    getStatus = () => {
+        return this.status;
+    }
+
+    getProtocolo = () => {
+        return this.protocolo;
+    }
+
+    getTipoConexion = () => {
+        return this.tipo_conexion
     }
 }
 
 class Server {
+
+    constructor(dirip, storage_capacity, sistemaOp, capacidadRAM, velocidad_trans, capacidadCPU,color,tipo_conexion, status){
+        this.dirip = dirip;
+        this.storage_capacity = storage_capacity;
+        this.sistemaOp = sistemaOp;
+        this.capacidadRAM = capacidadRAM;
+        this.velocidad_trans = velocidad_trans;
+        this.capacidadCPU = capacidadCPU;
+        this.color = color;
+        this.tipo_conexion = tipo_conexion;
+        this.status = status;
+    }
+
+    //Métodos GET
+    getIP = () => {
+        return this.dirip;
+    }
+
+    getStorageCapacity = () => {
+        return this.storage_capacity;
+    }
+
+    getSistemaOP = () => {
+        return this.sistemaOp;
+    }
+
+    getCapacidadRAM = () => {
+        return this.capacidadRAM;
+    }
+
+    getVelocidadTrans = () => {
+        return this.velocidad_trans;
+    }
+
+    getCapacidadCPU = () => {
+        return this.capacidadCPU;
+    }
+
+
+    getColor = () => {
+        return this.color;
+    }
+    
+    getTipoConexion = () => {
+        return this.tipo_conexion
+    }
+
+    getStatus = () => {
+        return this.status;
+    }
+
     //Inicializar servidor
-    static serverStart = async () => {
+    /*static serverStart = async () => {
         var http = require('http');
         var port = process.env.PORT;
         try{
@@ -235,9 +302,9 @@ class Server {
         }catch(error){
             console.error('No se pudo inicializar correctamente el servidor')
         }
-    }
+    }*/
     //Establecer la conexión del servidor con un cliente
-    static StablishConnection(server){
+    /*static StablishConnection(server){
         var io = require('socket.io');
         var socket = io.listen(server);
 
@@ -259,7 +326,7 @@ class Server {
         console.log("Petición recibida")
         var server = this.serverStart;
         server.on('request',control);
-    }
+    }*/
 }
 
 class MetodoConexion{
