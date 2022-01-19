@@ -1,5 +1,5 @@
 /**
- * @file main.cpp
+ * @file main.c
  * @author Instituto Politecnico Nacional ESCOM
  * @brief programa principal de la SDNTT para la linea de comandos
  * @version 0.1
@@ -34,6 +34,9 @@ void funcion_users();
 void funcion_config();
 int obtener_fecha_sys();
 int imprimir_arch_help();
+void funcion_log();
+void funcion_system();
+void funcion_user_syst();
 
 
 /**
@@ -96,6 +99,21 @@ int main(int argc, char * argv[])
                 /*validar si el usuario tiene funciones para entrar a estas opcionees**/
                 funcion_users();
             }
+            else if(strcmp(comando,SYST_CMD)==0)
+            {
+                /*validar si el usuario tiene permiso para entrar a estas funciones*/
+                funcion_system();
+            }
+            else if(strcmp(comando,LOGS_CMD)==0)
+            {
+                /*validar si el usuario tiene permiso para entrar a estas funciones*/
+                funcion_log();
+            }
+            else if(strcmp(comando,USER_SYST_CMD)==0)
+            {
+                /*validar si el usuario tiene permiso para entrar a estas funciones*/
+                funcion_user_syst();
+            }
             else
             {
                 printf("\nEl comando %s no existe.",comando);   
@@ -103,6 +121,112 @@ int main(int argc, char * argv[])
         }
      }   
     return 1;    
+}
+/**
+ * @brief funcion que contiene las opciones de las configuracion de los usuarios.
+ * 
+ */
+void funcion_user_syst()
+{
+    int indice=1;
+    char * subcomando;
+    subcomando =(char *) malloc(sizeof(char)*MAX_COMMAND_TAM);
+    while(indice!=0)
+    {
+        printf("\nSDNTT>USERCONFIG>");
+        scanf("%s",subcomando);
+        if(strcmp(subcomando,USER_SYST_CMD)==0)
+        {
+            /*verificar permisos del usuario si tiene permitido usar esta funcion**/
+            
+        }
+        else if(strcmp(subcomando,USER_SYST_CMD_1)==0)
+        {
+            /*verficar los permisos del usuario si tiene permitido usar esta funcion*/
+        }
+        else if(strcmp(subcomando,USER_SYST_CMD_2)==0)
+        {
+            /*verificar los permisos del usuario si tiene permitido usar esta funcion*/
+        }
+        else if(strcmp(subcomando,EXIT_CMD)==0)
+            break;
+        else
+        {
+            printf("\nEl comando %s no existe.",subcomando);            
+        }
+    }         
+}
+/**
+ * @brief funcion que contiene las opciones para los logs
+ * 
+ */
+void funcion_log()
+{
+    int indice=1;
+    char * subcomando;
+    subcomando =(char *) malloc(sizeof(char)*MAX_COMMAND_TAM);
+    while(indice!=0)
+    {
+        printf("\nSDNTT>LOG>");
+        scanf("%s",subcomando);
+        if(strcmp(subcomando,LOGS_CMD_1)==0)
+        {
+            /*verificar permisos del usuario si tiene permitido usar esta funcion**/
+            
+        }
+        else if(strcmp(subcomando,LOGS_CMD_2)==0)
+        {
+            /*verficar los permisos del usuario si tiene permitido usar esta funcion*/
+        }
+        else if(strcmp(subcomando,EXIT_CMD)==0)
+            break;
+        else
+        {
+            printf("\nEl comando %s no existe.",subcomando);            
+        }
+    }         
+}
+/**
+ * @brief funcion que contiene las opciones para la configuracion del sistema
+ * 
+ */
+void funcion_system()
+{
+    int indice=1;
+    char * subcomando;
+    subcomando =(char *) malloc(sizeof(char)*MAX_COMMAND_TAM);
+    while(indice!=0)
+    {
+        printf("\nSDNTT>SYSTEM>");
+        scanf("%s",subcomando);
+        if(strcmp(subcomando,SYST_CMD_1)==0)
+        {
+            /*verificar permisos del usuario si tiene permitido usar esta funcion**/
+            
+        }
+        else if(strcmp(subcomando,SYST_CMD_2)==0)
+        {
+            /*verficar los permisos del usuario si tiene permitido usar esta funcion*/
+        }
+        else if(strcmp(subcomando,SYST_CMD_3)==0)
+        {
+            /*verificar los permisos del usuario si tiene permitido usar esta funcion*/
+        }
+        else if(strcmp(subcomando,SYST_CMD_4)==0)
+        {
+            /*verificar los permisos del usuario si tiene permitido usar esta funcion*/    
+        }
+        else if(strcmp(subcomando,SYST_CMD_5)==0)
+        {
+            /*verificar los permisos del usuario si tiene permitido usar esta funcion*/    
+        }
+        else if(strcmp(subcomando,EXIT_CMD)==0)
+            break;
+        else
+        {
+            printf("\nEl comando %s no existe.",subcomando);            
+        }
+    }         
 }
 /**
  * @brief funcion para las opciones de usuarios

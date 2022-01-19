@@ -1,5 +1,5 @@
 #MAKEFILE PARA COMPILAR TODO CMD
-OBJS = main.o mainlogin.o mainverif.o mainfunusers.o
+OBJS = main.o mainlogin.o mainverif.o mainfunusers.o 
 BINARY = exefin
 #CFLAGS = -g -Wall
 
@@ -9,7 +9,7 @@ all: mainexe
 #MAINEXE COMPILA EL ARCHIVO PRINCIPAL
 mainexe: $(OBJS)
 	gcc -o exefin $(OBJS)
-
+#MAIN.O OBTIENE EL ARCHIVO OBJETO DEL MAIN
 main.o:main.c mainlogin.h
 	gcc -c main.c
 #MAINLOGIN OBTIENE EL ARCHIVO OBJETO DE MAINLOGIN.C 
