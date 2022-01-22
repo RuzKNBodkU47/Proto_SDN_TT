@@ -1,0 +1,1 @@
+//Definicion de tamaños, en que se van a mapear los objetos
