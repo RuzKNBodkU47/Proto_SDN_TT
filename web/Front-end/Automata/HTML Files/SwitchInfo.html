@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <title>Formulario Componente</title>
+</head>
+<body>
+    <form>
+        <div class="row">
+            <div class="form-group col-md-5">
+                <label for="nombreSwitch">Nombre con el que se identificara el switch:</label>
+                <input class="form-control" type="text" name="namecomponent" id="switchname">
+            </div>
+
+            <div class="form-group col-md-5">
+                <label for="MacAddress">Dirección MAC del switch:</label>
+                <input class="form-control" type="text" name="MAC" id="dirMACSw">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label for="switchPorts">Numero de puertos que tiene el switch:</label>
+                <input class="form-control" type="text" name="Puertos" id="numPortsSw">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="transSpeed">Velocidad de transmisión para este switch:</label>
+                <input class="form-control" type="text" name="Velocidad" id="velTransSw">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="tipoConexion">Tipo de conexion que se utilizara con este dispositivo:</label>
+                <input class="form-control" type="text" name="Conexion" id="tipoconnSw">
+            </div>
+        </div>
+        
+        <br>
+
+        <div class="row">
+            <label for="EstadoDisp">Estado del dispositivo:</label>
+            <input class="form-control" type="text" name="Status" id="statusSw">
+        </div>
+        
+        <br>
+
+        <button class="btn btn-primary" type="submit">Enviar información</button>
+    </form>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../static/Entorno.js"></script>
+    <script src="../static/RecibirComponente.js"></script>
+</body>
+</html>

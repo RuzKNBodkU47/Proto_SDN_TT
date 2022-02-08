@@ -1,6 +1,3 @@
-//const { SlowBuffer } = require("buffer");
-//const Automata = require("./juego_vida");
-
 class ComponenteRed {
     constructor(idComponente,IPdir,num_puertos,tipo_conexion,velocidad_trans,color,procesxciento){
         this.idComponente = idComponente;
@@ -38,17 +35,6 @@ class ComponenteRed {
         
         this.sendData(client_conn,null); //Temporalmente el valor del mensaje se pone como null
     }
-
-    /*sendData = (socket_conn, message) => {
-        var io = require('socket.io');
-        var socket = new io.Socket();
-
-        socket.connect(socket_conn); 
-        socket.send(message);
-    }*/
-
-    
-    
 }
 
 class Switch{
@@ -96,32 +82,6 @@ class Switch{
     //Protocolo ARP
 
     //Funcion para enviar la solicitud ARP a un dispositivo
-    /*getMAC = () => {
-        var arp = require(arpjs);
-        const fs = requiere(fs);
-        //Leer el archivo json para obtener los datos para enviar la solicitud ARP
-        fs.open("send_ARP_info.json","r", (err,file) => {
-            var my_arp_data = JSON.parse(ARP_data)
-            var OP = my_arp_data[0].op;
-            var SRC_IP = my_arp_data[0].src_ip;
-            var DST_IP = my_arp_data[0].dst_ip;
-            var SRC_MAC = my_arp_data[0].src_mac;
-            var DST_MAC = my_arp_data[0].dst_mac;
-        })
-        arp.send({
-            'op': OP, //Tipo de solicitud que se envia
-            'src_ip': SRC_IP, //Direccion IP fuente
-            'dst_ip': DST_IP, //Direccion IP destino
-            'src_mac': SRC_MAC,
-            'dst_mac': DST_MAC
-        })
-    }
-
-    getARPTable = () => {
-        arp.table(function(err,table){
-            console.log(table)
-        })
-    }*/
     
 }
 
@@ -159,32 +119,6 @@ class SwitchMulticapa{
         return this.status
     }
     //Protocolo ARP
-    /*getMAC = () => {
-        var arp = require(arpjs);
-        const fs = requiere(fs);
-        //Leer el archivo json para obtener los datos para enviar la solicitud ARP
-        fs.open("send_ARP_info.json","r", (err,file) => {
-            var my_arp_data = JSON.parse(ARP_data)
-            var OP = my_arp_data[0].op;
-            var SRC_IP = my_arp_data[0].src_ip;
-            var DST_IP = my_arp_data[0].dst_ip;
-            var SRC_MAC = my_arp_data[0].src_mac;
-            var DST_MAC = my_arp_data[0].dst_mac;
-        })
-        arp.send({
-            'op': OP, //Tipo de solicitud que se envia
-            'src_ip': SRC_IP, //Direccion IP fuente
-            'dst_ip': DST_IP, //Direccion IP destino
-            'src_mac': SRC_MAC, //Dirección MAC Fuente
-            'dst_mac': DST_MAC
-        })
-    }
-
-    getARPTable = () => {
-        arp.table(function(err,table){
-            console.log(table)
-        })
-    }*/
 }
 
 class Router {

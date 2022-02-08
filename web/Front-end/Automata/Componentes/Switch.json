@@ -1,7 +1,9 @@
 {
-    "dirMAC":[],
-    "num_puertos":[],
-    "velocidad_trans": [],
-    "color": [],
-    "tipo_conexion": []
+    "nombre": ["Sw001"],
+    "dirMAC":["d9:7e:30:ed:6f:e8"],
+    "num_puertos":["48"],
+    "velocidad_trans": ["100"],
+    "color": ["amarillo"],
+    "tipo_conexion": ["Coaxial"],
+    "status": ["activo"]
 }
