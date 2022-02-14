@@ -85,13 +85,4 @@ int login_cli_gui()
     return 1;
 }
 
-int register_cli()
-{
-    char *cadena;
-   /* if(verif_superadmin()!=1)
-        return 2;
-    */
-    printf("Registrar nuevo Admin\nTipo admin:");
 
-    return 1;
-}
