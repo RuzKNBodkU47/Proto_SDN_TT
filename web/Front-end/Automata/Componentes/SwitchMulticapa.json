@@ -1,3 +1,9 @@
 {
-    
+    "nombre": ["SwM001"],
+    "dirMAC":["02:82:da:1d:7d:97"],
+    "num_puertos":["48"],
+    "velocidad_trans": ["100"],
+    "color": ["amarillo"],
+    "tipo_conexion": ["Coaxial"],
+    "status": ["Activo"]
 }

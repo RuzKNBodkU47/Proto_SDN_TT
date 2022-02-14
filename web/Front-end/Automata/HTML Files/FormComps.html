@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    
+    <title>Formulario Componente</title>
+</head>
+<body>
+    <form action="">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="componente">Tipo de componente a crear:</label>
+                <input class="form-control" id="component" type="text" name="component"/>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="cantidadcomp">Cantidad de componentes de este tipo que desea crear:</label>
+                <input class="form-control" id="compcant" type="text" name="compcant">
+            </div>
+        </div>
+        
+        <br>
+        
+        <button type="submit" class="btn btn-primary" onClick="CheckComp()">Enviar información</button>
+    </form>
+    
+    <script src="../static/RecibirComponente.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
