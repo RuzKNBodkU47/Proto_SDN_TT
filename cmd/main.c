@@ -252,6 +252,10 @@ void funcion_users()
         else if(strcmp(subcomando,USERS_CMD_2)==0)
         {
             /*verficar los permisos del usuario si tiene permitido usar esta funcion*/
+            if(ModificarUser()==1)
+                printf("\n[+]Usuario Modificado con exito");
+            else
+                printf("\n[-]Usuario Modificado sin exito");
         }
         else if(strcmp(subcomando,USERS_CMD_3)==0)
         {

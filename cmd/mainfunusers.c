@@ -128,3 +128,13 @@ int regis_user()
 
     return 1;
 }
+/**
+ * @brief Funcion que permite modificar la informacion de los usuarios 
+ * 
+ * @return int 
+ */
+int ModificarUser()
+{
+
+    return 1;
+}
