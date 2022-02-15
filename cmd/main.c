@@ -234,7 +234,8 @@ void funcion_system()
  */
 void funcion_users()
 {
-    int indice=1;
+    int indice=1,subindice=1;
+    int flag=0;
     char * subcomando;
     subcomando =(char *) malloc(sizeof(char)*MAX_COMMAND_TAM);
     while(indice!=0)
@@ -252,10 +253,32 @@ void funcion_users()
         else if(strcmp(subcomando,USERS_CMD_2)==0)
         {
             /*verficar los permisos del usuario si tiene permitido usar esta funcion*/
-            if(ModificarUser()==1)
-                printf("\n[+]Usuario Modificado con exito");
-            else
-                printf("\n[-]Usuario Modificado sin exito");
+            while(subindice)
+            {
+                printf("\nSDNTT>USERS>MODIFICAR>");
+                scanf("%s",subcomando);
+                if(strcmp(subcomando,USERS_SUBCMD_1)==0)
+                {
+                    flag=1;
+                    if(ModificarUser(flag)==1)
+                        printf("\n[+]Usuario Modificado con exito");
+                    else
+                        printf("\n[-]Usuario Modificado sin exito");
+                }
+
+                if(strcmp(subcomando,USERS_SUBCMD_2)==0)
+                {
+                    flag=2;
+                    if(ModificarUser(flag)==1)
+                        printf("\n[+]Usuario Modificado con exito");
+                    else
+                        printf("\n[-]Usuario Modificado sin exito");
+                } 
+                else if(strcmp(subcomando,EXIT_CMD)==0)
+                    break;   
+                
+            }
+            
         }
         else if(strcmp(subcomando,USERS_CMD_3)==0)
         {

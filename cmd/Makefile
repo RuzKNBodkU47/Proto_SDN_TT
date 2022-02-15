@@ -1,5 +1,5 @@
 #MAKEFILE PARA COMPILAR TODO CMD
-OBJS = main.o mainlogin.o mainverif.o mainfunusers.o 
+OBJS = main.o mainlogin.o mainverif.o mainfunusers.o cmdmain.o
 BINARY = exefin
 
 OBJS1 = cmdmain.o 
@@ -11,7 +11,7 @@ all: mainexe
 
 #MAINEXE COMPILA EL ARCHIVO PRINCIPAL
 mainexe: $(OBJS)
-	gcc -o exefin $(OBJS)
+	gcc -o exefin $(OBJS)  $(mysql_config --cflags) -lmysqlclient
 #MAIN.O OBTIENE EL ARCHIVO OBJETO DEL MAIN
 main.o:main.c mainlogin.h
 	gcc -c main.c
@@ -27,6 +27,7 @@ mainfunusers.o: mainfunusers.c mainfunusers.h cmdmain.o
 
 #cmdmainexe: $(OBJS1)
 #	gcc -o $(BINARY1) $(OBJS1) $(mysql_config --libs) -lmysqlclient
+
 #MAIN.O GEMERA EL ARCHIVO OBJETO DEL MAIN
 cmdmain.o: cmdmain.c cmdmain.h
 	gcc -c $(mysql_config --cflags) cmdmain.c 

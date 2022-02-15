@@ -15,5 +15,7 @@
 
 
 int regis_user();
+int ModicarUser(int flag);
+int RegistrarFuncionesUser(int IdUser);
 
 #endif

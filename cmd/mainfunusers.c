@@ -20,7 +20,7 @@ int regis_user()
 {
     char opc=' ';
     int whilecontrol=1;
-    int x=1,y=1;
+    int x=1,y=1,z;
     
     int StatusAdmin;
     int TipoAdmin;
@@ -121,10 +121,12 @@ int regis_user()
         }
        // FechaIngreso=" ";
        // FechaUltMod=" ";
-        if(InsertAdmin(StatusAdmin,TipoAdmin,NombreAdmin,ApellidOPat,ApellidoMat,FechaIngreso,NomUsuario,PassHash,FechaUltMod,CantDiasLimit)!=1);   
-            return 0;
+       
     }  
-        
+     if(InsertAdmin(StatusAdmin,TipoAdmin,NombreAdmin,ApellidOPat,ApellidoMat,FechaIngreso,NomUsuario,PassHash,FechaUltMod,CantDiasLimit)!=1);   
+            return 0;
+    //registrar los permisos del usuario
+
 
     return 1;
 }
@@ -133,8 +135,32 @@ int regis_user()
  * 
  * @return int 
  */
-int ModificarUser()
+int ModificarUser(int flag)
 {
+    int id_user;
+    char NomUser[50];
+    printf("\n==Modificando Adminsitrador==\n");
+    printf("\nIngrese el nombre de usuario a modificar: ");
+    scanf("%s",NomUser);
+    //obtener id del nombre del usuario
+    if(flag==1)
+    {
+        printf("Modificar informacion del usuario");   
+        //mostrar informacion del usuario
+        
 
+    }
+    if(flag==2)
+    {
+        printf("Modificar permisos del usuario");
+        //mostrar permisos del usuario
+
+    }
+
+    return 1;
+}
+
+int RegistrarFunciones(int IdUser)
+{
     return 1;
 }
