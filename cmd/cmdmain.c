@@ -14,16 +14,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "cmdmain.h"
-/**
- * @brief Funcion main que funcionara solamente para pruebas del controlador
- * 
- * 
- * @return int 
- */
-int main()
-{
-    //ControladorBD();
-}
 
 /**
  * @brief Funcion que realiza la conexion con la base de datos
@@ -40,7 +30,7 @@ void ControladorBD()
     conexion = mysql_real_connect (conexion,servidor,user,password,database,0,NULL,0);
     if(conexion)
         printf("\nConexion Exitosa con BD");
-    else
+    else 
         printf("\nError en la Conexion con BD");
 }
 /**

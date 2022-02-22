@@ -9,11 +9,12 @@
  * 
  */
 //#include <mysql.h>
-#include<mysql/mysql.h>
-//#include "cmdmain.c"
+#include <mysql/mysql.h>
 
 #ifndef CMDMAIN_H
 #define CMDMAIN_H
+
+
 
 MYSQL *conexion;
 MYSQL_RES *res;

@@ -1,9 +1,19 @@
 #MAKEFILE PARA COMPILAR TODO CMD
-OBJS = main.o mainlogin.o mainverif.o mainfunusers.o cmdmain.o
+CC = gcc
+MYSQLCONFIGLIBS = mysql_config --libs
+MYSQLCONFIGFLAGS = mysql_config --cflags
+MYSQLFLAGS = -lmysqlclient
+OBJS = main.o mainlogin.o mainverif.o mainfunusers.o 
 BINARY = exefin
+MAINOBJS = main.c mainlogin.h
+LOGINOBJS = mainlogin.c mainlogin.h
+VERIFOBJS = mainverif.c mainverif.h
+FUNUSERSOBJS = mainfunusers.c mainfunusers.h 
+CONFIGOBJS = mainconfig.c mainconfig.h
+CMDOBJS = cmdmain.c cmdmain.h
 
-OBJS1 = cmdmain.o 
-BINARY1 = BDcontrolador
+INCLUDECMDMAIN = -I../cmd
+#BINARY1 = BDcontrolador
 #CFLAGS = -g -Wall
 
 
@@ -11,29 +21,33 @@ all: mainexe
 
 #MAINEXE COMPILA EL ARCHIVO PRINCIPAL
 mainexe: $(OBJS)
-	gcc -o exefin $(OBJS)  $(mysql_config --cflags) -lmysqlclient
+	$(CC) -o $(BINARY) $(OBJS)  $(shell MYSQLCONFIGFLAGS)  -Wall
 #MAIN.O OBTIENE EL ARCHIVO OBJETO DEL MAIN
-main.o:main.c mainlogin.h
-	gcc -c main.c
+main.o:$(MAINOBJS)
+	$(CC) -c main.c
 #MAINLOGIN OBTIENE EL ARCHIVO OBJETO DE MAINLOGIN.C 
-mainlogin.o: mainlogin.c mainlogin.h
-	gcc -c mainlogin.c
+mainlogin.o: $(LOGINOBJS)
+	$(CC) -c mainlogin.c
 #MAINVERIF OBTIENE EL ARCHIVO OBJETO DE MAINVERIF.C
-mainverif.o: mainverif.c mainverif.h
-	gcc  -c mainverif.c
+mainverif.o: $(VERIFOBJS)
+	$(CC) -c mainverif.c  
 #MAINFUNUSERS OBTIENE EL ARCHIVO OBJETO DE MAINFUNUSERS,C
-mainfunusers.o: mainfunusers.c mainfunusers.h cmdmain.o
-	gcc -c mainfunusers.c
+mainfunusers.o: $(FUNUSERSOBJS)
+	$(CC) -c mainfunusers.c $(INCLUDECMDMAIN) -lcmdmain
+#MAINCONFIG OBTIENE EL ARCHIVO OBJETO DE MAINCONFIG.C
+mainconfig.o: $(CONFIGOBJS)
+	$(CC) -c mainconfig.c 
 
 #cmdmainexe: $(OBJS1)
 #	gcc -o $(BINARY1) $(OBJS1) $(mysql_config --libs) -lmysqlclient
 
 #MAIN.O GEMERA EL ARCHIVO OBJETO DEL MAIN
-cmdmain.o: cmdmain.c cmdmain.h
-	gcc -c $(mysql_config --cflags) cmdmain.c 
+cmdmain.o: $(CMDOBJS)
+	gcc -c $(shell MYSQLCONFIGLIBS) cmdmain.c 
 
 #MAINCONFIG OBTIENE EL ARCHIVO OBJETO DE MAINCONFIG.C
-mainconfig.o: mainconfig.c mainconfig.h
-	gcc -c mainconfig.c
+
 clean:
 	rm -f exefin *.o
+
+
