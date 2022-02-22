@@ -1,7 +1,0 @@
-{
-    "op": ["request"],
-    "src_ip":[],
-    "dst_ip":[],
-    "src_mac":[],
-    "dst_mac":["ff:ff:ff:ff:ff:ff"]
-}
