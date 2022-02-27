@@ -11,7 +11,6 @@
 #ifndef MAINFUNUSERS_H
 #define MAINFUNUSERS_H
 
-//#include "cmdmain.h"
 
 
 int regis_user();

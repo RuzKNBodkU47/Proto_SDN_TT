@@ -22,9 +22,7 @@ all: mainexe
 
 #MAINEXE COMPILA EL ARCHIVO PRINCIPAL
 mainexe: $(OBJS)
-	$(CC) -Wall $(OBJS) -o  $(BINARY)  -I/usr/include/mysql -I/usr/include/mysql/mysql -lmysqlclient -lmariadb 
-#	$(CC) -g -Wall $(OBJS) -o $(BINARY)  $(MYSQLFLAGS) $(INCLUDECMDMAIN)   
-#$(CC) -o $(BINARY) $(OBJS) -lcmdmain  
+	$(CC) -g -Wall $(OBJS) -o  $(BINARY)  -I/usr/include/mysql -I/usr/include/mysql/mysql -lmysqlclient -lmariadb   
 #MAIN.O OBTIENE EL ARCHIVO OBJETO DEL MAIN
 main.o:$(MAINOBJS)
 	$(CC) -g -c -Wall main.c 
@@ -44,11 +42,6 @@ mainconfig.o: $(CONFIGOBJS)
 #MAIN.O GEMERA EL ARCHIVO OBJETO DEL MAIN
 cmdmain.o: $(CMDOBJS)
 	$(CC) -g -c -Wall  cmdmain.c 
-
-#cmdmainexe: $(OBJS1)
-#	gcc -o $(BINARY1) $(OBJS1) $(mysql_config --libs) -lmysqlclient -lmariadb
-
-#MAINCONFIG OBTIENE EL ARCHIVO OBJETO DE MAINCONFIG.C
 
 clean:
 	rm -f exefin *.o

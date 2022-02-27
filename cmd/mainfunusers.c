@@ -11,14 +11,14 @@
 
 #include <stdio.h>
 #include "mainfunusers.h"
-#include "cmdmain.h"
+#include "cmdmain.c"
 /**
  * @brief funcion para registrar usuarios
  * 
  */
 int regis_user()
 {
-    char opc=' ';
+    int opc=0;
     int whilecontrol=1;
     int x=1,y=1,z;
     
@@ -49,14 +49,16 @@ int regis_user()
         scanf("%s",PassHash);
         while(whilecontrol)
         {
-            printf("\nTipo de nuevo Admininistrador (1.-Administrador 2.-SuperAdministrador) ");
-            scanf("%d",&StatusAdmin);
-                switch (StatusAdmin)
+            printf("\nTipo de nuevo Admininistrador (1.-Administrador 2.-SuperAdministrador): ");
+            scanf("%d",&opc);
+                switch (opc)
                 {
                     case 1: printf("\n==Usuario %s Administrador==",NomUsuario);
+                        TipoAdmin=1;
                         whilecontrol=0;
                     break;
                     case 2:printf("\n==Usuario %s SuperAdministrador==",NomUsuario);
+                        TipoAdmin=2;
                         whilecontrol=0;
                     break;
                     default:printf("\nSeleccione un tipo de administrador correcto");
@@ -64,17 +66,20 @@ int regis_user()
                 }
         }
         whilecontrol=1;
+        opc=0;
         while(whilecontrol)
         {
-            printf("\nStatus del nuevo Admininistrador (1.-Activo 2.-Inactivo) ");
-            scanf("%d",&StatusAdmin);
-                switch (StatusAdmin)
+            printf("\nStatus del nuevo Admininistrador (1.-Activo 2.-Inactivo): ");
+            scanf("%d",&opc);
+                switch (opc)
                 {
                     case 1: printf("\n==Usuario %s Activo==",NomUsuario);
+                        StatusAdmin=1;
                         whilecontrol=0;
                         CantDiasLimit=0;
                     break;
                     case 2:printf("\n==Usuario %s Inactivo==",NomUsuario);
+                        StatusAdmin=2;
                         while(y)
                         {
                             printf("Cuantos dias Inactivo (mayor a 1 dia): ");
@@ -90,7 +95,8 @@ int regis_user()
                     break;
                 }
         }
-        printf("\nVerificando datos");
+        opc=0;
+        printf("\n\nVerificando datos");
         printf("\nNombre del administrador: %s",NombreAdmin);
         printf("\nApellido paterno del Administrador: %s",ApellidoPat);
         printf("\nApellido Materno del Administrador: %s",ApellidoMat);
@@ -106,26 +112,35 @@ int regis_user()
         whilecontrol=1;
         while(whilecontrol)
         {
-            printf("\nDesea continuar y/n");
-            scanf("%c",opc);
-            switch (opc)
+            //probar si se puede tomar el valor ascii de y / n
+            printf("\nDesea continuar 1-si , 2-no: ");
+            scanf("%d",&opc);
+            printf("%d numerito",opc);
+            switch(opc)
             {
-                case 'y': whilecontrol=0;
-                        printf("\nAgregando nuevo administrador..");
+                case 1: printf("\nAgregando nuevo administrador..");
+                        whilecontrol=0;
+                        x=0;
                     break;
-                case 'n': whilecontrol=0;
+                case 2: whilecontrol=0;
+                        x=1;
                         printf("\nRegresando al inicio del formulario..");
                     break;
-                default:printf("\nElija entre y/n");
+                default:printf("\nElija entre valores entre si y no");
                 break;
             }
         }
-       // FechaIngreso=" ";
-       // FechaUltMod=" ";
+      
        
     }  
+    // FechaIngreso=" ";
+       // FechaUltMod=" ";
+
     if(InsertAdmin(StatusAdmin,TipoAdmin,NombreAdmin,ApellidoPat,ApellidoMat,FechaIngreso,NomUsuario,PassHash,FechaUltMod,CantDiasLimit)!=1)   
-            return 0;
+    {
+        printf("\nError de MYSQL en insert de nuevo administrador");
+        return 0;
+    } 
     //registrar los permisos del usuario
 
 
