@@ -63,9 +63,7 @@ int InsertAdmin(int StatusAdmin, int TipAdmin , char* NomAdmin, char* ApPat, cha
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    //printf("\nEntrando en insert\n");
     sprintf(consulta,"INSERT INTO Administradores(%s) VALUES(%d,%d,'%s','%s','%s','%s','%s','%s','%s',%d);",CamposAdministradores,StatusAdmin,TipAdmin,NomAdmin,ApPat,ApMat,FechaIng,NomUser,Pass,FechaUlt,cantdias);
-    printf("\nConsulta: %s\n",consulta);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -73,6 +71,18 @@ int InsertAdmin(int StatusAdmin, int TipAdmin , char* NomAdmin, char* ApPat, cha
     }
     else
 		printf("\nSe ingresaron los datos correctamente\n");
+    free(consulta);
     return 1;   
 }
 
+int ObtenerIdUser(char *nomuser)
+{
+    int id;
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    
+    free(consulta);
+    return id;
+}

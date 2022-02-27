@@ -10,8 +10,14 @@
  */
 
 #include <stdio.h>
+#include <time.h>
+#include <string.h>
+
 #include "mainfunusers.h"
 #include "cmdmain.c"
+
+char FechaFunUser[70]="";
+
 /**
  * @brief funcion para registrar usuarios
  * 
@@ -20,7 +26,7 @@ int regis_user()
 {
     int opc=0;
     int whilecontrol=1;
-    int x=1,y=1,z;
+    int x=1,y=1;
     
     int StatusAdmin;
     int TipoAdmin=-1;
@@ -115,7 +121,6 @@ int regis_user()
             //probar si se puede tomar el valor ascii de y / n
             printf("\nDesea continuar 1-si , 2-no: ");
             scanf("%d",&opc);
-            printf("%d numerito",opc);
             switch(opc)
             {
                 case 1: printf("\nAgregando nuevo administrador..");
@@ -132,18 +137,24 @@ int regis_user()
         }
       
        
-    }  
-    // FechaIngreso=" ";
-       // FechaUltMod=" ";
+    } 
+    if(obfecha()==0)
+        printf("\nError con la fecha");
+    printf("\n\t fecha %s\t\n",FechaFunUser);
+    strcpy(FechaIngreso,FechaFunUser);
+    strcpy(FechaUltMod,FechaFunUser);
 
+    if(obfecha()==0)
+        printf("\nError con la fecha");
+    printf("\n\tfecha %s\t\n",FechaIngreso);
+    printf("\n\tfecha %s\t\n",FechaIngreso);
     if(InsertAdmin(StatusAdmin,TipoAdmin,NombreAdmin,ApellidoPat,ApellidoMat,FechaIngreso,NomUsuario,PassHash,FechaUltMod,CantDiasLimit)!=1)   
     {
         printf("\nError de MYSQL en insert de nuevo administrador");
         return 0;
     } 
     //registrar los permisos del usuario
-
-
+    RegistrarFunciones(ObtenerIdUser(NomUsuario));
     return 1;
 }
 /**
@@ -178,5 +189,29 @@ int ModificarUser(int flag)
 
 int RegistrarFunciones(int IdUser)
 {
+    int opc=0;
+    printf("\nFunciones permitidas");
     return 1;
+}
+
+int obfecha()
+{
+    // Tiempo actual
+    time_t t = time(NULL);
+    struct tm tiempoLocal = *localtime(&t);
+    // El lugar en donde se pondrá la fecha y hora formateadas
+    //char fechaHora[70];
+    char *formato = "%Y-%m-%d %H:%M:%S";
+    // Intentar formatear
+    int bytesEscritos = strftime(FechaFunUser, sizeof(FechaFunUser), formato, &tiempoLocal);
+     if (bytesEscritos != 0) 
+    {
+        // Si no hay error, los bytesEscritos no son 0
+        return 1;
+    } 
+    else 
+    {
+        printf("\nError formateando fecha\n");
+        return 0;
+    }
 }
