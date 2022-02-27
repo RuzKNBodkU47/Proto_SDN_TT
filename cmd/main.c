@@ -16,7 +16,7 @@
 #include "mainlogin.h"
 #include "mainverif.h"
 #include "mainfunusers.h"
-//#include "cmdmain.h"
+#include "mainconfig.h" 
 /**
  * @brief  definiendo macros de la funcion main
  * 

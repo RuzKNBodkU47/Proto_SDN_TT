@@ -9,18 +9,15 @@
  * 
  */
 //#include <mysql.h>
-#include <mysql/mysql.h>
+
 
 #ifndef CMDMAIN_H
 #define CMDMAIN_H
 
 
 
-MYSQL *conexion;
-MYSQL_RES *res;
-MYSQL_ROW row;
 
-#define MAXConsulta 1000
+
 
 char *servidor = "localhost";
 char *user = "ruzkn47";

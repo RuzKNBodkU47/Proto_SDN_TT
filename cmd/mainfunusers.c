@@ -23,9 +23,9 @@ int regis_user()
     int x=1,y=1,z;
     
     int StatusAdmin;
-    int TipoAdmin;
+    int TipoAdmin=-1;
     char NombreAdmin[60];
-    char ApellidOPat[60];
+    char ApellidoPat[60];
     char ApellidoMat[60];
     char FechaIngreso[60]=" ";
     char NomUsuario[60];
@@ -42,7 +42,7 @@ int regis_user()
         printf("\nNombre del administrador: ");
         scanf("%s",NombreAdmin);
         printf("\nApellido Paterno del administrador: ");
-        scanf("%s",ApellidOPat);
+        scanf("%s",ApellidoPat);
         printf("\nApellido Materno del administrador: ");
         scanf("%s",ApellidoMat);
         printf("\nContrasena:  ");
@@ -50,7 +50,7 @@ int regis_user()
         while(whilecontrol)
         {
             printf("\nTipo de nuevo Admininistrador (1.-Administrador 2.-SuperAdministrador) ");
-            scanf("%d",StatusAdmin);
+            scanf("%d",&StatusAdmin);
                 switch (StatusAdmin)
                 {
                     case 1: printf("\n==Usuario %s Administrador==",NomUsuario);
@@ -67,7 +67,7 @@ int regis_user()
         while(whilecontrol)
         {
             printf("\nStatus del nuevo Admininistrador (1.-Activo 2.-Inactivo) ");
-            scanf("%d",StatusAdmin);
+            scanf("%d",&StatusAdmin);
                 switch (StatusAdmin)
                 {
                     case 1: printf("\n==Usuario %s Activo==",NomUsuario);
@@ -78,7 +78,7 @@ int regis_user()
                         while(y)
                         {
                             printf("Cuantos dias Inactivo (mayor a 1 dia): ");
-                            scanf("%d",CantDiasLimit);
+                            scanf("%d",&CantDiasLimit);
                             if(CantDiasLimit>1)
                                 y=0;
                             else
@@ -92,7 +92,7 @@ int regis_user()
         }
         printf("\nVerificando datos");
         printf("\nNombre del administrador: %s",NombreAdmin);
-        printf("\nApellido paterno del Administrador: %s",ApellidOPat);
+        printf("\nApellido paterno del Administrador: %s",ApellidoPat);
         printf("\nApellido Materno del Administrador: %s",ApellidoMat);
         printf("\nNombre de Usuario: %s",NomUsuario);
         if(TipoAdmin==1)
@@ -107,6 +107,7 @@ int regis_user()
         while(whilecontrol)
         {
             printf("\nDesea continuar y/n");
+            scanf("%c",opc);
             switch (opc)
             {
                 case 'y': whilecontrol=0;
@@ -123,7 +124,7 @@ int regis_user()
        // FechaUltMod=" ";
        
     }  
-     if(InsertAdmin(StatusAdmin,TipoAdmin,NombreAdmin,ApellidOPat,ApellidoMat,FechaIngreso,NomUsuario,PassHash,FechaUltMod,CantDiasLimit)!=1);   
+    if(InsertAdmin(StatusAdmin,TipoAdmin,NombreAdmin,ApellidoPat,ApellidoMat,FechaIngreso,NomUsuario,PassHash,FechaUltMod,CantDiasLimit)!=1)   
             return 0;
     //registrar los permisos del usuario
 
@@ -137,7 +138,7 @@ int regis_user()
  */
 int ModificarUser(int flag)
 {
-    int id_user;
+    int id_user=-1;
     char NomUser[50];
     printf("\n==Modificando Adminsitrador==\n");
     printf("\nIngrese el nombre de usuario a modificar: ");

@@ -14,6 +14,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include "cmdmain.h"
+#include <mysql/mysql.h>
+
+MYSQL *conexion;
+MYSQL_RES *res;
+MYSQL_ROW row;
+
+#define MAXConsulta 1000
 
 /**
  * @brief Funcion que realiza la conexion con la base de datos

@@ -9,8 +9,8 @@
  * @copyright Copyright (c) 2022
  * 
  */
-#include<string.h>
-
+#include <string.h>
+#include "mainverif.h"
 int verif_tam(char * cadena )
 {
     if(strlen(cadena)<8)
