@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdministradorController;
+use App\Http\Controllers\StatusAdminController;
+use App\Http\Controllers\TipoAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +32,7 @@ Route::middleware(['auth:sanctum', 'auth:api'])->get('/user', function (Request 
 // Route::ApiResource(name:'administrador', controller:'AdministradorController');
 
 // Route::get('administrador', [AdministradorController::class,'prueba']);
-// Route::post('administrador','app\Http\Controllers\AdministradorController@store');
+Route::post('create','App\Http\Controllers\AdministradorController@store');
 Route::get('administrador','App\Http\Controllers\AdministradorController@prueba');
+Route::post('createstatusa','App\Http\Controllers\StatusAdminController@store');
+Route::post('createtipoa','App\Http\Controllers\TipoAdminController@store');

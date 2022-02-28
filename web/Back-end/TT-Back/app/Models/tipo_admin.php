@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class tipo_admin extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+    protected $table="tipo_admins";
 }
