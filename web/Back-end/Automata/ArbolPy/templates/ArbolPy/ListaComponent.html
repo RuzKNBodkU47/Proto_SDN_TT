@@ -1,0 +1,19 @@
+<!--Hereda de la plantilla padre base.html-->
+{% extends "ArbolPy/base.html" %}
+
+<!-- block content contendra todo lo que no se herede de la plantilla padre que es base.html-->
+{% block content %}
+
+<p>Elija el componente que desea crear:</p>
+<ul>
+    {% for component in Componentes %}
+        <li>
+            <a href="% url 'ArbolPy:ComponenteIndividual' component.id%">{{component}}</a>
+        </li>
+    {% empty %}
+        <li>Error. No se encuentran los tipos de componente disponibles</li>
+    {% endfor %}
+
+</ul>
+
+{% endblock content %}
