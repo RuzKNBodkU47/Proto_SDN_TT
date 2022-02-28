@@ -1,0 +1,11 @@
+{
+    "nombre": ["R001"],
+    "dir_ip": ["192.168.10.24"],
+    "num_puertos": [45],
+    "velocidad_trans": [50],
+    "color": ["azul"],
+    "dirMAC": ["fe:80:28:2d:a1:d7"],
+    "status": ["activo"],
+    "protocolo": ["RIP"],
+    "tipo_conexion": ["Coaxial"]
+}

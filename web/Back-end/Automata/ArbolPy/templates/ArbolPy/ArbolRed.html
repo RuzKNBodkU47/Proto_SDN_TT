@@ -1,0 +1,17 @@
+
+
+<!-- block content contendra todo lo que no se herede de la plantilla padre que es base.html-->
+
+{% block content %}
+    <ul>
+        {% for nodo in nodos %}
+            <li id="child_node-{{ nodo.pk }}">{{ nodo.elementoNodo}}
+                {% if nodo.children.exists %}
+                    {% with nodo.children.all as nodos %}
+                        {% include "ArbolPy/ArbolRed.html" %}
+                    {% endwith %}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

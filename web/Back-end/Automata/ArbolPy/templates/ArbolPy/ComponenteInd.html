@@ -1,0 +1,21 @@
+<!--Hereda de la plantilla padre base.html-->
+{% extends "ArbolPy/base.html" %}
+
+<!-- block content contendra todo lo que no se herede de la plantilla padre que es base.html-->
+{% block content%}
+    <p>Tipo de Componente: {{ComponenteInd}}</p>
+
+    <p>Elementos Registrados:</p>
+    <ul>
+        {% for compind in Elementos %}
+        <li>
+            <p>{{compind.date_added|date:'M d, Y H:i'}}</p>
+            <p>{{compind.id_comp|linebreaks}}</p>
+        </li>
+        {% empty %}
+        <li>
+            No hay componentes registrados en esta sección aún.
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

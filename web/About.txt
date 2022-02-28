@@ -1,2 +1,7 @@
 ----- Directorio web -----
 Directorio donde se encuentran los modulos para la interfaz web.
+
+Para el autómata
+ * Nombre de entorno virtual: SND_env
+ * Nombre de proyecto: AutomataPyW
+ * Nombres de apps: ArbolPy,

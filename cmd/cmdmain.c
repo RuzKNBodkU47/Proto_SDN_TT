@@ -14,6 +14,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include "cmdmain.h"
+#include <mysql/mysql.h>
+
+MYSQL *conexion;
+MYSQL_RES *res;
+MYSQL_ROW row;
+
+#define MAXConsulta 10000
 
 /**
  * @brief Funcion que realiza la conexion con la base de datos
@@ -49,13 +56,14 @@ void ControladorBD()
  * @return int regresa un valor de tipo entero segun el resultado de la operacion
  */
 
-int InsertAdmin(int StatusAdmin, int TipAdmin , char* NomAdmin, char * ApPat, char *ApMat, char *FechaIng, char* NomUser, char * Pass, char* FechaUlt, int cantdias)
+int InsertAdmin(int StatusAdmin, int TipAdmin , char* NomAdmin, char* ApPat, char* ApMat, char* FechaIng, char* NomUser, char* Pass, char* FechaUlt, int cantdias)
 {
+    ControladorBD();
     char *consulta;
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"INSERT INTO Administradores('%s') VALUES(%d,%d,'%s','%s','%s','%s','%s','%s','%s',%d);",CamposAdministradores,StatusAdmin,TipAdmin,NomAdmin,ApPat,ApMat,FechaIng,NomUser,Pass,FechaUlt,cantdias);
+    sprintf(consulta,"INSERT INTO Administradores(%s) VALUES(%d,%d,'%s','%s','%s','%s','%s','%s','%s',%d);",CamposAdministradores,StatusAdmin,TipAdmin,NomAdmin,ApPat,ApMat,FechaIng,NomUser,Pass,FechaUlt,cantdias);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -63,5 +71,18 @@ int InsertAdmin(int StatusAdmin, int TipAdmin , char* NomAdmin, char * ApPat, ch
     }
     else
 		printf("\nSe ingresaron los datos correctamente\n");
+    free(consulta);
     return 1;   
+}
+
+int ObtenerIdUser(char *nomuser)
+{
+    int id;
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    
+    free(consulta);
+    return id;
 }

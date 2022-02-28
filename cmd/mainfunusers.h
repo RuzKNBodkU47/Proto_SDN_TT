@@ -11,11 +11,12 @@
 #ifndef MAINFUNUSERS_H
 #define MAINFUNUSERS_H
 
-//#include "cmdmain.h"
 
 
 int regis_user();
 int ModificarUser(int flag);
 int RegistrarFuncionesUser(int IdUser);
+
+int obfecha();
 
 #endif

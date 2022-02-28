@@ -9,19 +9,10 @@
  * 
  */
 //#include <mysql.h>
-#include <mysql/mysql.h>
+
 
 #ifndef CMDMAIN_H
 #define CMDMAIN_H
-
-
-
-MYSQL *conexion;
-MYSQL_RES *res;
-MYSQL_ROW row;
-
-#define MAXConsulta 1000
-
 char *servidor = "localhost";
 char *user = "ruzkn47";
 char *password ="inquisidor1922";
@@ -40,6 +31,5 @@ char CamposAdministradoresTareaslog[500]="Id_Status_Log,Id_Administradores,Id_Ca
 
 void ControladorBD();
 
-int InsertAdmin(int StatusAdmin, int TipAdmin , char* NomAdmin, char * ApPat, char *ApMat, char *FechaIng, char* NomUser, char * Pass, char* FechaUlt, int cantdias);
-
+int InsertAdmin(int StatusAdmin, int TipAdmin , char* NomAdmin, char* ApPat, char* ApMat, char* FechaIng, char* NomUser, char* Pass, char* FechaUlt, int cantdias);
 #endif

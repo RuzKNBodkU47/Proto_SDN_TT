@@ -1,0 +1,12 @@
+{
+    "nombre": ["S001"],
+    "dirip": ["192.168.10.27"],
+    "storage_capacity": ["1TB"],
+    "sistemaOp": ["Fedora"],
+    "capacidadRAM": ["16"],
+    "velocidad_trans": ["50"],
+    "capacidadCPU": ["8"],
+    "color": ["verde"],
+    "tipo_conexion": ["Coaxial"],
+    "status": ["Activo"]
+}

@@ -1,0 +1,4 @@
+1.- En la lista de componentes al dar click sobre el componente marca un error y no
+    dirige a la pagina correcta, para visualizarlas hay que escribir el numero de id
+    (Ejemplo: http://localhost:8000/listaComps/5/ mostrara los elementos tipo conexion
+    registrados, mas no si se le da click sobre su seccion en http://localhost:8000/listaComps/)
