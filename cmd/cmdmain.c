@@ -82,7 +82,79 @@ int ObtenerIdUser(char *nomuser)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    
+    sprintf(consulta,"SELECT Id_Administradores FROM Administradores WHERE Nombre_Usuario='%s';",user);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion); 
+    printf("\nCOnsulta id %s",consulta);   
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        printf("resultado consulta: %s",row[0]);
+        if(strcmp(row[0],user)!=0)
+            return 0;
+    }
     free(consulta);
     return id;
+}
+
+int BuscarUsuario(char *user)
+{
+    ControladorBD();
+    char* consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    
+    sprintf(consulta,"SELECT Nombre_Usuario FROM Administradores WHERE Nombre_Usuario='%s';",user);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    printf("\nCOnsulta user %s",consulta);
+    res=mysql_use_result(conexion);   
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        printf("\nresultado consulta user: %s",row[0]);
+        if(strcmp(row[0],user)!=0)
+            return 0;
+        else
+            break;
+    }    
+    free(consulta);
+    return 1;
+}
+
+
+
+
+int BuscarPass(char *user,char* pass)
+{
+    ControladorBD();
+    char* consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    
+    sprintf(consulta,"SELECT Password_Hash FROM Administradores WHERE Nombre_Usuario='%s';",user);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion);  
+     printf("\nCOnsulta user %s",consulta);
+    while((row=mysql_fetch_row(res)) != NULL)
+    {  
+        printf("\nresultado consulta pass : %s",row[0]);
+        if(strcmp(row[0],pass)!=0)
+            return 0;
+        else
+            break;
+    }
+    free(consulta);
+    return 1;
 }

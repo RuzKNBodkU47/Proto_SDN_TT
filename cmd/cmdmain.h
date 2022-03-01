@@ -32,4 +32,8 @@ char CamposAdministradoresTareaslog[500]="Id_Status_Log,Id_Administradores,Id_Ca
 void ControladorBD();
 
 int InsertAdmin(int StatusAdmin, int TipAdmin , char* NomAdmin, char* ApPat, char* ApMat, char* FechaIng, char* NomUser, char* Pass, char* FechaUlt, int cantdias);
+int ObtenerIdUser(char *nomuser);
+int BuscarUsuario(char *user);
+int BuscarPass(char *user,char* pass);
+
 #endif

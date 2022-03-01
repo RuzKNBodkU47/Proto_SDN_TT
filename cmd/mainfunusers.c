@@ -140,14 +140,8 @@ int regis_user()
     } 
     if(obfecha()==0)
         printf("\nError con la fecha");
-    printf("\n\t fecha %s\t\n",FechaFunUser);
     strcpy(FechaIngreso,FechaFunUser);
     strcpy(FechaUltMod,FechaFunUser);
-
-    if(obfecha()==0)
-        printf("\nError con la fecha");
-    printf("\n\tfecha %s\t\n",FechaIngreso);
-    printf("\n\tfecha %s\t\n",FechaIngreso);
     if(InsertAdmin(StatusAdmin,TipoAdmin,NombreAdmin,ApellidoPat,ApellidoMat,FechaIngreso,NomUsuario,PassHash,FechaUltMod,CantDiasLimit)!=1)   
     {
         printf("\nError de MYSQL en insert de nuevo administrador");

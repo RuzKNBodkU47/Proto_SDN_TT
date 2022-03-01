@@ -10,6 +10,8 @@
  */
 #include "mainverif.h"
 #include "mainlogin.h"
+#include "mainfunusers.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -35,7 +37,7 @@ char * PASS = "A046-2021";
 
 int login_cli(char *user, char *pass)
 {
-    if((strcmp(user,USUARIO) && strcmp(pass,PASS)) != 1)
+    if((BuscarUsuario(user) && BuscarPass(user,pass)) != 0)
     {
         printf("Error en la contrasena y/o password\n");
         return 0;
@@ -77,11 +79,17 @@ int login_cli_gui()
 
 
     printf("\n%s\n%s",user,pwd);
-    if((strcmp(user,USUARIO) && strcmp(pwd,PASS)) != 0)
+    /*if((strcmp(user,USUARIO) && strcmp(pwd,PASS)) != 0)
     {
         printf("Error en la contrasena y/o password\n");
         return 0;
+    }*/
+    if((BuscarUsuario(user) && BuscarPass(user,pwd)) != 0)
+    {
+        printf("\nError en la contrasena y/o password\n");
+        return 0;
     }
+
     return 1;
 }
 
