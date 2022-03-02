@@ -37,21 +37,33 @@ char * PASS = "A046-2021";
 
 int login_cli(char *user, char *pass)
 {
-    if((BuscarUsuario(user) && BuscarPass(user,pass)) != 0)
+    printf("\nuser %s , pss %s",user,pass);
+     if(BuscarUsuario(user)==1)
     {
-        printf("Error en la contrasena y/o password\n");
+        if(BuscarPass(user,pass)==1)
+        {
+            return 1;
+        }
+        else
+        {
+            printf("\nError en la Contrasena");
+            return 0;
+        }
+    }
+    else
+    {
+        printf("\nEl usuario no existe.");
         return 0;
     }
-    return 1;
 }
 
 int login_cli_gui()
 {
     struct termios oflags, nflags;
     char user[20],pwd[20];
-    printf("Login CLI GUI\nUsuario: ");
+    printf("\nLogin CLI GUI\nUsuario: ");
     scanf("%s",user);
-    printf("Contrasena: ");
+    printf("\nContrasena: ");
     //noecho();
     scanf("%s",pwd);
     //scanf("%s",pwd);
@@ -76,21 +88,23 @@ int login_cli_gui()
         return EXIT_FAILURE;
     }
     */
-
-
-    printf("\n%s\n%s",user,pwd);
-    /*if((strcmp(user,USUARIO) && strcmp(pwd,PASS)) != 0)
+    if(BuscarUsuario(user)==1)
     {
-        printf("Error en la contrasena y/o password\n");
-        return 0;
-    }*/
-    if((BuscarUsuario(user) && BuscarPass(user,pwd)) != 0)
+        if(BuscarPass(user,pwd)==1)
+        {
+            return 1;
+        }
+        else
+        {
+            printf("\nError en la Contrasena");
+            return 0;
+        }
+    }
+    else
     {
-        printf("\nError en la contrasena y/o password\n");
+        printf("\nEl usuario no existe.");
         return 0;
     }
-
-    return 1;
 }
 
 

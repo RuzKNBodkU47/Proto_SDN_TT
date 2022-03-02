@@ -77,7 +77,7 @@ int InsertAdmin(int StatusAdmin, int TipAdmin , char* NomAdmin, char* ApPat, cha
 
 int ObtenerIdUser(char *nomuser)
 {
-    int id;
+    int id=-1;
     char *consulta;
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
@@ -89,10 +89,10 @@ int ObtenerIdUser(char *nomuser)
         return 0;
     }
     res=mysql_use_result(conexion); 
-    printf("\nCOnsulta id %s",consulta);   
+    //printf("\nCOnsulta id %s",consulta);   
     while((row=mysql_fetch_row(res)) != NULL)
     {
-        printf("resultado consulta: %s",row[0]);
+        //printf("resultado consulta: %s",row[0]);
         if(strcmp(row[0],user)!=0)
             return 0;
     }
@@ -106,26 +106,30 @@ int BuscarUsuario(char *user)
     char* consulta;
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
-        return -1;
-    
+        return -1;  
     sprintf(consulta,"SELECT Nombre_Usuario FROM Administradores WHERE Nombre_Usuario='%s';",user);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
         return 0;
     }
-    printf("\nCOnsulta user %s",consulta);
     res=mysql_use_result(conexion);   
     while((row=mysql_fetch_row(res)) != NULL)
     {
-        printf("\nresultado consulta user: %s",row[0]);
-        if(strcmp(row[0],user)!=0)
-            return 0;
+        //printf("\nresultado consulta user: %s",row[0]);
+        if(strcmp(row[0],user)==0)
+        {
+            free(consulta);
+            //printf("\nUsuario Correcto cmdmain");
+            return 1;
+        }   
         else
-            break;
+        {
+            free(consulta);
+            return 0;
+        }
     }    
-    free(consulta);
-    return 1;
+    return -1;
 }
 
 
@@ -146,15 +150,20 @@ int BuscarPass(char *user,char* pass)
         return 0;
     }
     res=mysql_use_result(conexion);  
-     printf("\nCOnsulta user %s",consulta);
     while((row=mysql_fetch_row(res)) != NULL)
     {  
-        printf("\nresultado consulta pass : %s",row[0]);
-        if(strcmp(row[0],pass)!=0)
-            return 0;
+        //printf("\nresultado consulta pass : %s",row[0]);
+        if(strcmp(row[0],pass)==0)
+        {
+            free(consulta);
+            //printf("\nContrasena correcta");
+            return 1;
+        }    
         else
-            break;
+        {
+            free(consulta);
+            return 0;
+        }       
     }
-    free(consulta);
-    return 1;
+    return -1;
 }

@@ -63,7 +63,7 @@ int main(int argc, char * argv[])
         }    
         if(opc>1)
         {
-            if(login_cli(argv[1],argv[2])!=1)
+            if(login_cli(argv[0],argv[1])!=1)
                 intentos=3;                
         }
     }

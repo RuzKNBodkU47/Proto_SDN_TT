@@ -148,7 +148,7 @@ int regis_user()
         return 0;
     } 
     //registrar los permisos del usuario
-    RegistrarFunciones(ObtenerIdUser(NomUsuario));
+    RegistrarFuncionesUser(ObtenerIdUser(NomUsuario));
     return 1;
 }
 /**
@@ -158,7 +158,7 @@ int regis_user()
  */
 int ModificarUser(int flag)
 {
-    int id_user=-1;
+    //int id_user=-1;
     char NomUser[50];
     printf("\n==Modificando Adminsitrador==\n");
     printf("\nIngrese el nombre de usuario a modificar: ");
@@ -181,9 +181,9 @@ int ModificarUser(int flag)
     return 1;
 }
 
-int RegistrarFunciones(int IdUser)
+int RegistrarFuncionesUser(int IdUser)
 {
-    int opc=0;
+    //int opc=0;
     printf("\nFunciones permitidas");
     return 1;
 }
