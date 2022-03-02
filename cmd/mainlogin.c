@@ -39,22 +39,12 @@ int login_cli(char *user, char *pass)
 {
     printf("\nuser %s , pss %s",user,pass);
      if(BuscarUsuario(user)==1)
-    {
         if(BuscarPass(user,pass)==1)
-        {
             return 1;
-        }
         else
-        {
-            printf("\nError en la Contrasena");
             return 0;
-        }
-    }
     else
-    {
-        printf("\nEl usuario no existe.");
         return 0;
-    }
 }
 
 int login_cli_gui()
