@@ -113,7 +113,10 @@ int main(int argc, char * argv[])
             else if(strcmp(comando,USERS_CMD)==0)
             {
                 /*validar si el usuario tiene funciones para entrar a estas opcionees**/
-                funcion_users();
+                if(verif_permi_users(IDUSER))
+                    funcion_users();
+                else
+                    printf("\nNo tiene los permisos para acceder a estas funciones");
             }
             else if(strcmp(comando,SYST_CMD)==0)
             {
@@ -262,7 +265,10 @@ void funcion_users()
         {
             /*verificar permisos del usuario si tiene permitido usar esta funcion**/
             if(regis_user()==1)
+            {
+                insert_log_user1(IDUSER,Fecha);
                 printf("\n[+]Usuario agregado con exito. ");
+            }    
             else
                 printf("\n[X]Usuario no se agrego con exito.");
         }

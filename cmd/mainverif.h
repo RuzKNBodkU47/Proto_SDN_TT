@@ -18,6 +18,6 @@ int verif_carac_num(char *cadena);
 int verif_carac_let(char *cadena);
 int verif_carac_sim(char *cadena);
 
-int verif_permi_users(char *user, char* hash_pass);
+int verif_permi_users(int id);
 
 #endif

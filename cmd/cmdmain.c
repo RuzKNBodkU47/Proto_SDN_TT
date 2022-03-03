@@ -193,6 +193,40 @@ int ObtenerIdUser(char *nomuser)
     return id;
 }
 /**
+ * @brief Funcion que permite buscar los permisos de los usuarios
+ * 
+ * @param id parametro que almacena el id del usuario
+ * @return int regresa una bandera de tipo entero indicando el resultado de la operacion
+ */
+
+int BuscarPermUsers(int id)
+{
+    ControladorBD();
+    int resultado;
+    char * consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"SELECT Id_Tipo_Admin FROM Administradores WHERE Id_Administradores=%d;",id);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion); 
+     while((row=mysql_fetch_row(res)) != NULL)
+    {
+        resultado=atoi(row[0]);
+    }
+    free(consulta);
+    //printf("\nresultado: %d",resultado);
+    if(resultado==1)
+        return 0;
+    if(resultado==2 )
+        return 1;
+    return -2;
+}
+/**
  * @brief Funcion que realiza insert en los logs
  * 
  * @param Fecha parametro que recibe la fecha
@@ -205,10 +239,6 @@ int insert_login(char* Fecha,int id)
     char *consulta;
     char *IP=NULL;
     unsigned char *MAC=NULL;
-
-    //char IP[10]="x.x.x.x";
-    //char MAC[20]="xx:xx:xx:xx:xx:xx";
-
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
@@ -223,23 +253,67 @@ int insert_login(char* Fecha,int id)
     free(consulta);
     return 1;   
 }
-
+/**
+ * @brief Funcion que permite hacer el insert de log en la tabla de logs de las tareas
+ * 
+ * @param Fecha parametro que almacena la fecha
+ * @param id parametro que almacena el id del usuario
+ * @return int bandera del resultado de la operacion
+ */
 int insert_logout(char* Fecha,int id)
 {
     ControladorBD();
     char *consulta;
     char *IP=NULL;
     unsigned char *MAC=NULL;
-
-    //char IP[10]="x.x.x.x";
-    //char MAC[20]="xx:xx:xx:xx:xx:xx";
-
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
     IP=ObtIp();
     MAC=ObtMAC();
     sprintf(consulta,"INSERT INTO Administradores_Tareas_Log(%s) VALUES(%d,%d,%d,'%s','%s',%d,'%s','%s');",CamposAdministradoresTareaslog,3,id,2,IP,MAC,id,Fecha,Fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1;   
+}
+
+int insert_log_user1(int id,char*Fecha)
+{
+    ControladorBD();
+    char *consulta;
+    char *IP=NULL;
+    unsigned char *MAC=NULL;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    IP=ObtIp();
+    MAC=ObtMAC();
+    sprintf(consulta,"INSERT INTO Administradores_Tareas_Log(%s) VALUES(%d,%d,%d,'%s','%s',%d,'%s','%s');",CamposAdministradoresTareaslog,3,id,4,IP,MAC,id,Fecha,Fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1;   
+}
+
+int insert_log_Euser1(int id,char*Fecha)
+{
+    ControladorBD();
+    char *consulta;
+    char *IP=NULL;
+    unsigned char *MAC=NULL;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    IP=ObtIp();
+    MAC=ObtMAC();
+    sprintf(consulta,"INSERT INTO Administradores_Tareas_Log(%s) VALUES(%d,%d,%d,'%s','%s',%d,'%s','%s');",CamposAdministradoresTareaslog,2,id,4,IP,MAC,id,Fecha,Fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));

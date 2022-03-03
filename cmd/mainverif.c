@@ -11,6 +11,8 @@
  */
 #include <string.h>
 #include "mainverif.h"
+#include "mainlogin.h"
+
 int verif_tam(char * cadena )
 {
     if(strlen(cadena)<8)
@@ -36,7 +38,10 @@ int verif_carac_sim(char *cadena)
     return 1;
 }
 
-int verif_permi_users(char *user, char* hash_pass)
+int verif_permi_users(int id)
 {
-    return 1;
+    if(BuscarPermUsers(id)>0)
+        return 1;
+    else
+        return 0;
 }

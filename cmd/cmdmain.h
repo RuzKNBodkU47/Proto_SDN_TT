@@ -33,8 +33,14 @@ void ControladorBD();
 
 int InsertAdmin(int StatusAdmin, int TipAdmin , char* NomAdmin, char* ApPat, char* ApMat, char* FechaIng, char* NomUser, char* Pass, char* FechaUlt, int cantdias);
 int ObtenerIdUser(char *nomuser);
+
 int BuscarUsuario(char *user);
 int BuscarPass(char *user,char* pass);
+int BuscarPermUsers(int id);
+
 int insert_login(char* Fecha,int id);
 int insert_logout(char* Fecha,int id);
+
+int insert_log_user1(int id,char*Fecha);
+int insert_log_Euser1(int id,char*Fecha);
 #endif
