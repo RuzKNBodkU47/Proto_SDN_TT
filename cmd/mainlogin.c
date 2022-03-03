@@ -20,27 +20,15 @@
 
 #define MAXPASS 10
 
-struct admin
-{
-    int Tipo_admin;
-    char* nombre_admin;
-    char* Apellido_P_Admin;
-    char* Apellido_M_Admin;
-};
-
-
-char * USUARIO = "sdn";
-char * PASS = "A046-2021";
 
 //char fecha_sesion[40];
 
 
 int login_cli(char *user, char *pass)
 {
-    printf("\nuser %s , pss %s",user,pass);
      if(BuscarUsuario(user)==1)
         if(BuscarPass(user,pass)==1)
-            return 1;
+            return GetIdUser(user);
         else
             return 0;
     else
@@ -49,7 +37,7 @@ int login_cli(char *user, char *pass)
 
 int login_cli_gui()
 {
-    struct termios oflags, nflags;
+    //struct termios oflags, nflags;
     char user[20],pwd[20];
     printf("\nLogin CLI GUI\nUsuario: ");
     scanf("%s",user);
@@ -82,7 +70,8 @@ int login_cli_gui()
     {
         if(BuscarPass(user,pwd)==1)
         {
-            return 1;
+            
+            return GetIdUser(user);
         }
         else
         {
@@ -97,4 +86,12 @@ int login_cli_gui()
     }
 }
 
+int GetIdUser(char *user)
+{
+    int ID;
+    if((ID=ObtenerIdUser(user))>0)
+        return ID;
+    else
+        return -1;
+}
 

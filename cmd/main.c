@@ -27,6 +27,7 @@
  * 
  */
 char Fecha[70]="";
+int IDUSER=-2;
 /**
  * @brief prototipo de funcion para obtener la fecha del sistema 
  */
@@ -51,19 +52,19 @@ int main(int argc, char * argv[])
     int intentos=0,opc=argc,sesion=1;
     char * comando;
     comando = (char *) malloc(sizeof(char)*MAX_COMMAND_TAM);
-    char fecha[40];
+   // char fecha[40];
     while(intentos<3)
     {
         if(opc==1)
         {
-            if(login_cli_gui()!=1)
-                intentos++;
-            else
+            if((IDUSER=login_cli_gui())>0)
                 break;
+            else
+                intentos++;    
         }    
         if(opc>1)
         {
-            if(login_cli(argv[1],argv[2])==1)
+            if((IDUSER=login_cli(argv[1],argv[2]))>0)
             {
                 break;
             }      
@@ -79,6 +80,11 @@ int main(int argc, char * argv[])
         if(obtener_fecha_sys()==0)
             return 0;
         printf("\nInicio de sesion %s",Fecha);
+        if(insert_login(Fecha,IDUSER)==0)
+        {
+            printf("\nError al registrar login");
+            return 0;
+        }
         while(sesion)
         {
             printf("\nSDNTT> ");
@@ -87,9 +93,12 @@ int main(int argc, char * argv[])
             {
                 if(obtener_fecha_sys()==0)
                     return 0;
-                printf("\nbye :3");
                 printf("\nCierre de sesion %s\n",Fecha);
-
+                if(insert_logout(Fecha,IDUSER)==0)
+                {
+                    printf("\nError al registrar login");
+                    return 0;
+                }
                 return 1;
             }
             else if( strcmp(comando,HELP_CMD)==0)// opcion de imprimir el archivo de ayuda

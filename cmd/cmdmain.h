@@ -1,7 +1,7 @@
 /**
  * @file cmd_main.h
  * @author Instituto Politecnico Nacional Escuela Superior de Computo
- * @brief header del archivo cmd_main.c
+ * @brief header del archivo cmdmain.c
  * @version 0.1
  * @date 2022-02-02
  * 
@@ -35,5 +35,6 @@ int InsertAdmin(int StatusAdmin, int TipAdmin , char* NomAdmin, char* ApPat, cha
 int ObtenerIdUser(char *nomuser);
 int BuscarUsuario(char *user);
 int BuscarPass(char *user,char* pass);
-
+int insert_login(char* Fecha,int id);
+int insert_logout(char* Fecha,int id);
 #endif

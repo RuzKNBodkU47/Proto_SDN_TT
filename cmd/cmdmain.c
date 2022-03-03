@@ -36,7 +36,7 @@ void ControladorBD()
     }
     conexion = mysql_real_connect (conexion,servidor,user,password,database,0,NULL,0);
     if(conexion)
-        printf("\nConexion Exitosa con BD");
+        printf("\n");
     else 
         printf("\nError en la Conexion con BD");
 }
@@ -75,30 +75,12 @@ int InsertAdmin(int StatusAdmin, int TipAdmin , char* NomAdmin, char* ApPat, cha
     return 1;   
 }
 
-int ObtenerIdUser(char *nomuser)
-{
-    int id=-1;
-    char *consulta;
-    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
-    if(consulta==NULL)
-        return -1;
-    sprintf(consulta,"SELECT Id_Administradores FROM Administradores WHERE Nombre_Usuario='%s';",user);
-    if(mysql_query(conexion,consulta))
-    {
-        fprintf(stderr,"%s\n",mysql_error(conexion));
-        return 0;
-    }
-    res=mysql_use_result(conexion); 
-    //printf("\nCOnsulta id %s",consulta);   
-    while((row=mysql_fetch_row(res)) != NULL)
-    {
-        //printf("resultado consulta: %s",row[0]);
-        if(strcmp(row[0],user)!=0)
-            return 0;
-    }
-    free(consulta);
-    return id;
-}
+/**
+ * @brief Funcion que permite hacer una consulta en la base de datos para verificar si ya existe el usuario
+ * 
+ * @param user parametro de tipo char* que recibe el nombre del usuario
+ * @return int devuelve un valor bandera 1 si es correcto 0 si no es correcto
+ */
 
 int BuscarUsuario(char *user)
 {
@@ -119,6 +101,7 @@ int BuscarUsuario(char *user)
         //printf("\nresultado consulta user: %s",row[0]);
         if(strcmp(row[0],user)==0)
         {
+            
             free(consulta);
             //printf("\nUsuario Correcto cmdmain");
             return 1;
@@ -132,7 +115,13 @@ int BuscarUsuario(char *user)
     return -1;
 }
 
-
+/**
+ * @brief Funcion que busca la contrasena en la base de datos del usuario
+ * 
+ * @param user parametro de tipo char* que almacena el nombre del usuario
+ * @param pass parametro de tipo char* que almacena la contrasena
+ * @return int devuelve una bandera para saber el status del proceso
+ */
 
 
 int BuscarPass(char *user,char* pass)
@@ -166,4 +155,91 @@ int BuscarPass(char *user,char* pass)
         }       
     }
     return -1;
+}
+
+/**
+ * @brief Funcion que nos permite obtener el id del usuario 
+ * 
+ * @param nomuser parametro de tipo char* que recibe el nombre del usuario
+ * @return int regresa id
+ */
+int ObtenerIdUser(char *nomuser)
+{
+    int id=-1;
+    char *consulta;
+    ControladorBD();
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"SELECT Id_Administradores FROM Administradores WHERE Nombre_Usuario='%s';",nomuser);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion); 
+    //printf("\nCOnsulta id %s",consulta);   
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        //printf("\nCOnsulta id %s",consulta); 
+        //printf("resultado consulta: %d",atoi(row[0]));
+        id=atoi(row[0]);
+        /*if(strcmp(row[0],user)!=0)
+            return 0;*/
+    }
+    //printf("\nCOnsulta id %s",consulta); 
+    free(consulta);
+    return id;
+}
+/**
+ * @brief Funcion que realiza insert en los logs
+ * 
+ * @param Fecha parametro que recibe la fecha
+ * @param id parametro que recibe el id del usuario
+ * @return int 
+ */
+int insert_login(char* Fecha,int id)
+{
+    ControladorBD();
+    char *consulta;
+    /*char *IP;
+    char *MAC;*/
+
+    char IP[10]="x.x.x.x";
+    char MAC[20]="xx:xx:xx:xx:xx:xx";
+
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"INSERT INTO Administradores_Tareas_Log(%s) VALUES(%d,%d,%d,'%s','%s',%d,'%s','%s');",CamposAdministradoresTareaslog,3,id,1,IP,MAC,id,Fecha,Fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1;   
+}
+
+int insert_logout(char* Fecha,int id)
+{
+    ControladorBD();
+    char *consulta;
+    /*char *IP;
+    char *MAC;*/
+
+    char IP[10]="x.x.x.x";
+    char MAC[20]="xx:xx:xx:xx:xx:xx";
+
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"INSERT INTO Administradores_Tareas_Log(%s) VALUES(%d,%d,%d,'%s','%s',%d,'%s','%s');",CamposAdministradoresTareaslog,3,id,2,IP,MAC,id,Fecha,Fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1;   
 }

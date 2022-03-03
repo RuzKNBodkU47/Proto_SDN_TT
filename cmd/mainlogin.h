@@ -11,6 +11,7 @@
 #ifndef MAINLOGIN_H
 #define MAINLOGIN_H
 
+
 #define QUIT_CMD "salir"
 #define HELP_CMD "help"
 #define EXIT_CMD "exit"
@@ -49,4 +50,6 @@
 int login_cli(char *user, char *pass);
 int login_cli_gui();
 
+
+int GetIdUser(char *user);
 #endif

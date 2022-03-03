@@ -11,7 +11,7 @@ VERIFOBJS =  mainverif.h
 FUNUSERSOBJS = mainfunusers.h cmdmain.h
 CONFIGOBJS =  mainconfig.h
 CMDOBJS = cmdmain.h
-
+REDOBJS = libred.h
 INCLUDECMDMAIN = -I
 
 #BINARY1 = BDcontrolador
@@ -42,6 +42,8 @@ mainconfig.o: $(CONFIGOBJS)
 #MAIN.O GEMERA EL ARCHIVO OBJETO DEL MAIN
 cmdmain.o: $(CMDOBJS)
 	$(CC) -g -c -Wall  cmdmain.c 
+libred.o: $(REDOBJS)
+	$(CC) -g -c Wall libred.c
 
 clean:
 	rm -f exefin *.o
