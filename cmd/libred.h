@@ -14,5 +14,5 @@
 
 
 char* ObtIp();
-char* ObtMAC();
+unsigned char* ObtMAC();
 #endif

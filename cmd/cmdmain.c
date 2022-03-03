@@ -204,15 +204,16 @@ int insert_login(char* Fecha,int id)
     ControladorBD();
     char *consulta;
     char *IP=NULL;
-    //char *MAC;
+    unsigned char *MAC=NULL;
 
     //char IP[10]="x.x.x.x";
-    char MAC[20]="xx:xx:xx:xx:xx:xx";
+    //char MAC[20]="xx:xx:xx:xx:xx:xx";
 
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
     IP=ObtIp();
+    MAC=ObtMAC();
     sprintf(consulta,"INSERT INTO Administradores_Tareas_Log(%s) VALUES(%d,%d,%d,'%s','%s',%d,'%s','%s');",CamposAdministradoresTareaslog,3,id,1,IP,MAC,id,Fecha,Fecha);
     if(mysql_query(conexion,consulta))
     {
@@ -228,15 +229,16 @@ int insert_logout(char* Fecha,int id)
     ControladorBD();
     char *consulta;
     char *IP=NULL;
-    char *MAC;
+    unsigned char *MAC=NULL;
 
     //char IP[10]="x.x.x.x";
-    char MAC[20]="xx:xx:xx:xx:xx:xx";
+    //char MAC[20]="xx:xx:xx:xx:xx:xx";
 
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
     IP=ObtIp();
+    MAC=ObtMAC();
     sprintf(consulta,"INSERT INTO Administradores_Tareas_Log(%s) VALUES(%d,%d,%d,'%s','%s',%d,'%s','%s');",CamposAdministradoresTareaslog,3,id,2,IP,MAC,id,Fecha,Fecha);
     if(mysql_query(conexion,consulta))
     {

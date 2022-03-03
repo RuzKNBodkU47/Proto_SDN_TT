@@ -38,14 +38,32 @@ char* ObtIp()
     if (ioctl(inet_sock, SIOCGIFADDR, &ifr) <  0)
         perror("ioctl");
     sprintf(IP,"%s", inet_ntoa(((struct sockaddr_in*)&(ifr.ifr_addr))->sin_addr));
-    //printf("%s",IP);
+    close(inet_sock);
     return IP;
 }
 
 
 
-char* ObtMAC()
+unsigned char* ObtMAC()
 {
-    char* MAC;
+    unsigned char* MAC=NULL;
+    unsigned char submac[10]=" ";
+    MAC= (char*) malloc(sizeof(char)*MAXMAC);
+    struct ifreq s;
+    int fd = socket(PF_INET, SOCK_DGRAM, IPPROTO_IP);
+    strcpy(s.ifr_name, "eno1");
+    memset(MAC,0,MAXMAC);
+    if (0 == ioctl(fd, SIOCGIFHWADDR, &s)) 
+    {
+        int i;
+        for (i = 0; i < 6; ++i)
+        {
+            sprintf(submac,"%02X", (unsigned char) s.ifr_addr.sa_data[i]);
+            strcat(MAC,submac);
+            if(i<5)
+                strcat(MAC,":");
+        }        
+    }
+    close(fd);
     return MAC;
 }
