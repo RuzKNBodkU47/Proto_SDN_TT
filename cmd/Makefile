@@ -43,7 +43,7 @@ mainconfig.o: $(CONFIGOBJS)
 cmdmain.o: $(CMDOBJS)
 	$(CC) -g -c -Wall  cmdmain.c 
 libred.o: $(REDOBJS)
-	$(CC) -g -c Wall libred.c
+	$(CC) -g -c -Wall libred.c
 
 clean:
 	rm -f exefin *.o
