@@ -184,7 +184,22 @@ int ModificarUser(int flag)
 int RegistrarFuncionesUser(int IdUser)
 {
     //int opc=0;
-    printf("\nFunciones permitidas");
+    printf("\nAsignar Permisos al Nuevo Usuario");
+    if(ModificarPermisosTareas(IdUser))
+        printf("\nPermisos de Tareas Agregados Exitosamente.");
+    else 
+        p
+    return 1;
+}
+
+int ModificarPermisosTareas(int IdUser)
+{
+
+    return 1;
+}
+
+int ModificarPermisosServicios(char* NomUser)
+{
     return 1;
 }
 
