@@ -214,7 +214,7 @@ int BuscarPermUsers(int id)
         return 0;
     }
     res=mysql_use_result(conexion); 
-     while((row=mysql_fetch_row(res)) != NULL)
+    while((row=mysql_fetch_row(res)) != NULL)
     {
         resultado=atoi(row[0]);
     }
@@ -333,4 +333,26 @@ int insert_log_Euser1(int id,char*Fecha)
     }
     free(consulta);
     return 1;   
+}
+
+void imprimir_infouser(int id)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"SELECT %s FROM Administradores WHERE Id_Administradores=%d;",CamposAdministradores,id);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion); 
+    int cant_campos = mysql_num_fields(res);
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        
+    }
+    free(consulta);
 }

@@ -157,7 +157,7 @@ int regis_user()
     if(RegistrarFuncionesUser(ObtenerIdUser(NomUsuario)) == 1)
         printf("\nTodas los permisos fueron agregadas exitosamente.");
     else
-        printf("\nNo todas los permisos se agregaron completamente")
+        printf("\nNo todas los permisos se agregaron completamente");
     return 1;
 }
 /**
@@ -230,13 +230,13 @@ int ModificarPermisosTareas(int IdUser)
         return 0;
     printf("\n<-- Tareas -->\n");
     printf("\nAgregar nuevos Administradores (1. si / 2. no ): ");
-    scanf("%d",respuestas[0]);
+    scanf("%d",&respuestas[0]);
     printf("\nModificar informacion de Administradores (1. si / 2. no ): ");
-    scanf("%d",respuestas[1]);
+    scanf("%d",&respuestas[1]);
     printf("\nEliminar Administradores del sistema (1. si / 2. no ): ");
-    scanf("%d",respuestas[2]);
-    printf('\nAgregar Privilegios a Adminsitradores (1. si / 2. no ): ');
-    scanf("%d",respuestas[3]);
+    scanf("%d",&respuestas[2]);
+    printf("\nAgregar Privilegios a Adminsitradores (1. si / 2. no ): ");
+    scanf("%d",&respuestas[3]);
     return 1;
 }
 /**
@@ -253,13 +253,13 @@ int ModificarPermisosServicios(int IdUser)
         return 0;
     printf("\n<-- Servicios -->\n");
     printf("\nMonitorizacion (1. si / 2. no ): ");
-    scanf("%d",respuestas[0]);
+    scanf("%d",&respuestas[0]);
     printf("\nConfiguracion de Router (1. si / 2. no ): ");
-    scanf("%d",respuestas[1]);
+    scanf("%d",&respuestas[1]);
     printf("\nConfiguracion de Switch (1. si / 2. no ): ");
-    scanf("%d",respuestas[2]);
-    printf('\nConfiguracion de Servidor (1. si / 2. no ): ');
-    scanf("%d",respuestas[3]);
+    scanf("%d",&respuestas[2]);
+    printf("\nConfiguracion de Servidor (1. si / 2. no ): ");
+    scanf("%d",&respuestas[3]);
     return 1;
 }
 /**

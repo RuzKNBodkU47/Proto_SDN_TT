@@ -16,7 +16,7 @@
 #include "mainlogin.h"
 #include "mainverif.h"
 #include "mainfunusers.h"
-#include "mainconfig.h" 
+#include "mainconfig.c" 
 /**
  * @brief  definiendo macros de la funcion main
  * 
@@ -351,7 +351,7 @@ void funcion_config()
         {
             /**verificar los permisos del usuario si tiene permitido usar esta funcion**/
             if(config_server()==1)
-                pritnf("\nConfiguracion de Server exitosa.");
+                printf("\nConfiguracion de Server exitosa.");
             else
                 printf("\nConfiguracion de Server no exitosa. ");
 
