@@ -280,7 +280,13 @@ int insert_logout(char* Fecha,int id)
     free(consulta);
     return 1;   
 }
-
+/**
+ * @brief Insertar log de operacion correcta en creacion de nuevo administrador
+ * 
+ * @param id recibe el id del usuario
+ * @param Fecha recibe la fecha en la que se genero el nuevo administrador
+ * @return int regresa una flag de tipo entero
+ */
 int insert_log_user1(int id,char*Fecha)
 {
     ControladorBD();
@@ -301,7 +307,13 @@ int insert_log_user1(int id,char*Fecha)
     free(consulta);
     return 1;   
 }
-
+/**
+ * @brief Inserta el log de la operacion incorrecta en la creacion de nuevo administrador
+ * 
+ * @param id parametro que recibe el id del usuario
+ * @param Fecha parametro que recibe la fecha en que se genero la falla
+ * @return int flag de regreso de tipo entero.
+ */
 int insert_log_Euser1(int id,char*Fecha)
 {
     ControladorBD();
