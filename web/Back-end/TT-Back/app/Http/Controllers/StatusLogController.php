@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\cat_tareas;
+use App\Models\status_log;
 
-class CatTareasController extends Controller
+class StatusLogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,6 @@ class CatTareasController extends Controller
     public function index()
     {
         //
-        return cat_tareas::get();
     }
 
     /**
@@ -37,22 +36,18 @@ class CatTareasController extends Controller
     public function store(Request $request)
     {
         //
-        // return $request;
         try {
+            // return $request;
             $validated = $request->validate([
-                'nom_cat_tareas' => 'required'
-                // 'fecha_insercion' => 'required',
-                // 'fecha_ult_mod' => 'required'
+                'nom_status_log' => 'required'
             ]); 
             // return $validated;
-            $cattarea = new cat_tareas();
-            if ($cattarea) {
-                $cattarea->nom_cat_tareas = $request->nom_cat_tareas;
-                $cattarea->fecha_insercion = date("Y-m-d H:i:s");;
-                $cattarea->fecha_ult_mod = date("Y-m-d H:i:s");;
-                // return $cattarea;
-                $cattarea->save();
-                return response()->json(['data'=>[],"message"=>"Tarea en catálogo regristrada con éxito","code"=>201]);    
+            $status_log = new status_log();
+            if ($status_log) {
+                $status_log->nom_status_log = $request->nom_status_log;
+                // return $status_log;
+                $status_log->save();
+                return response()->json(['data'=>[],"message"=>"Nombre del administrador regristrado con éxito","code"=>201]);    
                 # code...
             }else{
                 return response()->json(['data'=>[],"message"=>"No se agregó nombre","code"=>403]);

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\status_admin;
-
 class StatusAdminController extends Controller
 {
     /**
@@ -36,11 +35,25 @@ class StatusAdminController extends Controller
     public function store(Request $request)
     {
         //
-        $admins = new status_admin();
-        $admins->nombre_status_admin = $request->nombre_status_admin;
-        // return $admins;
-        $admins->save();
-        return response()->json(['data'=>[],"message"=>"Nombre del administrador regristrado con éxito","code"=>201]);
+        try {
+            $validated = $request->validate([
+                'nombre_status_admin' => 'required'
+            ]); 
+            $admins = new status_admin();
+            if ($admins) {
+                $admins->nombre_status_admin = $request->nombre_status_admin;
+                // return $admins;
+                $admins->save();
+                return response()->json(['data'=>[],"message"=>"Nombre del administrador regristrado con éxito","code"=>201]);    
+                # code...
+            }else{
+                return response()->json(['data'=>[],"message"=>"No se agregó nombre","code"=>403]);
+            }
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+            return \Response::json(['created' => false,"message"=>$th->status], 422);
+        }
 
     }
 

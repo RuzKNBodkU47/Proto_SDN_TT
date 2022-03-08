@@ -36,11 +36,17 @@ class TipoAdminController extends Controller
     public function store(Request $request)
     {
         //
-        $tipoadmins = new tipo_admin();
-        $tipoadmins->nom_tipo_admin = $request->nom_tipo_admin;
-        // return $tipoadmins;
-        $tipoadmins->save();
-        return response()->json(['data'=>[],"message"=>"Nombre del tipo de administrador regristrado con éxito","code"=>201]);
+        try {
+            //code...
+            $tipoadmins = new tipo_admin();
+            $tipoadmins->nom_tipo_admin = $request->nom_tipo_admin;
+            // return $tipoadmins;
+            $tipoadmins->save();
+            return response()->json(['data'=>[],"message"=>"Nombre del tipo de administrador regristrado con éxito","code"=>201]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return \Response::json(['created' => false,"message"=>$th], 422);
+        }
     }
 
     /**

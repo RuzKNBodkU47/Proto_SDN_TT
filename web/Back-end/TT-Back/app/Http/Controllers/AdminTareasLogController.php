@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\cat_tareas;
 
-class CatTareasController extends Controller
+class AdminTareasLogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,6 @@ class CatTareasController extends Controller
     public function index()
     {
         //
-        return cat_tareas::get();
     }
 
     /**
@@ -37,31 +35,6 @@ class CatTareasController extends Controller
     public function store(Request $request)
     {
         //
-        // return $request;
-        try {
-            $validated = $request->validate([
-                'nom_cat_tareas' => 'required'
-                // 'fecha_insercion' => 'required',
-                // 'fecha_ult_mod' => 'required'
-            ]); 
-            // return $validated;
-            $cattarea = new cat_tareas();
-            if ($cattarea) {
-                $cattarea->nom_cat_tareas = $request->nom_cat_tareas;
-                $cattarea->fecha_insercion = date("Y-m-d H:i:s");;
-                $cattarea->fecha_ult_mod = date("Y-m-d H:i:s");;
-                // return $cattarea;
-                $cattarea->save();
-                return response()->json(['data'=>[],"message"=>"Tarea en catálogo regristrada con éxito","code"=>201]);    
-                # code...
-            }else{
-                return response()->json(['data'=>[],"message"=>"No se agregó nombre","code"=>403]);
-            }
-            //code...
-        } catch (\Throwable $th) {
-            //throw $th;
-            return \Response::json(['created' => false,"message"=>$th->status], 422);
-        }
     }
 
     /**
