@@ -19,4 +19,8 @@ int RegistrarFuncionesUser(int IdUser);
 
 int obfecha();
 
+int ModificarPermisosTareas(int IdUser);
+int ModificarPermisosServicios(int IdUser);
+
+
 #endif

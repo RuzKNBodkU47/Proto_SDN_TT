@@ -214,7 +214,7 @@ int BuscarPermUsers(int id)
         return 0;
     }
     res=mysql_use_result(conexion); 
-     while((row=mysql_fetch_row(res)) != NULL)
+    while((row=mysql_fetch_row(res)) != NULL)
     {
         resultado=atoi(row[0]);
     }
@@ -280,7 +280,13 @@ int insert_logout(char* Fecha,int id)
     free(consulta);
     return 1;   
 }
-
+/**
+ * @brief Insertar log de operacion correcta en creacion de nuevo administrador
+ * 
+ * @param id recibe el id del usuario
+ * @param Fecha recibe la fecha en la que se genero el nuevo administrador
+ * @return int regresa una flag de tipo entero
+ */
 int insert_log_user1(int id,char*Fecha)
 {
     ControladorBD();
@@ -301,7 +307,13 @@ int insert_log_user1(int id,char*Fecha)
     free(consulta);
     return 1;   
 }
-
+/**
+ * @brief Inserta el log de la operacion incorrecta en la creacion de nuevo administrador
+ * 
+ * @param id parametro que recibe el id del usuario
+ * @param Fecha parametro que recibe la fecha en que se genero la falla
+ * @return int flag de regreso de tipo entero.
+ */
 int insert_log_Euser1(int id,char*Fecha)
 {
     ControladorBD();
@@ -321,4 +333,26 @@ int insert_log_Euser1(int id,char*Fecha)
     }
     free(consulta);
     return 1;   
+}
+
+void imprimir_infouser(int id)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"SELECT %s FROM Administradores WHERE Id_Administradores=%d;",CamposAdministradores,id);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion); 
+    int cant_campos = mysql_num_fields(res);
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        
+    }
+    free(consulta);
 }

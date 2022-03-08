@@ -10,11 +10,17 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 #include <string.h>
 
 #include "mainfunusers.h"
 #include "cmdmain.c"
+
+
+#define CANTTAREAS 5
+#define CANTSERVICIOS 5
+
 
 char FechaFunUser[70]="";
 
@@ -148,7 +154,10 @@ int regis_user()
         return 0;
     } 
     //registrar los permisos del usuario
-    RegistrarFuncionesUser(ObtenerIdUser(NomUsuario));
+    if(RegistrarFuncionesUser(ObtenerIdUser(NomUsuario)) == 1)
+        printf("\nTodas los permisos fueron agregadas exitosamente.");
+    else
+        printf("\nNo todas los permisos se agregaron completamente");
     return 1;
 }
 /**
@@ -180,14 +189,84 @@ int ModificarUser(int flag)
 
     return 1;
 }
-
+/**
+ * @brief Funcion que agrega permisos a las tareas y los servicios a un usuario
+ * 
+ * @param IdUser parametro que recibe el id del usuario
+ * @return int 
+ */
 int RegistrarFuncionesUser(int IdUser)
 {
     //int opc=0;
-    printf("\nFunciones permitidas");
+    printf("\nAsignar Permisos al Nuevo Usuario");
+    if(ModificarPermisosTareas(IdUser)!=0)
+        printf("\nPermisos de Tareas Agregados Exitosamente.");
+    else 
+    {
+        printf("\nPermisos de Tareas No se Agregaron Existosamente.");
+        return 0;
+    }
+    if(ModificarPermisosServicios(IdUser)!=0)
+        printf("\nPermisos de Servicios Agregados Exitosamente. ");
+    else
+    {
+        printf("\nPermisos de Servicios No se Agregados Exitosamente. ");
+        return 0;
+    }
+        
     return 1;
 }
-
+/**
+ * @brief Funcion que permite modificar los permisos de los usuarios con las tareas
+ * 
+ * @param IdUser parametro que recibe el Id del usuario
+ * @return int 
+ */
+int ModificarPermisosTareas(int IdUser)
+{
+    int* respuestas;
+    respuestas = (int*) malloc (sizeof(int) * CANTTAREAS);
+    if(respuestas==NULL)
+        return 0;
+    printf("\n<-- Tareas -->\n");
+    printf("\nAgregar nuevos Administradores (1. si / 2. no ): ");
+    scanf("%d",&respuestas[0]);
+    printf("\nModificar informacion de Administradores (1. si / 2. no ): ");
+    scanf("%d",&respuestas[1]);
+    printf("\nEliminar Administradores del sistema (1. si / 2. no ): ");
+    scanf("%d",&respuestas[2]);
+    printf("\nAgregar Privilegios a Adminsitradores (1. si / 2. no ): ");
+    scanf("%d",&respuestas[3]);
+    return 1;
+}
+/**
+ * @brief Funcion que permite modificar los permisos de los usuarios con los servicios
+ * 
+ * @param IdUser parametro que recibe el Id del usuario
+ * @return int 
+ */
+int ModificarPermisosServicios(int IdUser)
+{
+    int* respuestas;
+    respuestas = (int*) malloc (sizeof(int) * CANTTAREAS);
+    if(respuestas==NULL)
+        return 0;
+    printf("\n<-- Servicios -->\n");
+    printf("\nMonitorizacion (1. si / 2. no ): ");
+    scanf("%d",&respuestas[0]);
+    printf("\nConfiguracion de Router (1. si / 2. no ): ");
+    scanf("%d",&respuestas[1]);
+    printf("\nConfiguracion de Switch (1. si / 2. no ): ");
+    scanf("%d",&respuestas[2]);
+    printf("\nConfiguracion de Servidor (1. si / 2. no ): ");
+    scanf("%d",&respuestas[3]);
+    return 1;
+}
+/**
+ * @brief funcion que obtiene la fecha del sistema
+ * 
+ * @return int regresa una flag del estado de la operacion
+ */
 int obfecha()
 {
     // Tiempo actual

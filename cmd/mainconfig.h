@@ -14,5 +14,11 @@
 
 
 int config_router();
+int config_switch();
+int config_server();
+
+void menu_server();
+void menu_router();
+void menu_switch();
 
 #endif

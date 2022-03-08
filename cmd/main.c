@@ -16,7 +16,7 @@
 #include "mainlogin.h"
 #include "mainverif.h"
 #include "mainfunusers.h"
-#include "mainconfig.h" 
+#include "mainconfig.c" 
 /**
  * @brief  definiendo macros de la funcion main
  * 
@@ -334,14 +334,27 @@ void funcion_config()
         if(strcmp(subcomando,CONFIG_CMD_1)==0)
         {
             /**verificar los permisos del usuario si tiene permitido usar esta funcion**/
+            if(config_router()==1)
+                printf("\nConfiguracion de router exitosa.");
+            else
+                printf("\nConfiguracion de router no exitosa. ");
         }
         else if(strcmp(subcomando,CONFIG_CMD_2)==0)
         {
             /**verificar los permisos del usuario si tiene permitido usar esta funcion**/
+            if(config_switch()==1)
+                printf("\nConfiguracion del switch exitosa. ");
+            else
+                printf("\nConfiguracion de switch no exitosa.");
         }
         else if(strcmp(subcomando,CONFIG_CMD_3)==0)
         {
             /**verificar los permisos del usuario si tiene permitido usar esta funcion**/
+            if(config_server()==1)
+                printf("\nConfiguracion de Server exitosa.");
+            else
+                printf("\nConfiguracion de Server no exitosa. ");
+
         }
         else if(strcmp(subcomando,EXIT_CMD)==0)
             break;
