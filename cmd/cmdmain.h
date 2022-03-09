@@ -40,7 +40,18 @@ int BuscarPermUsers(int id);
 
 int insert_login(char* Fecha,int id);
 int insert_logout(char* Fecha,int id);
-
+int InsertarPermisosAgregarAdmin(int iduser,char* Fecha);
+int InsertarPermisosModifAdmin(int iduser,char* Fecha);
+int InsertarPermisosElimAdmin(int iduser,char* Fecha);
+int InsertarPermisosAgrgAdmin(int iduser,char* Fecha);
+int InsertarPermisosElimAgrgAdmin(int iduser,char* Fecha);
+int InsertarPermisosServMonit(int iduser,char* Fecha);
+int InsertarPermisosServRouter(int iduser,char* Fecha);
+int InsertarPermisosServSwitch(int iduser,char* Fecha);
+int InsertarPermisosServSevidor(int iduser,char* Fecha);
 int insert_log_user1(int id,char*Fecha);
 int insert_log_Euser1(int id,char*Fecha);
+
+int imprimir_infouser(char * nomuser);
+
 #endif
