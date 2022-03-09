@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\StatusAdminController;
 use App\Http\Controllers\TipoAdminController;
+use App\Http\Controllers\CatTareasController;
+use App\Http\Controllers\CatServiciosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +38,10 @@ Route::post('create','App\Http\Controllers\AdministradorController@store');
 Route::get('administrador','App\Http\Controllers\AdministradorController@prueba');
 Route::post('createstatusa','App\Http\Controllers\StatusAdminController@store');
 Route::post('createtipoa','App\Http\Controllers\TipoAdminController@store');
+
+Route::post('creacattarea','App\Http\Controllers\CatTareasController@store');
+Route::post('creacatservicio','App\Http\Controllers\CatServiciosController@store');
+Route::post('creastatuslog','App\Http\Controllers\StatusLogController@store');
+
+
+
