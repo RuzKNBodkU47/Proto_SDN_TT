@@ -334,15 +334,19 @@ int insert_log_Euser1(int id,char*Fecha)
     free(consulta);
     return 1;   
 }
-
-void imprimir_infouser(int id)
+/**
+ * @brief funcion que imprime la informacion guardada del usuario
+ * 
+ * @param id entra el id del usuario
+ */
+int imprimir_infouser(char * nomuser)
 {
     ControladorBD();
     char *consulta;
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"SELECT %s FROM Administradores WHERE Id_Administradores=%d;",CamposAdministradores,id);
+    sprintf(consulta,"SELECT %s FROM Administradores WHERE Nombre_Usuario='%s';",CamposAdministradores,nomuser);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -352,7 +356,232 @@ void imprimir_infouser(int id)
     int cant_campos = mysql_num_fields(res);
     while((row=mysql_fetch_row(res)) != NULL)
     {
+        if(atoi(row[0]) == 1)
+            printf("\nStatus del usuario: Activo");
+        else if (atoi(row[0]) == 2)
+            printf("\nStatus del usuario: Inactivo");
+        else
+            printf("\nStatus del usuario: Fuera del Sistema");
         
+        if(atoi(row[1]) == 1)
+            printf("\nTipo de administrador: Administrador");
+        else
+            printf("\nTipo de administrado: SuperAdministrador");
+        
+        printf("\nNombre del administrador: %s",row[2]);
+        printf("\nApellido Paterno del administrador: %s",row[3]);
+        printf("\nApellido Materno del administrador: %s",row[4]);
+        printf("\nFecha de ingreso al sistema: %s",row[5]);
+        printf("\nNombre de usuario de acceso: %s",row[6]);
+        printf("\nFecha de ultimo cambio de contrasena: %s",row[8]);
     }
     free(consulta);
+    return 1;
+}
+/**
+ * @brief Funcion que permite agregar el permiso de agregar administradores
+ * 
+ * @param permisos recibe la cadena de los permisos puestos por el usuario
+ * @param iduser recibe el id del usuario
+ * @return int 
+ */
+int InsertarPermisosAgregarAdmin(int iduser,char* Fecha)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,iduser,4,Fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1;   
+}
+/**
+ * @brief Funcion que permite agregar el permiso de modificar administradores
+ * 
+ * @param iduser parametro que recibe el id del usuario
+ * @param Fecha parametro que recibe la fecha
+ * @return int 
+ */
+int InsertarPermisosModifAdmin(int iduser,char* Fecha)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,iduser,5,Fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1;   
+}
+/**
+ * @brief Funcion que permite agregar el permiso de eliminar administradores
+ * 
+ * @param iduser parametro que recibe el id del usuario
+ * @param Fecha parametro que recibe la fecha de la operacion
+ * @return int 
+ */
+int InsertarPermisosElimAdmin(int iduser,char* Fecha)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,iduser,6,Fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1;   
+}
+/**
+ * @brief Funcion que permite agregar el permiso de agregar privilegios al adminsitrador.
+ * 
+ * @param iduser parametro que recibe el id del usuario
+ * @param Fecha parametro que recibe la fecha
+ * @return int 
+ */
+int InsertarPermisosAgrgAdmin(int iduser,char* Fecha)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,iduser,8,Fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1;   
+}
+/**
+ * @brief Funcion que permite agregar el permiso de eliminar al administrador
+ * 
+ * @param iduser parametro que recibe el id delusuario
+ * @param Fecha parametro que recibe la Fecha
+ * @return int 
+ */
+int InsertarPermisosElimAgrgAdmin(int iduser,char* Fecha)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,iduser,7,Fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1;   
+}
+/**
+ * @brief Funcion que permite agregar el permiso de Servicio de monitoreo
+ * 
+ * @param iduser parametro que recibe el id del usuario
+ * @param Fecha parametro que recibe la fecha
+ * @return int 
+ */
+int InsertarPermisosServMonit(int iduser,char* Fecha)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Servicios(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatServicios,iduser,1,Fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1;   
+}
+/**
+ * @brief Funcion que permite agregar permisos de servicio de configuracion en router
+ * 
+ * @param iduser parametro que recibe el id del usuario
+ * @param Fecha parametro que recibe la fecha
+ * @return int 
+ */
+int InsertarPermisosServRouter(int iduser,char* Fecha)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Servicios(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatServicios,iduser,2,Fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1;   
+}
+/**
+ * @brief Funcion que permite agregar el permiso de Servicio de configuracion en switches
+ * 
+ * @param iduser parametro que recibe el id del usuario
+ * @param Fecha parametro que recibe la fecha
+ * @return int 
+ */
+int InsertarPermisosServSwitch(int iduser,char* Fecha)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Servicios(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatServicios,iduser,3,Fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1;   
+}
+/**
+ * @brief Funcion que permite agregar los permisos para el servicio de configuracion del servidor
+ * 
+ * @param iduser parametroque recibe el id del usuario
+ * @param Fecha parametro que recibe la fecha
+ * @return int 
+ */
+int InsertarPermisosServSevidor(int iduser,char* Fecha)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Servicios(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatServicios,iduser,4,Fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1;   
 }

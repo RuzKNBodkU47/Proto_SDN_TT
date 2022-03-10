@@ -18,8 +18,8 @@
 #include "cmdmain.c"
 
 
-#define CANTTAREAS 5
-#define CANTSERVICIOS 5
+#define CANTTAREAS 10
+#define CANTSERVICIOS 6
 
 
 char FechaFunUser[70]="";
@@ -167,17 +167,47 @@ int regis_user()
  */
 int ModificarUser(int flag)
 {
-    //int id_user=-1;
+    int opc=1,sw=-1;
     char NomUser[50];
     printf("\n==Modificando Adminsitrador==\n");
     printf("\nIngrese el nombre de usuario a modificar: ");
     scanf("%s",NomUser);
     //obtener id del nombre del usuario
+    //if(id_user=ObtenerIdUser(NomUser)== -1)
+      //  return 0;
+    //printf("\nflag %d ",flag);
     if(flag==1)
     {
-        printf("Modificar informacion del usuario");   
-        //mostrar informacion del usuario
-        
+        printf("\nModificar informacion del usuario\nMostrando informacion del usuario %s ",NomUser);   
+        if(imprimir_infouser(NomUser) != 1)
+            printf("\nError en la busqueda del usuario");
+        while(opc)
+        {
+            menuflag1();
+            scanf("%d",&sw);
+            switch (sw)
+            {
+            case 1:printf("\nModificar Status del administrador.");
+                break;
+            case 2:printf("\nModificar Tipo de administrador.");
+                break;
+            case 3:printf("\nModificar Nombre del administrador.");
+                break;
+            case 4:printf("\nModificar Apellido Paterno del administrador.");
+                break;
+            case 5:printf("\nModificar Apellido Materno del administrador.");
+                break;
+            case 6:printf("\nModificar Nombre de usuario del administrador.");
+                break;
+            case 7:printf("\nModificar Contrasena del administrador.");
+                break;
+            case 8:printf("\nSaliendo del menu.");
+                opc=0;
+                break;    
+            default:printf("\nElija una opcion correcta.");
+                break;
+            }
+        }
 
     }
     if(flag==2)
@@ -198,6 +228,7 @@ int ModificarUser(int flag)
 int RegistrarFuncionesUser(int IdUser)
 {
     //int opc=0;
+    printf("\nId del usuario. %d",IdUser);
     printf("\nAsignar Permisos al Nuevo Usuario");
     if(ModificarPermisosTareas(IdUser)!=0)
         printf("\nPermisos de Tareas Agregados Exitosamente.");
@@ -224,19 +255,113 @@ int RegistrarFuncionesUser(int IdUser)
  */
 int ModificarPermisosTareas(int IdUser)
 {
-    int* respuestas;
-    respuestas = (int*) malloc (sizeof(int) * CANTTAREAS);
-    if(respuestas==NULL)
-        return 0;
-    printf("\n<-- Tareas -->\n");
-    printf("\nAgregar nuevos Administradores (1. si / 2. no ): ");
-    scanf("%d",&respuestas[0]);
-    printf("\nModificar informacion de Administradores (1. si / 2. no ): ");
-    scanf("%d",&respuestas[1]);
-    printf("\nEliminar Administradores del sistema (1. si / 2. no ): ");
-    scanf("%d",&respuestas[2]);
-    printf("\nAgregar Privilegios a Adminsitradores (1. si / 2. no ): ");
-    scanf("%d",&respuestas[3]);
+    int* respuesta;
+    int opcfinal=0;
+    respuesta = (int *)malloc(sizeof(int)*CANTTAREAS);
+    if(respuesta ==NULL)
+        return -1;
+    int indice=1;
+    int global=1;
+    while(global)
+    {
+        printf("\n<-- Tareas -->\n");
+    while(indice)
+    {
+        printf("\n[ ]Agregar nuevos Administradores (1. si / 2. no ): ");
+        scanf("%d",&respuesta[0]);
+        if(respuesta[0] != 1 && respuesta[0] !=2)
+            printf("\nEscoja entre 1 para si o 2 para no");
+        else
+            indice=0;
+    }
+    indice = 1;
+    while(indice)
+    {
+        printf("\n[ ]Modificar informacion de Administradores (1. si / 2. no ): ");
+        scanf("%d",&respuesta[1]);
+        if(respuesta[1] != 1 && respuesta[1] != 2)
+         printf("\nEscoja entre 1 para si o 2 para no");
+        else
+            indice=0;
+    }
+    indice=1;
+    while(indice)
+    {
+        printf("\n[ ]Eliminar Administradores del sistema (1. si / 2. no ): ");
+        scanf("%d",&respuesta[2]);
+        if(respuesta[2] != 1 && respuesta[2] != 2)
+         printf("\nEscoja entre 1 para si o 2 para no");
+        else
+            indice=0;
+    }
+    indice=1;
+    while(indice)
+    {
+        printf("\n[ ]Agregar Privilegios a Administradores (1. si / 2. no ): ");
+        scanf("%d",&respuesta[3]);
+        if(respuesta[3] != 1 && respuesta[3] != 2)
+         printf("\nEscoja entre 1 para si o 2 para no");
+        else
+            indice=0;
+    }
+    indice=1;
+    while(indice)
+    {
+        printf("\n[ ]Eliminar Privilegios a Administradores (1. si / 2. no ): ");
+        scanf("%d",&respuesta[4]);
+        if(respuesta[4] != 1 && respuesta[4] != 2)
+         printf("\nEscoja entre 1 para si o 2 para no");
+        else
+            indice=0;
+    }
+    printf("\nConfirmando Opciones");
+    if(respuesta[0]==1)
+        printf("\n[X]Agregar nuevos Administradores");
+    else if (respuesta[0]==2)
+        printf("\n[ ]Agregar nuevos Administradores");
+    
+    if(respuesta[1]==1)
+        printf("\n[X]Modificar informacion de Administradores");
+    else if (respuesta[1]==2)
+        printf("\n[ ]Modificar informacion de Administradores");
+    
+    if(respuesta[2]==1)
+        printf("\n[X]Eliminar Administradores del sistema");
+    else if (respuesta[2]==2)
+        printf("\n[ ]Eliminar Administradores del sistema");
+    if(respuesta[3]==1)
+        printf("\n[X]Agregar Privilegios a Administradores");
+    else if (respuesta[3]==2)
+        printf("\n[ ]Agregar Privilegios a Administradores");
+    if(respuesta[4]==1)
+        printf("\n[X]Eliminar Privilegios a Administradores");
+    else if (respuesta[4]==2)
+        printf("\n[ ]Eliminar Privilegios a Administradores");
+
+    printf("\nDesea Continuar ( 1 si / 2 no)");
+    scanf("%d",&opcfinal);
+    if(opcfinal==1)
+        global=0;
+    else if(opcfinal==0)
+        global=1;
+    else
+        printf("\nEscoja entre 1 para continuar o 2 para comenzar de nuevo.");
+    }
+    obfecha();
+    if(respuesta[0]==1)
+        InsertarPermisosAgregarAdmin(IdUser,FechaFunUser);
+    obfecha();
+    if(respuesta[1]==1)
+        InsertarPermisosModifAdmin(IdUser,FechaFunUser);
+    obfecha();
+    if(respuesta[2]==1)
+        InsertarPermisosElimAdmin(IdUser,FechaFunUser);
+    obfecha();
+    if(respuesta[3]==1)
+        InsertarPermisosAgrgAdmin(IdUser,FechaFunUser);
+    obfecha();
+    if(respuesta[4]==1)
+        InsertarPermisosElimAgrgAdmin(IdUser,FechaFunUser);
     return 1;
 }
 /**
@@ -247,19 +372,95 @@ int ModificarPermisosTareas(int IdUser)
  */
 int ModificarPermisosServicios(int IdUser)
 {
-    int* respuestas;
-    respuestas = (int*) malloc (sizeof(int) * CANTTAREAS);
-    if(respuestas==NULL)
-        return 0;
-    printf("\n<-- Servicios -->\n");
-    printf("\nMonitorizacion (1. si / 2. no ): ");
-    scanf("%d",&respuestas[0]);
-    printf("\nConfiguracion de Router (1. si / 2. no ): ");
-    scanf("%d",&respuestas[1]);
-    printf("\nConfiguracion de Switch (1. si / 2. no ): ");
-    scanf("%d",&respuestas[2]);
-    printf("\nConfiguracion de Servidor (1. si / 2. no ): ");
-    scanf("%d",&respuestas[3]);
+    int* respuesta;
+    int opcfinal=0;
+    respuesta = (int *)malloc(sizeof(int)*CANTSERVICIOS);
+    if(respuesta ==NULL)
+        return -1;
+    int indice=1;
+    int global=1;
+    while(global)
+    {
+        printf("\n<-- Servicios -->\n");
+    while(indice)
+    {
+        printf("\n[ ] Monitorizacion (1. si / 2. no ): ");
+        scanf("%d",&respuesta[0]);
+        if(respuesta[0] != 1 && respuesta[0] !=2)
+            printf("\nEscoja entre 1 para si o 2 para no");
+        else
+            indice=0;
+    }
+    indice = 1;
+    while(indice)
+    {
+        printf("\n[ ] Configuracion de Router (1. si / 2. no ): ");
+        scanf("%d",&respuesta[1]);
+        if(respuesta[1] != 1 && respuesta[1] != 2)
+         printf("\nEscoja entre 1 para si o 2 para no");
+        else
+            indice=0;
+    }
+    indice=1;
+    while(indice)
+    {
+        printf("\n[ ] Configuracion de Switch (1. si / 2. no ): ");
+        scanf("%d",&respuesta[2]);
+        if(respuesta[2] != 1 && respuesta[2] != 2)
+         printf("\nEscoja entre 1 para si o 2 para no");
+        else
+            indice=0;
+    }
+    indice=1;
+    while(indice)
+    {
+        printf("\n[ ] Configuracion de Servidor (1. si / 2. no ): ");
+        scanf("%d",&respuesta[3]);
+        if(respuesta[3] != 1 && respuesta[3] != 2)
+         printf("\nEscoja entre 1 para si o 2 para no");
+        else
+            indice=0;
+    }
+    printf("\nConfirmando Opciones");
+    if(respuesta[0]==1)
+        printf("\n[X]Monitorizacion");
+    else if (respuesta[0]==2)
+        printf("\n[ ]Monitorizacion");
+    
+    if(respuesta[1]==1)
+        printf("\n[X]Configuracion de Router");
+    else if (respuesta[1]==2)
+        printf("\n[ ]Configuracion de Router");
+    
+    if(respuesta[2]==1)
+        printf("\n[X]Configuracion de Switch");
+    else if (respuesta[2]==2)
+        printf("\n[ ]Configuracion de Switch");
+    if(respuesta[3]==1)
+        printf("\n[X]Configuracion de Servidor");
+    else if (respuesta[3]==2)
+        printf("\n[ ]Configuracion de Servidor");
+    printf("\nDesea Continuar ( 1 si / 2 no)");
+    scanf("%d",&opcfinal);
+    if(opcfinal==1)
+        global=0;
+    else if(opcfinal==0)
+        global=1;
+    else
+        printf("\nEscoja entre 1 para continuar o 2 para comenzar de nuevo.");
+    }
+    obfecha();
+    if(respuesta[0]==1)
+        InsertarPermisosServMonit(IdUser,FechaFunUser);
+    obfecha();
+    if(respuesta[1]==1)
+        InsertarPermisosServRouter(IdUser,FechaFunUser);
+    obfecha();
+    if(respuesta[2]==1)
+        InsertarPermisosServSwitch(IdUser,FechaFunUser);
+    obfecha();
+    if(respuesta[3]==1)
+        InsertarPermisosServSevidor(IdUser,FechaFunUser);
     return 1;
 }
 /**
@@ -287,4 +488,18 @@ int obfecha()
         printf("\nError formateando fecha\n");
         return 0;
     }
+}
+
+void menuflag1()
+{
+    printf("\nMenu de modificacion de informacion.");
+    printf("\n1.Status del usuario.");
+    printf("\n2.Tipo de Usuario.");
+    printf("\n3.Nombre del administrador.");
+    printf("\n4.Apellido Paterno del administrador.");
+    printf("\n5.Apellido Materno del administrador.");
+    printf("\n6.Nombre de usuario de acceso.");
+    printf("\n7.Contrasena de acceso.");
+    printf("\n8.Salir del Menu.");
+    printf("\nElija una opcion: ");
 }
