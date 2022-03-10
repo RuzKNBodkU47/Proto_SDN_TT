@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class cat_servicios_administradores extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+    protected $table = 'cat_servicios_administradores';
 }

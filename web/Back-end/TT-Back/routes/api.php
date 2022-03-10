@@ -7,6 +7,10 @@ use App\Http\Controllers\StatusAdminController;
 use App\Http\Controllers\TipoAdminController;
 use App\Http\Controllers\CatTareasController;
 use App\Http\Controllers\CatServiciosController;
+use App\Http\Controllers\CatTareasAdminController;
+use App\Http\Controllers\CatServiciosAdminController;
+use App\Http\Controllers\AdminTareasLogController;
+use App\Http\Controllers\AdminServiciosLogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +46,10 @@ Route::post('createtipoa','App\Http\Controllers\TipoAdminController@store');
 Route::post('creacattarea','App\Http\Controllers\CatTareasController@store');
 Route::post('creacatservicio','App\Http\Controllers\CatServiciosController@store');
 Route::post('creastatuslog','App\Http\Controllers\StatusLogController@store');
+Route::post('creacattareaadmin','App\Http\Controllers\CatTareasAdminController@store');
+Route::post('creacatservicioadmin','App\Http\Controllers\CatServiciosAdminController@store');
+Route::post('creaadmintarealog','App\Http\Controllers\AdminTareasLogController@store');
+Route::post('creaadminserviciolog','App\Http\Controllers\AdminServiciosLogController@store');
 
 
 
