@@ -65,7 +65,7 @@ int regis_user()
             }
             else
             {
-                x=1;
+                z=0;
             }    
                 
         }
