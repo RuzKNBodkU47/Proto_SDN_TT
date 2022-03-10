@@ -22,5 +22,7 @@ int obfecha();
 int ModificarPermisosTareas(int IdUser);
 int ModificarPermisosServicios(int IdUser);
 void menuflag1();
+void menuflag2();
+int EliminarUsers();
 
 #endif

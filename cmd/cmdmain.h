@@ -54,4 +54,16 @@ int insert_log_Euser1(int id,char*Fecha);
 
 int imprimir_infouser(char * nomuser);
 
+int imprimir_permisotareas(char * nomuser);
+int imprimir_permisoServicios(char * nomuser);
+
+int Actualizar_TipoAdmin(char * nomuser,int idtipo);
+int Actualizar_StatusAdmin(char * nomuser,int idstatus);
+int Actualizar_NombreAdmin(char * nomuser,char* Nombre);
+int Actualizar_APAdmin(char * nomuser,char* Nombre);
+int Actualizar_AMAdmin(char * nomuser,char* Nombre);
+int Actualizar_NomUser(char * nomuser,char* Nombre);
+
+int validaruser(char* nomuser);
+int verifexistuser(char* nomuser);
 #endif

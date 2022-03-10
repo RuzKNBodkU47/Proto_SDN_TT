@@ -305,6 +305,8 @@ void funcion_users()
         else if(strcmp(subcomando,USERS_CMD_3)==0)
         {
             /*verificar los permisos del usuario si tiene permitido usar esta funcion*/
+
+            
         }
         else if(strcmp(subcomando,USERS_CMD_4)==0)
         {

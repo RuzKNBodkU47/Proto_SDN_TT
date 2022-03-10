@@ -379,6 +379,87 @@ int imprimir_infouser(char * nomuser)
     return 1;
 }
 /**
+ * @brief Funcion que permite imprimir los permisos que tiene permitido el usuario
+ * 
+ * @param nomuser parametro que recibe el nombre del usuario
+ * @return int 
+ */
+int imprimir_permisotareas(char * nomuser)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    int id_user= ObtenerIdUser(nomuser);
+    //printf("\nid del usuario: %d",id_user);
+    sprintf(consulta,"SELECT %s FROM Tipo_Admin_Cat_Tareas WHERE Id_Administrador=%d;",CamposTipoAdminCatTareas,id_user);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion); 
+    int cant_campos = mysql_num_fields(res);
+    printf("\nPermisos de Tareas Activos en el usuario %s",nomuser);
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        if(atoi(row[1]) == 4)
+            printf("\n[X]Agregar nuevos Administradores.\t");
+        if(atoi(row[1]) == 5)
+            printf("\n[X]Modificar informacion de Administradores.\t");
+        if(atoi(row[1]) == 6)
+            printf("\n[X]Eliminar Administradores del sistema.\t");
+        if(atoi(row[1]) == 7)
+            printf("\n[X]Agregar Privilegios a Administradores.\t");
+        if(atoi(row[1]) == 8)
+            printf("\n[X]Eliminar Privilegios a Administradores.\t");
+        
+        printf("Fecha Ultima Modificacion: %s",row[2]);
+    }
+    free(consulta);
+    return 1;
+}
+/**
+ * @brief Funcion que permite imprimir los permisos de los Servicios
+ * 
+ * @param nomuser parametro que recibe el nombre del usuario
+ * @return int 
+ */
+int imprimir_permisoServicios(char * nomuser)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    int id_user= ObtenerIdUser(nomuser);
+    //printf("\nid del usuario: %d",id_user);
+    sprintf(consulta,"SELECT %s FROM Tipo_Admin_Cat_Servicios WHERE Id_Administrador=%d;",CamposTipoAdminCatServicios,id_user);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion); 
+    printf("\nPermisos de Servicios Activos en el usuario %s",nomuser);
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        if(atoi(row[1]) == 1)
+            printf("\n[X]Monitorizacion.\t");
+        if(atoi(row[1]) == 2)
+            printf("\n[X]Configuracion de Router.\t");
+        if(atoi(row[1]) == 3)
+            printf("\n[X]Configuracion de Switch.\t");
+        if(atoi(row[1]) == 4)
+            printf("\n[X]Configuracion de Servidor.\t");
+        
+        printf("Fecha Ultima Modificacion: %s",row[2]);
+    }
+    free(consulta);
+    return 1;
+}
+/**
  * @brief Funcion que permite agregar el permiso de agregar administradores
  * 
  * @param permisos recibe la cadena de los permisos puestos por el usuario
@@ -584,4 +665,199 @@ int InsertarPermisosServSevidor(int iduser,char* Fecha)
     }
     free(consulta);
     return 1;   
+}
+/**
+ * @brief Funcion que actualiza los datos del usuario
+ * 
+ * @param nomuser parametro que recibe el nombre del usuario
+ * @param idstatus parametro que recibe el id del status que se va a cambiar
+ * @return int 
+ */
+int Actualizar_StatusAdmin(char * nomuser,int idstatus)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"UPDATE Administradores SET Id_Status_Admin= %d WHERE Nombre_Usuario='%s';",idstatus,nomuser);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1; 
+}
+/**
+ * @brief Funcion que actualiza los datos del usuario
+ * 
+ * @param nomuser parametor que recibe el nombre del usuario 
+ * @param idtipo parametro que recibe el id del tipo de administrador
+ * @return int 
+ */
+int Actualizar_TipoAdmin(char * nomuser,int idtipo)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"UPDATE Administradores SET Id_Tipo_Admin= %d WHERE Nombre_Usuario='%s';",idtipo,nomuser);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1; 
+}
+/**
+ * @brief Funcion que permite actualizar el nombre del administrador
+ * 
+ * @param nomuser parametro que recibe el nombre del usuario
+ * @param Nombre parametro que recibe el nombre del administrador
+ * @return int 
+ */
+int Actualizar_NombreAdmin(char * nomuser,char* Nombre)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"UPDATE Administradores SET Nombre_Admin='%s' WHERE Nombre_Usuario='%s';",Nombre,nomuser);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1; 
+}
+/**
+ * @brief Funcion que permite actualizar el nombre del administrador
+ * 
+ * @param nomuser parametro que recibe el nombre del usuario
+ * @param Nombre parametro que recibe el nombre nuevo
+ * @return int 
+ */
+int Actualizar_APAdmin(char * nomuser,char* Nombre)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"UPDATE Administradores SET Apellido_P_Admin='%s' WHERE Nombre_Usuario='%s';",Nombre,nomuser);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1; 
+}
+/**
+ * @brief Actualiza el nombre materno del adminsitrador
+ * 
+ * @param nomuser parametro que recibe el nombre del usuario.
+ * @param Nombre parametro que recibe el nombre nuevo del usuario.
+ * @return int 
+ */
+int Actualizar_AMAdmin(char * nomuser,char* Nombre)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"UPDATE Administradores SET Apellido_M_Admin='%s' WHERE Nombre_Usuario='%s';",Nombre,nomuser);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1; 
+}
+
+
+int validaruser(char* nomuser)
+{
+    printf("XD");
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"SELECT Nombre_Usuario FROM Administradores WHERE Nombre_Usuario='%s';",nomuser);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion); 
+    //int cant_campos = mysql_num_fields(res);
+    //printf("\nuser 1 %s user 2 %s",nomuser,row[0]);
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        printf("\nuser 1 %s user 2 %s",nomuser,row[0]);
+        if(strcmp(nomuser,row[0]) != 0 )
+            return -2;
+    }
+    return 1;
+}
+
+/**
+ * @brief Funcion que permite actualizar el nombre de usuario
+ * 
+ * @param nomuser recibe el nombre actual de usuario
+ * @param Nombre recibe el nombre nuevo de usuario
+ * @return int 
+ */
+int Actualizar_NomUser(char * nomuser,char* Nombre)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    if(validaruser(Nombre)!=1)
+     {
+         printf("\nError ya existe el nombre de usuario.");
+         return -2;
+     }   
+    sprintf(consulta,"UPDATE Administradores SET Nombre_Usuario='%s' WHERE Nombre_Usuario='%s';",Nombre,nomuser);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1; 
+}
+
+int verifexistuser(char* nomuser)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"SELECT COUNT(*) FROM Administradores WHERE Nombre_Usuario='%s';",nomuser);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion); 
+    //int cant_campos = mysql_num_fields(res);
+    //printf("\nuser 1 %s user 2 %s",nomuser,row[0]);
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        if( atoi(row[0]) == 0)
+            return -2;
+    }
+    return 1;
 }

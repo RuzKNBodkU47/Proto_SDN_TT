@@ -167,8 +167,10 @@ int regis_user()
  */
 int ModificarUser(int flag)
 {
-    int opc=1,sw=-1;
+    int opc=1,sw=-1,extra=0;
     char NomUser[50];
+    int x=1,scan=0;
+    char respstring[60];
     printf("\n==Modificando Adminsitrador==\n");
     printf("\nIngrese el nombre de usuario a modificar: ");
     scanf("%s",NomUser);
@@ -176,28 +178,180 @@ int ModificarUser(int flag)
     //if(id_user=ObtenerIdUser(NomUser)== -1)
       //  return 0;
     //printf("\nflag %d ",flag);
+    if(verifexistuser(NomUser)!=1)
+    {
+        printf("\nUser no existe.");
+        return -3;
+    }    
+
     if(flag==1)
     {
         printf("\nModificar informacion del usuario\nMostrando informacion del usuario %s ",NomUser);   
         if(imprimir_infouser(NomUser) != 1)
-            printf("\nError en la busqueda del usuario");
+            printf("\nError en la busqueda del usuario");            
+        printf("\n============================\n");
         while(opc)
         {
             menuflag1();
             scanf("%d",&sw);
+            x=1;
             switch (sw)
             {
             case 1:printf("\nModificar Status del administrador.");
+                while(x)
+                {
+                    printf("\nOpciones:\n1.Activo\n2.Fuera del Sistema\n3.Fuera del Sistema\nElija una opcion: ");
+                    scanf("%d",&scan);
+                    if(scan>0 && scan<4)
+                    {
+                        x=0;
+                        if(Actualizar_StatusAdmin(NomUser,scan)!=1)
+                        {
+                            printf("\nError al actualizar el dato.");
+                            x=0;
+                        }
+                    }
+                    else
+                        printf("\nError elija una opcion correcta.");                 
+                }
                 break;
             case 2:printf("\nModificar Tipo de administrador.");
+                while(x)
+                {
+                    printf("\nOpciones:\n1.Administrador\n2.SuperAdministrador\nElija una opcion: ");
+                    scanf("%d",&scan);
+                    if(scan>0 && scan<3)
+                    {
+                        x=0;
+                        if(Actualizar_TipoAdmin(NomUser,scan)!=1)
+                        {
+                            printf("\nError al actualizar el dato");
+                            x=0;
+                        }
+                    }
+                    else
+                        printf("\nError elija una opcion correcta.");                 
+                }
                 break;
             case 3:printf("\nModificar Nombre del administrador.");
+                while(x)
+                {
+                    printf("\nIngrese el nuevo nombre del usuario %s: ",NomUser);
+                    scanf("%s",respstring);
+                    if (strlen(respstring) > 0 )
+                    {
+                        printf("\nConfirma que el nuevo nombre del usuario %s sea %s \n(1.Si / 2.No) ",NomUser,respstring);
+                        scanf("%d",&extra);
+                        switch (extra)
+                        {
+                        case 1: x=0;
+                            if(Actualizar_NombreAdmin(NomUser,respstring)!=1)
+                            {
+                                printf("\nError al actualizar el dato..");
+                                x=0;
+                            }
+                            break;
+                        case 2: printf("\nRegresando..");
+                            break;
+                        default:printf("\nError..");
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        printf("\nIngrese una cadena.");
+                    }
+                }
                 break;
             case 4:printf("\nModificar Apellido Paterno del administrador.");
+                while(x)
+                {
+                    printf("\nIngrese el nuevo Apellido Paterno del usuario %s",NomUser);
+                    scanf("%s",respstring);
+                    if (strlen(respstring) > 0 )
+                    {
+                        printf("\nConfirma que el nuevo Apellido Paterno del usuario %s sea %s \n(1.Si / 2.No)",NomUser,respstring);
+                        scanf("%d",&extra);
+                        switch (extra)
+                        {
+                        case 1: x=0;
+                            if(Actualizar_APAdmin(NomUser,respstring)!=1)
+                            {
+                                printf("\nError al actualizar el dato..");
+                                x=0;
+                            }
+                            break;
+                        case 2: printf("\nRegresando..");
+                            break;
+                        default:printf("\nError..");
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        printf("\nIngrese una cadena.");
+                    }
+                }
                 break;
             case 5:printf("\nModificar Apellido Materno del administrador.");
+            while(x)
+                {
+                    printf("\nIngrese el nuevo Apellido Materno del usuario %s",NomUser);
+                    scanf("%s",respstring);
+                    if (strlen(respstring) > 0 )
+                    {
+                        printf("\nConfirma que el nuevo Apellido Materno del usuario %s sea %s \n(1.Si / 2.No)",NomUser,respstring);
+                        scanf("%d",&extra);
+                        switch (extra)
+                        {
+                        case 1: x=0;
+                            if(Actualizar_AMAdmin(NomUser,respstring)!=1)
+                            {
+                                printf("\nError al actualizar el dato..");
+                                x=0;
+                            }
+                            break;
+                        case 2: printf("\nRegresando..");
+                            break;
+                        default:printf("\nError..");
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        printf("\nIngrese una cadena.");
+                    }
+                }
                 break;
             case 6:printf("\nModificar Nombre de usuario del administrador.");
+            while(x)
+                {
+                    printf("\nIngrese el nuevo Nombre de usuario para el usuario %s",NomUser);
+                    scanf("%s",respstring);
+                    if (strlen(respstring) > 0 )
+                    {
+                        printf("\nConfirma que el nuevo Nombre de usuario del usuario %s sea %s \n(1.Si / 2.No)",NomUser,respstring);
+                        scanf("%d",&extra);
+                        switch (extra)
+                        {
+                        case 1: x=0;
+                            if(Actualizar_NomUser(NomUser,respstring)!=1)
+                            {
+                                printf("\nError al actualizar el dato..");
+                                x=0;
+                            }
+                            break;
+                        case 2: printf("\nRegresando..");
+                            break;
+                        default:printf("\nError..");
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        printf("\nIngrese una cadena.");
+                    }
+                }
                 break;
             case 7:printf("\nModificar Contrasena del administrador.");
                 break;
@@ -212,9 +366,45 @@ int ModificarUser(int flag)
     }
     if(flag==2)
     {
-        printf("Modificar permisos del usuario");
+        printf("Modificar permisos del usuario\n Mostrando informacion del usuario %s",NomUser);
+        if(imprimir_permisotareas(NomUser) != 1)
+            printf("\nError en la busqueda del usuario");
+        printf("\n============================\n");
+        if(imprimir_permisoServicios(NomUser) != 1)
+            printf("\nError en la busqueda del usuario");
+        printf("\n============================\n");
         //mostrar permisos del usuario
-
+        while(opc)
+        {
+            menuflag2();
+            scanf("%d",&sw);
+            switch (sw)
+            {
+            case 1:printf("\nAgregar nuevos Administradores.");
+                break;
+            case 2:printf("\nModificar informacion de Administradores.");
+                break;
+            case 3:printf("\nEliminar Administradores del sistema.");
+                break;
+            case 4:printf("\nAgregar Privilegios a Administradores.");
+                break;
+            case 5:printf("\nEliminar Privilegios a Administradores.");
+                break;
+            case 6:printf("\nMonitorizacion.");
+                break;
+            case 7:printf("\nConfiguracion de Router.");
+                break;
+            case 8:printf("\nConfiguracion de Switch.");
+                break;
+            case 9:printf("\nConfiguracion de Servidor.");
+                break;
+            case 10:printf("\nSaliendo del menu.");
+                opc=0;
+                break;    
+            default:printf("\nElija una opcion correcta.");
+                break;
+            }
+        }
     }
 
     return 1;
@@ -489,7 +679,10 @@ int obfecha()
         return 0;
     }
 }
-
+/**
+ * @brief Funcion que imprime el menu
+ * 
+ */
 void menuflag1()
 {
     printf("\nMenu de modificacion de informacion.");
@@ -502,4 +695,29 @@ void menuflag1()
     printf("\n7.Contrasena de acceso.");
     printf("\n8.Salir del Menu.");
     printf("\nElija una opcion: ");
+}
+/**
+ * @brief Funcion que imprime el menu
+ * 
+ */
+void menuflag2()
+{
+    printf("\nMenu de modificacion de Permisos.");
+    printf("\n1.Agregar nuevos Administradores.");
+    printf("\n2.Modificar informacion de Administradores.");
+    printf("\n3.Eliminar Administradores del sistema.");
+    printf("\n4.Agregar Privilegios a Administradores.");
+    printf("\n5.Eliminar Privilegios a Administradores.");
+    printf("\n6.Monitorizacion.");
+    printf("\n7.Configuracion de Router.");
+    printf("\n8.Configuracion de Switch.");
+    printf("\n9.Configuracion de Servidor.");
+    printf("\n10.Salir del Menu.");
+    printf("\nElija el permiso que quiera agregar/eliminar: ");
+}
+
+int EliminarUsers()
+{
+
+    return 1;
 }
