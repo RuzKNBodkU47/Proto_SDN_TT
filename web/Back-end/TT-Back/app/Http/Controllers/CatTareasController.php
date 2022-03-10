@@ -108,4 +108,11 @@ class CatTareasController extends Controller
     {
         //
     }
+    public function showall(){
+        try { 
+            return cat_tareas::get();
+        } catch (\Throwable $th) {
+            return \Response::json(['created' => false,"message"=>$th], 422);
+        }
+    }
 }

@@ -114,4 +114,11 @@ class AdminTareasLogController extends Controller
     {
         //
     }
+    public function showall(){
+        try { 
+            return administrador_tareas_log::get();
+        } catch (\Throwable $th) {
+            return \Response::json(['created' => false,"message"=>$th], 422);
+        }
+    }
 }

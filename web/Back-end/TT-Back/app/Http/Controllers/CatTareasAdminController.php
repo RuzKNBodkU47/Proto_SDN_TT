@@ -110,4 +110,11 @@ class CatTareasAdminController extends Controller
     {
         //
     }
+    public function showall(){
+        try { 
+            return cat_tareas_administradores::get();
+        } catch (\Throwable $th) {
+            return \Response::json(['created' => false,"message"=>$th], 422);
+        }
+    }
 }

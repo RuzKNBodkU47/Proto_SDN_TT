@@ -111,7 +111,11 @@ class AdministradorController extends Controller
         //
     }
 
-    public function prueba(){
-        return administradores::all();
+    public function showall(){
+        try { 
+            return administradores::get();
+        } catch (\Throwable $th) {
+            return \Response::json(['created' => false,"message"=>$th], 422);
+        }
     }
 }

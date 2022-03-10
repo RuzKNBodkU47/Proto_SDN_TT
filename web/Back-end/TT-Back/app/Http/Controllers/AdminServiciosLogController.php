@@ -118,4 +118,11 @@ class AdminServiciosLogController extends Controller
     {
         //
     }
+    public function showall(){
+        try { 
+            return administrador_servicios_log::get();
+        } catch (\Throwable $th) {
+            return \Response::json(['created' => false,"message"=>$th], 422);
+        }
+    }
 }

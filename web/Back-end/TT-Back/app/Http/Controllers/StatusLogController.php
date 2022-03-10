@@ -103,4 +103,11 @@ class StatusLogController extends Controller
     {
         //
     }
+    public function showall(){
+        try {
+            return status_log::get();
+        } catch (\Throwable $th) {
+            return \Response::json(['created' => false,"message"=>$th], 422);
+        } 
+    }
 }

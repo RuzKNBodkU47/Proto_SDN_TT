@@ -93,4 +93,11 @@ class TipoAdminController extends Controller
     {
         //
     }
+    public function showall(){
+        try {
+            return tipo_admin::get();
+        } catch (\Throwable $th) {
+            return \Response::json(['created' => false,"message"=>$th], 422);
+        }   
+    }
 }
