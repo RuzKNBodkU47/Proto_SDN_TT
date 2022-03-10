@@ -48,7 +48,7 @@ unsigned char* ObtMAC()
 {
     unsigned char* MAC=NULL;
     unsigned char submac[10]=" ";
-    MAC= (char*) malloc(sizeof(char)*MAXMAC);
+    MAC= (unsigned char*) malloc(sizeof(char)*MAXMAC);
     struct ifreq s;
     int fd = socket(PF_INET, SOCK_DGRAM, IPPROTO_IP);
     strcpy(s.ifr_name, "eno1");

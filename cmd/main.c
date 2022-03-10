@@ -305,12 +305,26 @@ void funcion_users()
         else if(strcmp(subcomando,USERS_CMD_3)==0)
         {
             /*verificar los permisos del usuario si tiene permitido usar esta funcion*/
-
-            
+            if(EliminarUsers()==1)
+            {
+                printf("\n[+]Usuario Eliminado con exito. ");
+            }
+            else
+            {
+                 printf("\n[X]Usuario no se Elimino con exito.");
+            }
         }
         else if(strcmp(subcomando,USERS_CMD_4)==0)
         {
-            /*verificar los permisos del usuario si tiene permitido usar esta funcion*/    
+            /*verificar los permisos del usuario si tiene permitido usar esta funcion*/ 
+            if(ListarAdministradores()==1)
+            {
+                printf("\n[+]Datos mostrados con exito");
+            }
+            else
+            {
+                 printf("\n[X]Error al solicitar los datos");
+            }   
         }
         else if(strcmp(subcomando,EXIT_CMD)==0)
             break;

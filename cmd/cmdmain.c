@@ -353,7 +353,7 @@ int imprimir_infouser(char * nomuser)
         return 0;
     }
     res=mysql_use_result(conexion); 
-    int cant_campos = mysql_num_fields(res);
+    //int cant_campos = mysql_num_fields(res);
     while((row=mysql_fetch_row(res)) != NULL)
     {
         if(atoi(row[0]) == 1)
@@ -400,7 +400,7 @@ int imprimir_permisotareas(char * nomuser)
         return 0;
     }
     res=mysql_use_result(conexion); 
-    int cant_campos = mysql_num_fields(res);
+    //int cant_campos = mysql_num_fields(res);
     printf("\nPermisos de Tareas Activos en el usuario %s",nomuser);
     while((row=mysql_fetch_row(res)) != NULL)
     {
@@ -781,17 +781,21 @@ int Actualizar_AMAdmin(char * nomuser,char* Nombre)
     free(consulta);
     return 1; 
 }
-
+/**
+ * @brief Funcion que comprueba que no existan otros con el mismo nombre de usuario
+ * 
+ * @param nomuser parametro que recibe el nombre del usuario
+ * @return int 
+ */
 
 int validaruser(char* nomuser)
 {
-    printf("XD");
-    ControladorBD();
+   ControladorBD();
     char *consulta;
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"SELECT Nombre_Usuario FROM Administradores WHERE Nombre_Usuario='%s';",nomuser);
+    sprintf(consulta,"SELECT COUNT(*) FROM Administradores WHERE Nombre_Usuario='%s';",nomuser);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -802,8 +806,7 @@ int validaruser(char* nomuser)
     //printf("\nuser 1 %s user 2 %s",nomuser,row[0]);
     while((row=mysql_fetch_row(res)) != NULL)
     {
-        printf("\nuser 1 %s user 2 %s",nomuser,row[0]);
-        if(strcmp(nomuser,row[0]) != 0 )
+        if( atoi(row[0]) > 0)
             return -2;
     }
     return 1;
@@ -837,7 +840,12 @@ int Actualizar_NomUser(char * nomuser,char* Nombre)
     free(consulta);
     return 1; 
 }
-
+/**
+ * @brief Funcion  que verifica si el usuario existe
+ * 
+ * @param nomuser parametro que recibe el nombre del usuario.
+ * @return int 
+ */
 int verifexistuser(char* nomuser)
 {
     ControladorBD();
@@ -859,5 +867,227 @@ int verifexistuser(char* nomuser)
         if( atoi(row[0]) == 0)
             return -2;
     }
+    return 1;
+}
+/**
+ * @brief Funcion que valida si ya el usuario tiene ese permiso asignado
+ * 
+ * @param idtarea parametro que recibe el id de la tarea
+ * @param iduser parametro que recibe el id del user
+ * @return int 
+ */
+int valid_permTarea(int idtarea,int iduser)
+{
+     ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"SELECT COUNT(*) FROM Tipo_Admin_Cat_Tareas WHERE Id_Administrador=%d AND Id_Cat_Tareas=%d;",iduser,idtarea);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion); 
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        if( atoi(row[0]) > 0)
+            return -2;
+    }
+    return 1;
+}
+/**
+ * @brief Funcion que verifica e inserta el permiso si el usuario no lo tiene.
+ * 
+ * @param idtarea parametro que recibe el id de la tarea
+ * @param NomUser parametro que recibe el nombre del usuario
+ * @param fecha parametro que recibe la fecha
+ * @return int 
+ */
+int verif_existpermiTarea(int idtarea,char* NomUser,char *fecha)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    int id_user= ObtenerIdUser(NomUser);
+    if(valid_permTarea(idtarea,id_user)!=1)
+        return -4;
+    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,id_user,idtarea,fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1; 
+}
+/**
+ * @brief Funcion que elimina elpermiso asginado a un usuario
+ * 
+ * @param idtarea parametro que recibe el id de la tarea
+ * @param NomUser parametro que recibe el nombre del usuario
+ * @return int 
+ */
+int Elim_permiTarea(int idtarea,char*NomUser)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    int id_user= ObtenerIdUser(NomUser);
+    sprintf(consulta,"DELETE FROM Tipo_Admin_Cat_Tareas WHERE Id_Administrador=%d AND Id_Cat_Tareas=%d;",id_user,idtarea);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1; 
+}
+
+/**
+ * @brief Funcion que valida si ya el usuario tiene ese permiso asignado
+ * 
+ * @param idtarea parametro que recibe el id de la tarea
+ * @param iduser parametro que recibe el id del user
+ * @return int 
+ */
+int valid_permServicio(int idtarea,int iduser)
+{
+     ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"SELECT COUNT(*) FROM Tipo_Admin_Cat_Servicios WHERE Id_Administrador=%d AND Id_Cat_Servicios=%d;",iduser,idtarea);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion); 
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        if( atoi(row[0]) > 0)
+            return -2;
+    }
+    return 1;
+}
+/**
+ * @brief Funcion que verifica e inserta el permiso si el usuario no lo tiene.
+ * 
+ * @param idtarea parametro que recibe el id de la tarea
+ * @param NomUser parametro que recibe el nombre del usuario
+ * @param fecha parametro que recibe la fecha
+ * @return int 
+ */
+int verif_existpermiServicio(int idtarea,char* NomUser,char *fecha)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    int id_user= ObtenerIdUser(NomUser);
+    if(valid_permServicio(idtarea,id_user)!=1)
+        return -4;
+    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Servicios(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatServicios,id_user,idtarea,fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1; 
+}
+/**
+ * @brief Funcion que elimina elpermiso asginado a un usuario
+ * 
+ * @param idtarea parametro que recibe el id de la tarea
+ * @param NomUser parametro que recibe el nombre del usuario
+ * @return int 
+ */
+int Elim_permiServicio(int idtarea,char*NomUser)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    int id_user= ObtenerIdUser(NomUser);
+    sprintf(consulta,"DELETE FROM Tipo_Admin_Cat_Servicios WHERE Id_Administrador=%d AND Id_Cat_Servicios=%d;",id_user,idtarea);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1; 
+}
+/**
+ * @brief Funcion que elimina del sistema a los administradores
+ * 
+ * @param Nombre parametro que recibe el nombre del usuario.
+ * @return int 
+ */
+int Elimuser(char * Nombre)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    if(verifexistuser(Nombre)!=1)
+        return -2;
+    sprintf(consulta,"UPDATE Administradores SET Id_Status_Admin=3 WHERE Nombre_Usuario='%s';",Nombre);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1; 
+}
+/**
+ * @brief Funcion que muestra los usuarios
+ * 
+ * @return int 
+ */
+int listar_usuarios()
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    //printf("\nid del usuario: %d",id_user);
+    sprintf(consulta,"SELECT %s FROM Administradores;",CamposAdministradores);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion); 
+    printf("\n||Status Admin||   Tipo Admin   ||     Nombre    ||    Apellido Paterno   ||     Apellido Materno   ||     Fecha Ingreso   ||  Nombre Usuario");
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        if(atoi(row[0]) == 1)
+            printf("\n|| Activo");
+        if(atoi(row[0]) == 2)
+            printf("\nInactivo");
+        if(atoi(row[0]) == 3)
+            printf("\nFuera del sistema");
+
+        if(atoi(row[1]) == 1)
+            printf("  Administrador  ");
+        if(atoi(row[1]) == 2)
+            printf("  Superadministrador  ");
+        printf("  %s    %s    %s    %s    %s  ||\n",row[2],row[3],row[4],row[5],row[6]);
+    }
+    free(consulta);
     return 1;
 }

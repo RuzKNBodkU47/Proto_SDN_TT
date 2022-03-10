@@ -32,8 +32,8 @@ int regis_user()
 {
     int opc=0;
     int whilecontrol=1;
-    int x=1,y=1;
-    
+    int x=1,y=1,z=1;
+    int cont=0;
     int StatusAdmin;
     int TipoAdmin=-1;
     char NombreAdmin[60];
@@ -48,9 +48,27 @@ int regis_user()
     printf("\n==Registrando Nuevo Administrador==\n");
     while(x)
     {
-        printf("\nNombre de usuario:");
-        scanf("%s",NomUsuario);
-    //validar que no exista el usuario en base de datos
+        
+        while(z)
+        {
+            printf("\nNombre de usuario:");
+            scanf("%s",NomUsuario);
+            if(validaruser(NomUsuario)!=1)
+            {
+                printf("\nEste Usuario ya existe.");
+                cont++;
+                if(cont>3)
+                {
+                    printf("\n3 Errores Regresando Al menu.");
+                    return -4;
+                }
+            }
+            else
+            {
+                x=1;
+            }    
+                
+        }
         printf("\nNombre del administrador: ");
         scanf("%s",NombreAdmin);
         printf("\nApellido Paterno del administrador: ");
@@ -326,11 +344,11 @@ int ModificarUser(int flag)
             case 6:printf("\nModificar Nombre de usuario del administrador.");
             while(x)
                 {
-                    printf("\nIngrese el nuevo Nombre de usuario para el usuario %s",NomUser);
+                    printf("\nIngrese el nuevo Nombre de usuario para el usuario %s: ",NomUser);
                     scanf("%s",respstring);
                     if (strlen(respstring) > 0 )
                     {
-                        printf("\nConfirma que el nuevo Nombre de usuario del usuario %s sea %s \n(1.Si / 2.No)",NomUser,respstring);
+                        printf("\nConfirma que el nuevo Nombre de usuario del usuario %s sea %s \n(1.Si / 2.No)\t",NomUser,respstring);
                         scanf("%d",&extra);
                         switch (extra)
                         {
@@ -378,25 +396,387 @@ int ModificarUser(int flag)
         {
             menuflag2();
             scanf("%d",&sw);
+            x=1;
+            extra=0;
             switch (sw)
             {
             case 1:printf("\nAgregar nuevos Administradores.");
+                while (x)
+                {
+                    printf("\nDesea Agregar o Eliminar este permiso del usuario %s (1.Agregar / 2.Eliminar /3.Salir): ",NomUser);
+                    scanf("%d",&extra);
+                    switch (extra)
+                    {
+                    case 1:printf("\nAgregando permiso");
+                        obfecha();
+                        if(verif_existpermiTarea(4,NomUser,FechaFunUser)!=1)
+                        {
+                            printf("\nEste usuario ya tiene este permiso.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nExito al agregar este permiso..");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 2:printf("\nEliminando permiso");
+                        if(Elim_permiTarea(4,NomUser)==1)
+                        {
+                            printf("\nPermiso Eliminado con exito.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nPermiso Eliminado sin exito.");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 3:printf("\nSaliendo..");
+                        x=1;
+                        break;
+                    default:printf("\nError en las opciones.");
+                        break;
+                    }
+                }        
                 break;
             case 2:printf("\nModificar informacion de Administradores.");
+                 while (x)
+                {
+                    printf("\nDesea Agregar o Eliminar este permiso del usuario %s (1.Agregar / 2.Eliminar /3.Salir): ",NomUser);
+                    scanf("%d",&extra);
+                    switch (extra)
+                    {
+                    case 1:printf("\nAgregando permiso");
+                        obfecha();
+                        if(verif_existpermiTarea(5,NomUser,FechaFunUser)!=1)
+                        {
+                            printf("\nEste usuario ya tiene este permiso.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nExito al agregar este permiso..");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 2:printf("\nEliminando permiso");
+                        if(Elim_permiTarea(5,NomUser)==1)
+                        {
+                            printf("\nPermiso Eliminado con exito.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nPermiso Eliminado sin exito.");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 3:printf("\nSaliendo..");
+                        x=1;
+                        break;
+                    default:printf("\nError en las opciones.");
+                        break;
+                    }
+                }
                 break;
             case 3:printf("\nEliminar Administradores del sistema.");
+             while (x)
+                {
+                    printf("\nDesea Agregar o Eliminar este permiso del usuario %s (1.Agregar / 2.Eliminar /3.Salir): ",NomUser);
+                    scanf("%d",&extra);
+                    switch (extra)
+                    {
+                    case 1:printf("\nAgregando permiso");
+                        obfecha();
+                        if(verif_existpermiTarea(6,NomUser,FechaFunUser)!=1)
+                        {
+                            printf("\nEste usuario ya tiene este permiso.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nExito al agregar este permiso..");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 2:printf("\nEliminando permiso");
+                        if(Elim_permiTarea(6,NomUser)==1)
+                        {
+                            printf("\nPermiso Eliminado con exito.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nPermiso Eliminado sin exito.");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 3:printf("\nSaliendo..");
+                        x=1;
+                        break;
+                    default:printf("\nError en las opciones.");
+                        break;
+                    }
+                }
                 break;
             case 4:printf("\nAgregar Privilegios a Administradores.");
+                 while (x)
+                {
+                    printf("\nDesea Agregar o Eliminar este permiso del usuario %s (1.Agregar / 2.Eliminar /3.Salir): ",NomUser);
+                    scanf("%d",&extra);
+                    switch (extra)
+                    {
+                    case 1:printf("\nAgregando permiso");
+                        obfecha();
+                        if(verif_existpermiTarea(8,NomUser,FechaFunUser)!=1)
+                        {
+                            printf("\nEste usuario ya tiene este permiso.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nExito al agregar este permiso..");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 2:printf("\nEliminando permiso");
+                        if(Elim_permiTarea(8,NomUser)==1)
+                        {
+                            printf("\nPermiso Eliminado con exito.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nPermiso Eliminado sin exito.");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 3:printf("\nSaliendo..");
+                        x=1;
+                        break;
+                    default:printf("\nError en las opciones.");
+                        break;
+                    }
+                }
                 break;
             case 5:printf("\nEliminar Privilegios a Administradores.");
+             while (x)
+                {
+                    printf("\nDesea Agregar o Eliminar este permiso del usuario %s (1.Agregar / 2.Eliminar /3.Salir): ",NomUser);
+                    scanf("%d",&extra);
+                    switch (extra)
+                    {
+                    case 1:printf("\nAgregando permiso");
+                        obfecha();
+                        if(verif_existpermiTarea(7,NomUser,FechaFunUser)!=1)
+                        {
+                            printf("\nEste usuario ya tiene este permiso.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nExito al agregar este permiso..");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 2:printf("\nEliminando permiso");
+                        if(Elim_permiTarea(7,NomUser)==1)
+                        {
+                            printf("\nPermiso Eliminado con exito.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nPermiso Eliminado sin exito.");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 3:printf("\nSaliendo..");
+                        x=1;
+                        break;
+                    default:printf("\nError en las opciones.");
+                        break;
+                    }
+                }
                 break;
             case 6:printf("\nMonitorizacion.");
+                while (x)
+                {
+                    printf("\nDesea Agregar o Eliminar este permiso del usuario %s (1.Agregar / 2.Eliminar /3.Salir): ",NomUser);
+                    scanf("%d",&extra);
+                    switch (extra)
+                    {
+                    case 1:printf("\nAgregando permiso");
+                        obfecha();
+                        if(verif_existpermiServicio(1,NomUser,FechaFunUser)!=1)
+                        {
+                            printf("\nEste usuario ya tiene este permiso.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nExito al agregar este permiso..");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 2:printf("\nEliminando permiso");
+                        if(Elim_permiServicio(1,NomUser)==1)
+                        {
+                            printf("\nPermiso Eliminado con exito.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nPermiso Eliminado sin exito.");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 3:printf("\nSaliendo..");
+                        x=1;
+                        break;
+                    default:printf("\nError en las opciones.");
+                        break;
+                    }
+                }
                 break;
             case 7:printf("\nConfiguracion de Router.");
+                while (x)
+                {
+                    printf("\nDesea Agregar o Eliminar este permiso del usuario %s (1.Agregar / 2.Eliminar /3.Salir): ",NomUser);
+                    scanf("%d",&extra);
+                    switch (extra)
+                    {
+                    case 1:printf("\nAgregando permiso");
+                        obfecha();
+                        if(verif_existpermiServicio(2,NomUser,FechaFunUser)!=1)
+                        {
+                            printf("\nEste usuario ya tiene este permiso.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nExito al agregar este permiso..");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 2:printf("\nEliminando permiso");
+                        if(Elim_permiServicio(2,NomUser)==1)
+                        {
+                            printf("\nPermiso Eliminado con exito.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nPermiso Eliminado sin exito.");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 3:printf("\nSaliendo..");
+                        x=1;
+                        break;
+                    default:printf("\nError en las opciones.");
+                        break;
+                    }
+                }
                 break;
             case 8:printf("\nConfiguracion de Switch.");
+            while (x)
+                {
+                    printf("\nDesea Agregar o Eliminar este permiso del usuario %s (1.Agregar / 2.Eliminar /3.Salir): ",NomUser);
+                    scanf("%d",&extra);
+                    switch (extra)
+                    {
+                    case 1:printf("\nAgregando permiso");
+                        obfecha();
+                        if(verif_existpermiServicio(3,NomUser,FechaFunUser)!=1)
+                        {
+                            printf("\nEste usuario ya tiene este permiso.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nExito al agregar este permiso..");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 2:printf("\nEliminando permiso");
+                        if(Elim_permiServicio(3,NomUser)==1)
+                        {
+                            printf("\nPermiso Eliminado con exito.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nPermiso Eliminado sin exito.");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 3:printf("\nSaliendo..");
+                        x=1;
+                        break;
+                    default:printf("\nError en las opciones.");
+                        break;
+                    }
+                }
                 break;
             case 9:printf("\nConfiguracion de Servidor.");
+                while (x)
+                {
+                    printf("\nDesea Agregar o Eliminar este permiso del usuario %s (1.Agregar / 2.Eliminar /3.Salir): ",NomUser);
+                    scanf("%d",&extra);
+                    switch (extra)
+                    {
+                    case 1:printf("\nAgregando permiso");
+                        obfecha();
+                        if(verif_existpermiServicio(4,NomUser,FechaFunUser)!=1)
+                        {
+                            printf("\nEste usuario ya tiene este permiso.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nExito al agregar este permiso..");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 2:printf("\nEliminando permiso");
+                        if(Elim_permiServicio(4,NomUser)==1)
+                        {
+                            printf("\nPermiso Eliminado con exito.");
+                            x=0;
+                        }
+                        else
+                        {
+                            printf("\nPermiso Eliminado sin exito.");
+                            x=0;
+                        }
+                        break;
+                    
+                    case 3:printf("\nSaliendo..");
+                        x=1;
+                        break;
+                    default:printf("\nError en las opciones.");
+                        break;
+                    }
+                }
                 break;
             case 10:printf("\nSaliendo del menu.");
                 opc=0;
@@ -718,6 +1098,18 @@ void menuflag2()
 
 int EliminarUsers()
 {
+    char nomuser[50];
+    printf("\nEliminar Administradores\nIngrese el Nombre del usuario a Eliminar del sistema: ");
+    scanf("%s",nomuser);
+    if(Elimuser(nomuser)!=1)
+        return 0;
+    return 1;
+}
 
+int ListarAdministradores()
+{
+    printf("\nListando los administradores\n\n");
+    if(listar_usuarios()!=1)
+        return 0;
     return 1;
 }

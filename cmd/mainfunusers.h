@@ -24,5 +24,5 @@ int ModificarPermisosServicios(int IdUser);
 void menuflag1();
 void menuflag2();
 int EliminarUsers();
-
+int ListarAdministradores();
 #endif

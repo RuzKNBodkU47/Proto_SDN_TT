@@ -30,14 +30,11 @@ char CamposAdministradoresServicioslog[500]="Id_Status_Log,Id_Administradores,Id
 char CamposAdministradoresTareaslog[500]="Id_Status_Log,Id_Administradores,Id_Cat_Tareas,IP_Dispositivo_Orig,MAC_Dispositivo_Orig,Id_Admin_Obj,Fecha_Init_Serv,Fecha_Fin_Serv";
 
 void ControladorBD();
-
 int InsertAdmin(int StatusAdmin, int TipAdmin , char* NomAdmin, char* ApPat, char* ApMat, char* FechaIng, char* NomUser, char* Pass, char* FechaUlt, int cantdias);
 int ObtenerIdUser(char *nomuser);
-
 int BuscarUsuario(char *user);
 int BuscarPass(char *user,char* pass);
 int BuscarPermUsers(int id);
-
 int insert_login(char* Fecha,int id);
 int insert_logout(char* Fecha,int id);
 int InsertarPermisosAgregarAdmin(int iduser,char* Fecha);
@@ -51,19 +48,23 @@ int InsertarPermisosServSwitch(int iduser,char* Fecha);
 int InsertarPermisosServSevidor(int iduser,char* Fecha);
 int insert_log_user1(int id,char*Fecha);
 int insert_log_Euser1(int id,char*Fecha);
-
 int imprimir_infouser(char * nomuser);
-
 int imprimir_permisotareas(char * nomuser);
 int imprimir_permisoServicios(char * nomuser);
-
 int Actualizar_TipoAdmin(char * nomuser,int idtipo);
 int Actualizar_StatusAdmin(char * nomuser,int idstatus);
 int Actualizar_NombreAdmin(char * nomuser,char* Nombre);
 int Actualizar_APAdmin(char * nomuser,char* Nombre);
 int Actualizar_AMAdmin(char * nomuser,char* Nombre);
 int Actualizar_NomUser(char * nomuser,char* Nombre);
-
 int validaruser(char* nomuser);
 int verifexistuser(char* nomuser);
+int valid_permTarea(int idtarea,int iduser);
+int verif_existpermiTarea(int idtarea,char* NomUser,char *fecha);
+int Elim_permiTarea(int idtarea,char*NomUser);
+int valid_permServicio(int idtarea,int iduser);
+int verif_existpermiServicio(int idtarea,char* NomUser,char *fecha);
+int Elim_permiServicio(int idtarea,char*NomUser);
+int Elimuser(char * Nombre);
+int listar_usuarios();
 #endif
