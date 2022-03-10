@@ -109,4 +109,11 @@ class CatServiciosAdminController extends Controller
     {
         //
     }
+    public function showall(){
+        try { 
+            return cat_servicios_administradores::get();
+        } catch (\Throwable $th) {
+            return \Response::json(['created' => false,"message"=>$th], 422);
+        }
+    }
 }

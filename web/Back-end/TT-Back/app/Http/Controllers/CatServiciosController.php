@@ -107,4 +107,11 @@ class CatServiciosController extends Controller
     {
         //
     }
+    public function showall(){
+        try { 
+            return cat_servicios::get();
+        } catch (\Throwable $th) {
+            return \Response::json(['created' => false,"message"=>$th], 422);
+        }
+    }
 }

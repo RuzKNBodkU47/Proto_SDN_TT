@@ -101,4 +101,11 @@ class StatusAdminController extends Controller
     {
         //
     }
+    public function showall(){
+        try {
+            return status_admin::get();
+        } catch (\Throwable $th) {
+            return \Response::json(['created' => false,"message"=>$th], 422);
+        } 
+    }
 }
