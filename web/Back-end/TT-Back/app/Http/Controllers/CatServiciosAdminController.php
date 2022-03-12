@@ -74,6 +74,17 @@ class CatServiciosAdminController extends Controller
     public function show($id)
     {
         //
+        // return cat_servicios_administradores::get();
+        try { 
+            $cservicioadmin = cat_servicios_administradores::where('id_cat_servicios_administradores', '=', $id)->get();
+            if (count($cservicioadmin) == 0) {
+                return response()->json(["message"=>"Servicio en catalogo del administrador no encontrado","code"=>404],404);
+            }else {
+                return response()->json(['data'=>$cservicioadmin,"message"=>"Servicio en catalogo del administrador encontrado con éxito","code"=>200]);
+            }
+        } catch (\Throwable $th) {
+            return \Response::json(['find' => false,"message"=>$th], 404);
+        }
     }
 
     /**

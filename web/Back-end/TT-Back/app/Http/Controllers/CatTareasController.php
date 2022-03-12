@@ -73,6 +73,17 @@ class CatTareasController extends Controller
     public function show($id)
     {
         //
+        // return cat_tareas::get();
+        try { 
+            $ctarea = cat_tareas::where('id_cat_tareas', '=', $id)->get();
+            if (count($ctarea) == 0) {
+                return response()->json(["message"=>"Tarea en catalogo no encontrado","code"=>404],404);
+            }else {
+                return response()->json(['data'=>$ctarea,"message"=>"Tarea en catalogo encontrado con éxito","code"=>200]);
+            }
+        } catch (\Throwable $th) {
+            return \Response::json(['find' => false,"message"=>$th], 404);
+        }
     }
 
     /**

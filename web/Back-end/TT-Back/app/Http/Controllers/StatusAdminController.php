@@ -66,6 +66,17 @@ class StatusAdminController extends Controller
     public function show($id)
     {
         //
+        // return status_admin::get();
+        try { 
+            $sadmin = status_admin::where('id_status_admin', '=', $id)->get();
+            if (count($sadmin) == 0) {
+                return response()->json(["message"=>"Status del administrador no encontrado","code"=>404],404);
+            }else {
+                return response()->json(['data'=>$sadmin,"message"=>"Status del administrador encontrado con éxito","code"=>200]);
+            }
+        } catch (\Throwable $th) {
+            return \Response::json(['find' => false,"message"=>$th], 404);
+        }
     }
 
     /**

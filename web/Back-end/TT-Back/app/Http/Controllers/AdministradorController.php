@@ -75,6 +75,16 @@ class AdministradorController extends Controller
     public function show($id)
     {
         //
+        try { 
+            $admin = administradores::where('id_administradores', '=', $id)->get();
+            if (count($admin) == 0) {
+                return response()->json(["message"=>"Administrador no encontrado","code"=>404],404);
+            }else {
+                return response()->json(['data'=>$admin,"message"=>"Administrador encontrado con éxito","code"=>200]);
+            }
+        } catch (\Throwable $th) {
+            return \Response::json(['find' => false,"message"=>$th], 404);
+        }
     }
 
     /**

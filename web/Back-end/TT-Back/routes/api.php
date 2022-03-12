@@ -62,4 +62,13 @@ Route::get('muestracatservicioadmin','App\Http\Controllers\CatServiciosAdminCont
 Route::get('muestraadmintarealog','App\Http\Controllers\AdminTareasLogController@showall');
 Route::get('muestraadminserviciolog','App\Http\Controllers\AdminServiciosLogController@showall');
 
-
+Route::get('show/{id}','App\Http\Controllers\AdministradorController@show');
+Route::get('showstatusa/{id}','App\Http\Controllers\StatusAdminController@show');
+Route::get('showtipoa/{id}','App\Http\Controllers\TipoAdminController@show');
+Route::get('showcattarea/{id}','App\Http\Controllers\CatTareasController@show');
+Route::get('showcatservicio/{id}','App\Http\Controllers\CatServiciosController@show');
+Route::get('showstatuslog/{id}','App\Http\Controllers\StatusLogController@show');
+Route::get('showcattareaadmin/{id}','App\Http\Controllers\CatTareasAdminController@show');
+Route::get('showcatservicioadmin/{id}','App\Http\Controllers\CatServiciosAdminController@show');
+Route::get('showadmintarealog/{id}','App\Http\Controllers\AdminTareasLogController@show');
+Route::get('showadminserviciolog/{id}','App\Http\Controllers\AdminServiciosLogController@show');

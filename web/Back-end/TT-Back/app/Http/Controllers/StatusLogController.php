@@ -68,6 +68,17 @@ class StatusLogController extends Controller
     public function show($id)
     {
         //
+        // return status_log::get();
+        try { 
+            $slog = status_log::where('id_status_log', '=', $id)->get();
+            if (count($slog) == 0) {
+                return response()->json(["message"=>"Status no encontrado","code"=>404],404);
+            }else {
+                return response()->json(['data'=>$slog,"message"=>"Status encontrado con éxito","code"=>200]);
+            }
+        } catch (\Throwable $th) {
+            return \Response::json(['find' => false,"message"=>$th], 404);
+        }
     }
 
     /**

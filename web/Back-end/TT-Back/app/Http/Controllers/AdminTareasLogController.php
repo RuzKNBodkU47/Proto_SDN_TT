@@ -79,6 +79,17 @@ class AdminTareasLogController extends Controller
     public function show($id)
     {
         //
+        // return administrador_tareas_log::get();
+        try { 
+            $admintareaslog = administrador_tareas_log::where('id_administrador_tareas_logs', '=', $id)->get();
+            if (count($admintareaslog) == 0) {
+                return response()->json(["message"=>"Log de la tarea del administrador no encontrado","code"=>404],404);
+            }else {
+                return response()->json(['data'=>$admintareaslog,"message"=>"Log de la tarea del administrador encontrado con éxito","code"=>200]);
+            }
+        } catch (\Throwable $th) {
+            return \Response::json(['find' => false,"message"=>$th], 404);
+        }
     }
 
     /**

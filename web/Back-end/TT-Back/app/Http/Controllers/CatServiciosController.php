@@ -72,6 +72,17 @@ class CatServiciosController extends Controller
     public function show($id)
     {
         //
+        // return cat_servicios::get();
+        try { 
+            $cservicio = cat_servicios::where('id_cat_servicios', '=', $id)->get();
+            if (count($cservicio) == 0) {
+                return response()->json(["message"=>"Servicio en catalogo no encontrado","code"=>404],404);
+            }else {
+                return response()->json(['data'=>$cservicio,"message"=>"Servicio en catalogo encontrado con éxito","code"=>200]);
+            }
+        } catch (\Throwable $th) {
+            return \Response::json(['find' => false,"message"=>$th], 404);
+        }
     }
 
     /**

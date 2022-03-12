@@ -83,6 +83,17 @@ class AdminServiciosLogController extends Controller
     public function show($id)
     {
         //
+        // return administrador_servicios_log::get();
+        try { 
+            $adminservlog = administrador_servicios_log::where('id_administrador_servicios_logs', '=', $id)->get();
+            if (count($adminservlog) == 0) {
+                return response()->json(["message"=>"Log del servicio del administrador no encontrado","code"=>404],404);
+            }else {
+                return response()->json(['data'=>$adminservlog,"message"=>"Log del servicio del administrador encontrado con éxito","code"=>200]);
+            }
+        } catch (\Throwable $th) {
+            return \Response::json(['find' => false,"message"=>$th], 404);
+        }
     }
 
     /**

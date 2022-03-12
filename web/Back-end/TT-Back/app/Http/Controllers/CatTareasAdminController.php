@@ -74,7 +74,17 @@ class CatTareasAdminController extends Controller
     public function show($id)
     {
         //
-
+        // return cat_tareas_administradores::get();
+        try { 
+            $ctareaadmin = cat_tareas_administradores::where('id_cat_tareas_administradores', '=', $id)->get();
+            if (count($ctareaadmin) == 0) {
+                return response()->json(["message"=>"Tarea en catalogo de administrador no encontrado","code"=>404],404);
+            }else {
+                return response()->json(['data'=>$ctareaadmin,"message"=>"Tarea en catalogo de administrador encontrado con éxito","code"=>200]);
+            }
+        } catch (\Throwable $th) {
+            return \Response::json(['find' => false,"message"=>$th], 404);
+        }
     }
 
     /**

@@ -58,6 +58,17 @@ class TipoAdminController extends Controller
     public function show($id)
     {
         //
+        // return tipo_admin::get();
+        try { 
+            $tadmin = tipo_admin::where('id_tipo_admin', '=', $id)->get();
+            if (count($tadmin) == 0) {
+                return response()->json(["message"=>"Tipo de administrador no encontrado","code"=>404],404);
+            }else {
+                return response()->json(['data'=>$tadmin,"message"=>"Tipo de administrador encontrado con éxito","code"=>200]);
+            }
+        } catch (\Throwable $th) {
+            return \Response::json(['find' => false,"message"=>$th], 404);
+        }
     }
 
     /**
