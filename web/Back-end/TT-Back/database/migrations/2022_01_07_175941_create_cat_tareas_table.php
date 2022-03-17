@@ -13,11 +13,17 @@ class CreateCatTareasTable extends Migration
      */
     public function up()
     {
-        Schema::create('cat_tareas', function (Blueprint $table) {
-            $table->bigIncrements('id_cat_tareas');
-            $table->string('nom_cat_tareas', 40)->comment('Nombre del catalogo de tareas');
-            $table->dateTime('fecha_insercion')->nullable()->comment('Fecha en la que se insertó al catalogo');
-            $table->dateTime('fecha_ult_mod')->nullable()->comment('Fecha en la que se modificó el catalogo por ultima vez');
+        // Schema::create('cat_tareas', function (Blueprint $table) {
+        //     $table->bigIncrements('id_cat_tareas');
+        //     $table->string('nom_cat_tareas', 40)->comment('Nombre del catalogo de tareas');
+        //     $table->dateTime('fecha_insercion')->nullable()->comment('Fecha en la que se insertó al catalogo');
+        //     $table->dateTime('fecha_ult_mod')->nullable()->comment('Fecha en la que se modificó el catalogo por ultima vez');
+        // });
+        Schema::create('Cat_tareas', function (Blueprint $table) {
+            $table->bigIncrements('Id_Cat_Tareas');
+            $table->string('Nom_Cat_Tareas', 40)->comment('Nombre del catalogo de tareas');
+            // $table->dateTime('fecha_insercion')->nullable()->comment('Fecha en la que se insertó al catalogo');
+            // $table->dateTime('fecha_ult_mod')->nullable()->comment('Fecha en la que se modificó el catalogo por ultima vez');
         });
     }
 

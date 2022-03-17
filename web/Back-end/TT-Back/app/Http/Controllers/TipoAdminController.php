@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\tipo_admin;
+use Illuminate\Support\Facades\DB;
 
 class TipoAdminController extends Controller
 {
@@ -38,8 +39,11 @@ class TipoAdminController extends Controller
         //
         try {
             //code...
+            $validated = $request->validate([
+                'Nom_Tipo_Admin' => 'required'
+            ]);
             $tipoadmins = new tipo_admin();
-            $tipoadmins->nom_tipo_admin = $request->nom_tipo_admin;
+            $tipoadmins->Nom_Tipo_Admin = $request->Nom_Tipo_Admin;
             // return $tipoadmins;
             $tipoadmins->save();
             return response()->json(['data'=>[],"message"=>"Nombre del tipo de administrador regristrado con éxito","code"=>201]);
@@ -60,7 +64,7 @@ class TipoAdminController extends Controller
         //
         // return tipo_admin::get();
         try { 
-            $tadmin = tipo_admin::where('id_tipo_admin', '=', $id)->get();
+            $tadmin = tipo_admin::where('Id_Tipo_Admin', '=', $id)->get();
             if (count($tadmin) == 0) {
                 return response()->json(["message"=>"Tipo de administrador no encontrado","code"=>404],404);
             }else {
@@ -89,9 +93,21 @@ class TipoAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        try {
+            $validated = $request->validate([
+                'Id_Tipo_Admin'=> 'required',
+                'Nom_Tipo_Admin' => 'required'
+            ]); 
+            DB::table('tipo_admin')
+            ->where('Id_Tipo_Admin', $request->Id_Tipo_Admin)
+            ->update(['Nom_Tipo_Admin' => $request->Nom_Tipo_Admin]);
+            return response()->json(['data'=>[],"message"=>"Tipo de administrador actualizado con éxito","code"=>201]);
+        } catch (\Throwable $th) {
+            return response(["message"=>"error", 'error'=>$th],422);
+        }
     }
 
     /**

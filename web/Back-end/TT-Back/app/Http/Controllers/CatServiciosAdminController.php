@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\cat_servicios_administradores;
+use App\Models\tipo_admin_cat_servicios;
+use Illuminate\Support\Facades\DB;
 
 class CatServiciosAdminController extends Controller
 {
@@ -39,18 +40,16 @@ class CatServiciosAdminController extends Controller
         // return $request;
         try {
             $validated = $request->validate([
-                'fecha_ult_mod' => 'required',
-                'status_servicios_admin' => 'required',
-                'id_administradores' => 'required',
-                'id_cat_servicios' => 'required'
+                'Id_Administrador'=> 'required',
+                'Id_Cat_Servicios'=> 'required',
+                'Fecha_Ult_Mod'=> 'required'
             ]); 
             // return $validated;
-            $catservicioadmin = new cat_servicios_administradores();
+            $catservicioadmin = new tipo_admin_cat_servicios();
             if ($catservicioadmin) {
-                $catservicioadmin->fecha_ult_mod = $request->fecha_ult_mod;
-                $catservicioadmin->status_servicios_admin = $request->status_servicios_admin;
-                $catservicioadmin->id_administradores = $request->id_administradores;
-                $catservicioadmin->id_cat_servicios = $request->id_cat_servicios;
+                $catservicioadmin->Id_Administrador = $request->Id_Administrador;
+                $catservicioadmin->Id_Cat_Servicios = $request->Id_Cat_Servicios;
+                $catservicioadmin->Fecha_Ult_Mod = $request->Fecha_Ult_Mod;
                 // return $catservicioadmin;
                 $catservicioadmin->save();
                 return response()->json(['data'=>[],"message"=>"Servicio en catálogo regristrada con éxito","code"=>201]);    
@@ -74,9 +73,9 @@ class CatServiciosAdminController extends Controller
     public function show($id)
     {
         //
-        // return cat_servicios_administradores::get();
+        // return tipo_admin_cat_servicios::get();
         try { 
-            $cservicioadmin = cat_servicios_administradores::where('id_cat_servicios_administradores', '=', $id)->get();
+            $cservicioadmin = tipo_admin_cat_servicios::where('Id_Tipo_Admin_Cat_Servicios', '=', $id)->get();
             if (count($cservicioadmin) == 0) {
                 return response()->json(["message"=>"Servicio en catalogo del administrador no encontrado","code"=>404],404);
             }else {
@@ -105,9 +104,28 @@ class CatServiciosAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        try {
+            $validated = $request->validate([
+                'Id_Tipo_Admin_Cat_Servicios'=> 'required',
+                'Id_Administrador'=> 'required',
+                'Id_Cat_Servicios'=> 'required',
+                'Fecha_Ult_Mod'=> 'required'
+            ]); 
+            DB::table('tipo_admin_cat_servicios')
+            ->where('Id_Tipo_Admin_Cat_Servicios', $request->Id_Tipo_Admin_Cat_Servicios)
+            ->update([
+                'Id_Tipo_Admin_Cat_Servicios'=>$request->Id_Tipo_Admin_Cat_Servicios,
+                'Id_Administrador'=>$request->Id_Administrador,
+                'Id_Cat_Servicios'=>$request->Id_Cat_Servicios,
+                'Fecha_Ult_Mod'=>$request->Fecha_Ult_Mod
+            ]);
+            return response()->json(['data'=>[],"message"=>"Catalogo de servicios administrador actualizado con éxito","code"=>201]);
+        } catch (\Throwable $th) {
+            return response(["message"=>"error", 'error'=>$th],422);
+        }
     }
 
     /**
@@ -122,7 +140,7 @@ class CatServiciosAdminController extends Controller
     }
     public function showall(){
         try { 
-            return cat_servicios_administradores::get();
+            return tipo_admin_cat_servicios::get();
         } catch (\Throwable $th) {
             return \Response::json(['created' => false,"message"=>$th], 422);
         }

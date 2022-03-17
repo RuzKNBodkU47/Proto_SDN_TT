@@ -72,3 +72,14 @@ Route::get('showcattareaadmin/{id}','App\Http\Controllers\CatTareasAdminControll
 Route::get('showcatservicioadmin/{id}','App\Http\Controllers\CatServiciosAdminController@show');
 Route::get('showadmintarealog/{id}','App\Http\Controllers\AdminTareasLogController@show');
 Route::get('showadminserviciolog/{id}','App\Http\Controllers\AdminServiciosLogController@show');
+
+Route::put('update','App\Http\Controllers\AdministradorController@update');
+Route::put('updatestatusa','App\Http\Controllers\StatusAdminController@update');
+Route::put('updatetipoa','App\Http\Controllers\TipoAdminController@update');
+Route::put('updatecattarea','App\Http\Controllers\CatTareasController@update');
+Route::put('updatecatservicio','App\Http\Controllers\CatServiciosController@update');
+Route::put('updatestatuslog','App\Http\Controllers\StatusLogController@update');
+Route::put('updatecattareaadmin','App\Http\Controllers\CatTareasAdminController@update');
+Route::put('updatecatservicioadmin','App\Http\Controllers\CatServiciosAdminController@update');
+Route::put('updateadmintarealog','App\Http\Controllers\AdminTareasLogController@update');
+Route::put('updateadminserviciolog','App\Http\Controllers\AdminServiciosLogController@update');

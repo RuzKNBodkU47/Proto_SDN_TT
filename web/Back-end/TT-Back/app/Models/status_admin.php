@@ -9,5 +9,5 @@ class status_admin extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = "status_admins";
+    protected $table = "status_admin";
 }

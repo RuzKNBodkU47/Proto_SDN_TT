@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\status_admin;
+use Illuminate\Support\Facades\DB;
+
 class StatusAdminController extends Controller
 {
     /**
@@ -37,11 +39,11 @@ class StatusAdminController extends Controller
         //
         try {
             $validated = $request->validate([
-                'nombre_status_admin' => 'required'
+                'Nom_Tipo_Admin' => 'required'
             ]); 
             $admins = new status_admin();
             if ($admins) {
-                $admins->nombre_status_admin = $request->nombre_status_admin;
+                $admins->Nom_Tipo_Admin = $request->Nom_Tipo_Admin;
                 // return $admins;
                 $admins->save();
                 return response()->json(['data'=>[],"message"=>"Nombre del administrador regristrado con éxito","code"=>201]);    
@@ -68,7 +70,7 @@ class StatusAdminController extends Controller
         //
         // return status_admin::get();
         try { 
-            $sadmin = status_admin::where('id_status_admin', '=', $id)->get();
+            $sadmin = status_admin::where('Id_Status_Admin', '=', $id)->get();
             if (count($sadmin) == 0) {
                 return response()->json(["message"=>"Status del administrador no encontrado","code"=>404],404);
             }else {
@@ -97,9 +99,21 @@ class StatusAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        try {
+            $validated = $request->validate([
+                'Id_Status_Admin'=>'required',
+                'Nom_Tipo_Admin' => 'required'
+            ]); 
+            DB::table('status_admin')
+            ->where('Id_Status_Admin', $request->Id_Status_Admin)
+            ->update(['Nom_Tipo_Admin' => $request->Nom_Tipo_Admin]);
+            return response()->json(['data'=>[],"message"=>"Status del administrador actualizado con éxito","code"=>201]);
+        } catch (\Throwable $th) {
+            return response(["message"=>"error", 'error'=>$th],422);
+        }
     }
 
     /**

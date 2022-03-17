@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\administrador_tareas_log;
+use App\Models\administradores_tareas_log;
+use Illuminate\Support\Facades\DB;
 
 class AdminTareasLogController extends Controller
 {
@@ -39,22 +40,26 @@ class AdminTareasLogController extends Controller
         // return $request;
         try {
             $validated = $request->validate([
-                'fecha_inicio' => 'required',
-                'fecha_fin' => 'required',
-                'local_dir_mac' => 'required',
-                'id_status_log' => 'required',
-                'id_administradores' => 'required',
-                'id_cat_tareas' => 'required'
+                'Id_Status_Log'=> 'required', 
+                'Id_Administradores'=> 'required', 
+                'Id_Cat_Tareas'=> 'required', 
+                'Ip_Dispositivo_Orig'=> 'required', 
+                'MAC_Dispositivo_Orig'=> 'required', 
+                'Id_Admin_Obj'=> 'required', 
+                'Fecha_Init_Serv'=> 'required',
+                'Fecha_Fin_Serv'=> 'required'
             ]); 
             // return $validated;
-            $admintareaslog = new administrador_tareas_log();
+            $admintareaslog = new administradores_tareas_log();
             if ($admintareaslog) {
-                $admintareaslog->fecha_inicio = $request->fecha_inicio;
-                $admintareaslog->fecha_fin = $request->fecha_fin;
-                $admintareaslog->local_dir_mac = $request->local_dir_mac;
-                $admintareaslog->id_status_log = $request->id_status_log;
-                $admintareaslog->id_administradores = $request->id_administradores;
-                $admintareaslog->id_cat_tareas = $request->id_cat_tareas;
+                $admintareaslog->Id_Status_Log = $request->Id_Status_Log;
+                $admintareaslog->Id_Administradores = $request->Id_Administradores;
+                $admintareaslog->Id_Cat_Tareas = $request->Id_Cat_Tareas;
+                $admintareaslog->Ip_Dispositivo_Orig = $request->Ip_Dispositivo_Orig;
+                $admintareaslog->MAC_Dispositivo_Orig = $request->MAC_Dispositivo_Orig;
+                $admintareaslog->Id_Admin_Obj = $request->Id_Admin_Obj;
+                $admintareaslog->Fecha_Init_Serv = $request->Fecha_Init_Serv;
+                $admintareaslog->Fecha_Fin_Serv = $request->Fecha_Fin_Serv;
                 // return $admintareaslog;
                 $admintareaslog->save();
                 return response()->json(['data'=>[],"message"=>"Tarea log regristrada con éxito","code"=>201]);    
@@ -79,9 +84,9 @@ class AdminTareasLogController extends Controller
     public function show($id)
     {
         //
-        // return administrador_tareas_log::get();
+        // return administradores_tareas_log::get();
         try { 
-            $admintareaslog = administrador_tareas_log::where('id_administrador_tareas_logs', '=', $id)->get();
+            $admintareaslog = administradores_tareas_log::where('Id_Administradores_Tareas_Log', '=', $id)->get();
             if (count($admintareaslog) == 0) {
                 return response()->json(["message"=>"Log de la tarea del administrador no encontrado","code"=>404],404);
             }else {
@@ -110,9 +115,37 @@ class AdminTareasLogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        try {
+            $validated = $request->validate([
+                'Id_Administradores_Tareas_Log'=> 'required',
+                'Id_Status_Log'=> 'required', 
+                'Id_Administradores'=> 'required', 
+                'Id_Cat_Tareas'=> 'required', 
+                'Ip_Dispositivo_Orig'=> 'required', 
+                'MAC_Dispositivo_Orig'=> 'required', 
+                'Id_Admin_Obj'=> 'required', 
+                'Fecha_Init_Serv'=> 'required',
+                'Fecha_Fin_Serv'=> 'required'
+            ]); 
+            DB::table('administradores_tareas_log')
+            ->where('Id_Administradores_Tareas_Log', $request->Id_Administradores_Tareas_Log)
+            ->update([
+                'Id_Status_Log'=>$request->Id_Status_Log,
+                'Id_Administradores'=>$request->Id_Administradores,
+                'Id_Cat_Tareas'=>$request->Id_Cat_Tareas,
+                'Ip_Dispositivo_Orig'=>$request->Ip_Dispositivo_Orig,
+                'MAC_Dispositivo_Orig'=>$request->MAC_Dispositivo_Orig,
+                'Id_Admin_Obj'=>$request->Id_Admin_Obj,
+                'Fecha_Init_Serv'=>$request->Fecha_Init_Serv,
+                'Fecha_Fin_Serv'=>$request->Fecha_Fin_Serv
+            ]);
+            return response()->json(['data'=>[],"message"=>"Log del administrador de tareas actualizado con éxito","code"=>201]);
+        } catch (\Throwable $th) {
+            return response(["message"=>"error", 'error'=>$th],422);
+        }
     }
 
     /**
@@ -127,7 +160,7 @@ class AdminTareasLogController extends Controller
     }
     public function showall(){
         try { 
-            return administrador_tareas_log::get();
+            return administradores_tareas_log::get();
         } catch (\Throwable $th) {
             return \Response::json(['created' => false,"message"=>$th], 422);
         }

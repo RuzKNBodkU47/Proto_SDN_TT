@@ -13,9 +13,13 @@ class CreateTipoAdminsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_admins', function (Blueprint $table) {
-            $table->bigIncrements('id_tipo_admin');
-            $table->string('nom_tipo_admin', 40)->comment('Nombre del tipo de admin');
+        // Schema::create('tipo_admins', function (Blueprint $table) {
+        //     $table->bigIncrements('id_tipo_admin');
+        //     $table->string('nom_tipo_admin', 40)->comment('Nombre del tipo de admin');
+        // });
+        Schema::create('Tipo_admin', function (Blueprint $table) {
+            $table->bigIncrements('Id_Tipo_Admin');
+            $table->string('Nom_Tipo_Admin', 60)->comment('Nombre del tipo de admin');
         });
     }
 

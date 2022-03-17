@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\GuardarAdministradorRequest;
 use App\Models\administradores;
+use Illuminate\Support\Facades\DB;
 
 class AdministradorController extends Controller
 {
@@ -36,25 +37,29 @@ class AdministradorController extends Controller
      */
     public function store(Request $request)
     {
-        // $validated = $request->validate([
-        //     'nombre_administrador' => 'required',
-        //     'apellido_p_administrador' => 'required',
-        //     'apellido_m_administrador' => 'required',
-        //     'nombre_usuario' => 'required',
-        //     'password_hash' => 'required',
-        //     // 'id_status_admin' => 'required',
-        //     // 'id_tipo_admin' => 'required'
-        // ]);
+        $validated = $request->validate([
+            'Id_Status_Admin'=>'required', 
+            'Id_Tipo_Admin'=>'required', 
+            'Nombre_Admin'=>'required',
+            'Apellido_P_Admin'=>'required',
+            'Apellido_M_Admin'=>'required',
+            'Fecha_ingreso'=>'required',
+            'Nombre_Usuario'=>'required', 
+            'Password_Hash'=>'required', 
+            'Fecha_Ultimo_Cambio_Pass'=>'required', 
+            'Cant_dias_limit'=>'required'
+        ]);
         $admin = new administradores();
-        $admin->nombre_administrador = $request->nombre_administrador;
-        $admin->apellido_p_administrador = $request->apellido_p_administrador;
-        $admin->apellido_m_administrador = $request->apellido_m_administrador;
-        $admin->nombre_usuario = $request->nombre_usuario;
-        $admin->password_hash = bcrypt($request->password_hash);
-        $admin->fecha_ingreso = date("Y-m-d H:i:s");
-        $admin->fecha_ult_cambio_pass = $request->fecha_ult_cambio_pass;
-        $admin->id_status_admin = $request->id_status_admin;
-        $admin->id_tipo_admin = $request->id_tipo_admin;
+        $admin->Id_Status_Admin = $request->Id_Status_Admin;
+        $admin->Id_Tipo_Admin = $request->Id_Tipo_Admin;
+        $admin->Nombre_Admin = $request->Nombre_Admin;
+        $admin->Apellido_P_Admin = $request->Apellido_P_Admin;
+        $admin->Apellido_M_Admin = $request->Apellido_M_Admin;
+        $admin->Fecha_ingreso = date("Y-m-d H:i:s");
+        $admin->Nombre_Usuario = $request->Nombre_Usuario;
+        $admin->Password_Hash = bcrypt($request->Password_Hash);
+        $admin->Fecha_Ultimo_Cambio_Pass = $request->Fecha_Ultimo_Cambio_Pass;
+        $admin->Cant_dias_limit = $request->Cant_dias_limit;
         $admin->save();
         return response()->json(['data'=>[],"message"=>"Administrador regristrado con éxito","code"=>201]);
         
@@ -76,7 +81,7 @@ class AdministradorController extends Controller
     {
         //
         try { 
-            $admin = administradores::where('id_administradores', '=', $id)->get();
+            $admin = administradores::where('Id_Administradores', '=', $id)->get();
             if (count($admin) == 0) {
                 return response()->json(["message"=>"Administrador no encontrado","code"=>404],404);
             }else {
@@ -105,9 +110,41 @@ class AdministradorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        try {
+            $validated = $request->validate([
+                'Id_Administradores'=>'required',
+                'Id_Status_Admin'=>'required', 
+                'Id_Tipo_Admin'=>'required', 
+                'Nombre_Admin'=>'required',
+                'Apellido_P_Admin'=>'required',
+                'Apellido_M_Admin'=>'required',
+                'Fecha_ingreso'=>'required',
+                'Nombre_Usuario'=>'required', 
+                'Password_Hash'=>'required', 
+                'Fecha_Ultimo_Cambio_Pass'=>'required', 
+                'Cant_dias_limit'=>'required'
+            ]); 
+            DB::table('administradores')
+            ->where('Id_Administradores', $request->Id_Administradores)
+            ->update([
+                'Id_Status_Admin'=>$request->Id_Status_Admin, 
+                'Id_Tipo_Admin'=>$request->Id_Tipo_Admin, 
+                'Nombre_Admin'=>$request->Nombre_Admin,
+                'Apellido_P_Admin'=>$request->Apellido_P_Admin,
+                'Apellido_M_Admin'=>$request->Apellido_M_Admin,
+                'Fecha_ingreso'=>$request->Fecha_ingreso,
+                'Nombre_Usuario'=>$request->Nombre_Usuario, 
+                'Password_Hash'=>$request->Password_Hash, 
+                'Fecha_Ultimo_Cambio_Pass'=>$request->Fecha_Ultimo_Cambio_Pass, 
+                'Cant_dias_limit'=>$request->Cant_dias_limit
+            ]);
+            return response()->json(['data'=>[],"message"=>"Administrador actualizado con éxito","code"=>201]);
+        } catch (\Throwable $th) {
+            return response(["message"=>"error", 'error'=>$th],422);
+        }
     }
 
     /**

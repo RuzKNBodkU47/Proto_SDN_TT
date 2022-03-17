@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\status_log;
+use Illuminate\Support\Facades\DB;
 
 class StatusLogController extends Controller
 {
@@ -39,12 +40,12 @@ class StatusLogController extends Controller
         try {
             // return $request;
             $validated = $request->validate([
-                'nom_status_log' => 'required'
+                'Nom_Status_Log' => 'required'
             ]); 
             // return $validated;
             $status_log = new status_log();
             if ($status_log) {
-                $status_log->nom_status_log = $request->nom_status_log;
+                $status_log->Nom_Status_Log = $request->Nom_Status_Log;
                 // return $status_log;
                 $status_log->save();
                 return response()->json(['data'=>[],"message"=>"Nombre del administrador regristrado con éxito","code"=>201]);    
@@ -70,7 +71,7 @@ class StatusLogController extends Controller
         //
         // return status_log::get();
         try { 
-            $slog = status_log::where('id_status_log', '=', $id)->get();
+            $slog = status_log::where('Id_Status_Log', '=', $id)->get();
             if (count($slog) == 0) {
                 return response()->json(["message"=>"Status no encontrado","code"=>404],404);
             }else {
@@ -99,9 +100,21 @@ class StatusLogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        try {
+            $validated = $request->validate([
+                'Id_Status_Log'=>'required',
+                'Nom_Status_Log' => 'required'
+            ]); 
+            DB::table('status_log')
+            ->where('Id_Status_Log', $request->Id_Status_Log)
+            ->update(['Nom_Status_Log' => $request->Nom_Status_Log]);
+            return response()->json(['data'=>[],"message"=>"Status Log actualizado con éxito","code"=>201]);
+        } catch (\Throwable $th) {
+            return response(["message"=>"error", 'error'=>$th],422);
+        }
     }
 
     /**

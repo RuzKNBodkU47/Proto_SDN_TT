@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\cat_tareas_administradores;
+use App\Models\tipo_admin_cat_tareas;
+use Illuminate\Support\Facades\DB;
 
 class CatTareasAdminController extends Controller
 {
@@ -39,18 +40,16 @@ class CatTareasAdminController extends Controller
         // return $request;
         try {
             $validated = $request->validate([
-                'fecha_ult_mod' => 'required',
-                'status_servicios_admin' => 'required',
-                'id_administradores' => 'required',
-                'id_cat_tareas' => 'required'
+                'Id_Administrador'=> 'required',
+                'Id_Cat_Tareas'=> 'required',
+                'Fecha_Ult_Mod'=> 'required'
             ]); 
             // return $validated;
-            $cattareasadmin = new cat_tareas_administradores();
+            $cattareasadmin = new tipo_admin_cat_tareas();
             if ($cattareasadmin) {
-                $cattareasadmin->fecha_ult_mod = $request->fecha_ult_mod;
-                $cattareasadmin->status_servicios_admin = $request->status_servicios_admin;
-                $cattareasadmin->id_administradores = $request->id_administradores;
-                $cattareasadmin->id_cat_tareas = $request->id_cat_tareas;
+                $cattareasadmin->Id_Administrador = $request->Id_Administrador;
+                $cattareasadmin->Id_Cat_Tareas = $request->Id_Cat_Tareas;
+                $cattareasadmin->Fecha_Ult_Mod = $request->Fecha_Ult_Mod;
                 // return $cattareasadmin;
                 $cattareasadmin->save();
                 return response()->json(['data'=>[],"message"=>"Tarea en catálogo regristrada con éxito","code"=>201]);    
@@ -74,9 +73,9 @@ class CatTareasAdminController extends Controller
     public function show($id)
     {
         //
-        // return cat_tareas_administradores::get();
+        // return tipo_admin_cat_tareas::get();
         try { 
-            $ctareaadmin = cat_tareas_administradores::where('id_cat_tareas_administradores', '=', $id)->get();
+            $ctareaadmin = tipo_admin_cat_tareas::where('Id_Tipo_Admin_Cat_Tareas', '=', $id)->get();
             if (count($ctareaadmin) == 0) {
                 return response()->json(["message"=>"Tarea en catalogo de administrador no encontrado","code"=>404],404);
             }else {
@@ -105,9 +104,27 @@ class CatTareasAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        try {
+            $validated = $request->validate([
+                'Id_Tipo_Admin_Cat_Tareas'=> 'required',
+                'Id_Administrador'=> 'required',
+                'Id_Cat_Tareas'=> 'required',
+                'Fecha_Ult_Mod'=> 'required'
+            ]); 
+            DB::table('tipo_admin_cat_tareas')
+            ->where('Id_Tipo_Admin_Cat_Tareas', $request->Id_Tipo_Admin_Cat_Tareas)
+            ->update([
+                'Id_Administrador'=>$request->Id_Administrador,
+                'Id_Cat_Tareas'=>$request->Id_Cat_Tareas,
+                'Fecha_Ult_Mod'=>$request->Fecha_Ult_Mod
+            ]);
+            return response()->json(['data'=>[],"message"=>"Catalogo de tareas del aministrador actualizado con éxito","code"=>201]);
+        } catch (\Throwable $th) {
+            return response(["message"=>"error", 'error'=>$th],422);
+        }
     }
 
     /**
@@ -122,7 +139,7 @@ class CatTareasAdminController extends Controller
     }
     public function showall(){
         try { 
-            return cat_tareas_administradores::get();
+            return tipo_admin_cat_tareas::get();
         } catch (\Throwable $th) {
             return \Response::json(['created' => false,"message"=>$th], 422);
         }

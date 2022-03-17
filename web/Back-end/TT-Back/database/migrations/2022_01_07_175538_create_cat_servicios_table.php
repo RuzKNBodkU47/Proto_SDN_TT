@@ -13,11 +13,17 @@ class CreateCatServiciosTable extends Migration
      */
     public function up()
     {
-        Schema::create('cat_servicios', function (Blueprint $table) {
-            $table->bigIncrements('id_cat_servicios');
-            $table->string('nom_cat_servicios', 40)->comment('Nombre del catalogo de servicios');
-            $table->dateTime('fecha_insercion')->nullable()->comment('Fecha en la que se insertó al catalogo');
-            $table->dateTime('fecha_ult_mod')->nullable()->comment('Fecha en la que se modificó el catalogo por ultima vez');
+        // Schema::create('cat_servicios', function (Blueprint $table) {
+        //     $table->bigIncrements('id_cat_servicios');
+        //     $table->string('nom_cat_servicios', 40)->comment('Nombre del catalogo de servicios');
+        //     $table->dateTime('fecha_insercion')->nullable()->comment('Fecha en la que se insertó al catalogo');
+        //     $table->dateTime('fecha_ult_mod')->nullable()->comment('Fecha en la que se modificó el catalogo por ultima vez');
+        // });
+        Schema::create('Cat_Servicios', function (Blueprint $table) {
+            $table->bigIncrements('Id_Cat_Servicios');
+            $table->string('Nom_Cat_Servicios', 60)->comment('Nombre del catalogo de servicios');
+            // $table->string('fecha_insercion')->nullable()->comment('Fecha en la que se insertó al catalogo');
+            // $table->string('fecha_ult_mod')->nullable()->comment('Fecha en la que se modificó el catalogo por ultima vez');
         });
     }
 

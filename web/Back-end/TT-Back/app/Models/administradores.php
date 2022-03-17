@@ -13,11 +13,11 @@ class administradores extends Model
 
     // Todos los campos que se les permiten asignar masivamente
     protected $fillable = [
-        'nombre_administrador',
-        'apellido_p_administrador',
-        'apellido_m_administrador',
-        'nombre_usuario',
-        'password_hash',
+        // 'nombre_administrador',
+        // 'apellido_p_administrador',
+        // 'apellido_m_administrador',
+        // 'nombre_usuario',
+        // 'password_hash',
         
         // Campos que deben ir, por ejemplo 'nombre', 'apellidos'
     ];

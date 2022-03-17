@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class administrador_tareas_log extends Model
+class tipo_admin_cat_servicios extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'administrador_tareas_logs';
+    protected $table = 'tipo_admin_cat_servicios';
 }

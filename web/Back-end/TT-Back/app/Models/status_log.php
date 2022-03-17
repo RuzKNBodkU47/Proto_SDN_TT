@@ -9,5 +9,5 @@ class status_log extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'status_logs';
+    protected $table = 'status_log';
 }

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\administrador_servicios_log;
+use App\Models\administradores_servicios_log;
+use Illuminate\Support\Facades\DB;
 
 class AdminServiciosLogController extends Controller
 {
@@ -39,26 +40,30 @@ class AdminServiciosLogController extends Controller
         // return $request;
         try {
             $validated = $request->validate([
-                'ip_dispositivo_ant' => 'required',
-                'ip_dispositivo_desp' => 'required',
-                'fecha_inicio' => 'required',
-                'fecha_fin' => 'required',
-                'local_dir_mac' => 'required',
-                'id_status_log' => 'required',
-                'id_administradores' => 'required',
-                'id_cat_servicios' => 'required'
+                'Id_Status_Log' => 'required',
+                'Id_Administradores' => 'required',
+                'Id_Cat_Servicios' => 'required',
+                'Ip_Dispositivo_Orig'=>'required',
+                'MAC_Dispositivo_orig'=>'required',
+                'Ip_Dispositivo_Ant' => 'required',
+                'Ip_Dispositivo_Desp' => 'required',
+                'Dir_MAC_Disp_Fin' => 'required',
+                'Fecha_Init_Serv' => 'required',
+                'Fecha_Fin_Serv' => 'required',
             ]); 
             // return $validated;
-            $adminserviciolog = new administrador_servicios_log();
+            $adminserviciolog = new administradores_servicios_log();
             if ($adminserviciolog) {
-                $adminserviciolog->ip_dispositivo_ant = $request->ip_dispositivo_ant;
-                $adminserviciolog->ip_dispositivo_desp = $request->ip_dispositivo_desp;
-                $adminserviciolog->fecha_inicio = $request->fecha_inicio;
-                $adminserviciolog->fecha_fin = $request->fecha_fin;
-                $adminserviciolog->local_dir_mac = $request->local_dir_mac;
-                $adminserviciolog->id_status_log = $request->id_status_log;
-                $adminserviciolog->id_administradores = $request->id_administradores;
-                $adminserviciolog->id_cat_servicios = $request->id_cat_servicios;
+                $adminserviciolog->Id_Status_Log = $request->Id_Status_Log;
+                $adminserviciolog->Id_Administradores = $request->Id_Administradores;
+                $adminserviciolog->Id_Cat_Servicios = $request->Id_Cat_Servicios;
+                $adminserviciolog->Ip_Dispositivo_Orig = $request->Ip_Dispositivo_Orig;
+                $adminserviciolog->MAC_Dispositivo_orig = $request->MAC_Dispositivo_orig;
+                $adminserviciolog->Ip_Dispositivo_Ant = $request->Ip_Dispositivo_Ant;
+                $adminserviciolog->Ip_Dispositivo_Desp = $request->Ip_Dispositivo_Desp;
+                $adminserviciolog->Dir_MAC_Disp_Fin = $request->Dir_MAC_Disp_Fin;
+                $adminserviciolog->Fecha_Init_Serv = $request->Fecha_Init_Serv;
+                $adminserviciolog->Fecha_Fin_Serv = $request->Fecha_Fin_Serv;
                 // return $adminserviciolog;
                 $adminserviciolog->save();
                 return response()->json(['data'=>[],"message"=>"Servicio log regristrada con éxito","code"=>201]);    
@@ -83,9 +88,9 @@ class AdminServiciosLogController extends Controller
     public function show($id)
     {
         //
-        // return administrador_servicios_log::get();
+        // return administradores_servicios_log::get();
         try { 
-            $adminservlog = administrador_servicios_log::where('id_administrador_servicios_logs', '=', $id)->get();
+            $adminservlog = administradores_servicios_log::where('Id_Administradores_Servicios_Log', '=', $id)->get();
             if (count($adminservlog) == 0) {
                 return response()->json(["message"=>"Log del servicio del administrador no encontrado","code"=>404],404);
             }else {
@@ -114,9 +119,41 @@ class AdminServiciosLogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        try {
+            $validated = $request->validate([
+                'Id_Administradores_Servicios_Log'=> 'required',
+                'Id_Status_Log' => 'required',
+                'Id_Administradores' => 'required',
+                'Id_Cat_Servicios' => 'required',
+                'Ip_Dispositivo_Orig'=>'required',
+                'MAC_Dispositivo_orig'=>'required',
+                'Ip_Dispositivo_Ant' => 'required',
+                'Ip_Dispositivo_Desp' => 'required',
+                'Dir_MAC_Disp_Fin' => 'required',
+                'Fecha_Init_Serv' => 'required',
+                'Fecha_Fin_Serv' => 'required',
+            ]); 
+            DB::table('administradores_servicios_log')
+            ->where('Id_Administradores_Servicios_Log', $request->Id_Administradores_Servicios_Log)
+            ->update([
+                'Id_Status_Log'=>$request->Id_Status_Log,
+                'Id_Administradores'=>$request->Id_Administradores,
+                'Id_Cat_Servicios'=>$request->Id_Cat_Servicios,
+                'Ip_Dispositivo_Orig'=>$request->Ip_Dispositivo_Orig,
+                'MAC_Dispositivo_orig'=>$request->MAC_Dispositivo_orig,
+                'Ip_Dispositivo_Ant'=>$request->Ip_Dispositivo_Ant,
+                'Ip_Dispositivo_Desp'=>$request->Ip_Dispositivo_Desp,
+                'Dir_MAC_Disp_Fin'=>$request->Dir_MAC_Disp_Fin,
+                'Fecha_Init_Serv'=>$request->Fecha_Init_Serv,
+                'Fecha_Fin_Serv'=>$request->Fecha_Fin_Serv
+            ]);
+            return response()->json(['data'=>[],"message"=>"Log del administrador de servicio actualizado con éxito","code"=>201]);
+        } catch (\Throwable $th) {
+            return response(["message"=>"error", 'error'=>$th],422);
+        }
     }
 
     /**
@@ -131,7 +168,7 @@ class AdminServiciosLogController extends Controller
     }
     public function showall(){
         try { 
-            return administrador_servicios_log::get();
+            return administradores_servicios_log::get();
         } catch (\Throwable $th) {
             return \Response::json(['created' => false,"message"=>$th], 422);
         }

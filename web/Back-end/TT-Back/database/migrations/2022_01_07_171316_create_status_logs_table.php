@@ -13,9 +13,13 @@ class CreateStatusLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('status_logs', function (Blueprint $table) {
-            $table->bigIncrements('id_status_log');
-            $table->string('nom_status_log', 40)->comment('Nombre del log');
+        // Schema::create('status_logs', function (Blueprint $table) {
+        //     $table->bigIncrements('id_status_log');
+        //     $table->string('nom_status_log', 40)->comment('Nombre del log');
+        // });
+        Schema::create('Status_log', function (Blueprint $table) {
+            $table->bigIncrements('Id_Status_Log');
+            $table->string('Nom_Status_Log', 60)->comment('Nombre del log');
         });
     }
 

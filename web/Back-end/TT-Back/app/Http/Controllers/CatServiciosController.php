@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\cat_servicios;
+use Illuminate\Support\Facades\DB;
 
 class CatServiciosController extends Controller
 {
@@ -39,16 +40,16 @@ class CatServiciosController extends Controller
         // return $request;
         try {
             $validated = $request->validate([
-                'nom_cat_servicios' => 'required'
+                'Nom_Cat_Servicios' => 'required'
                 // 'fecha_insercion' => 'required',
                 // 'fecha_ult_mod' => 'required'
             ]); 
             // return $validated;
             $catservicio = new cat_servicios();
             if ($catservicio) {
-                $catservicio->nom_cat_servicios = $request->nom_cat_servicios;
-                $catservicio->fecha_insercion = date("Y-m-d H:i:s");;
-                $catservicio->fecha_ult_mod = date("Y-m-d H:i:s");;
+                $catservicio->Nom_Cat_Servicios = $request->Nom_Cat_Servicios;
+                // $catservicio->fecha_insercion = date("Y-m-d H:i:s");
+                // $catservicio->fecha_ult_mod = date("Y-m-d H:i:s");
                 // return $catservicio;
                 $catservicio->save();
                 return response()->json(['data'=>[],"message"=>"Servicio en catálogo regristrada con éxito","code"=>201]);    
@@ -74,7 +75,7 @@ class CatServiciosController extends Controller
         //
         // return cat_servicios::get();
         try { 
-            $cservicio = cat_servicios::where('id_cat_servicios', '=', $id)->get();
+            $cservicio = cat_servicios::where('Id_Cat_Servicios', '=', $id)->get();
             if (count($cservicio) == 0) {
                 return response()->json(["message"=>"Servicio en catalogo no encontrado","code"=>404],404);
             }else {
@@ -103,9 +104,21 @@ class CatServiciosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        try {
+            $validated = $request->validate([
+                'Id_Cat_Servicios'=>'required',
+                'Nom_Cat_Servicios' => 'required'
+            ]); 
+            DB::table('cat_servicios')
+            ->where('Id_Cat_Servicios', $request->Id_Cat_Servicios)
+            ->update(['Nom_Cat_Servicios' => $request->Nom_Cat_Servicios]);
+            return response()->json(['data'=>[],"message"=>"Catalogo de servicios actualizado con éxito","code"=>201]);
+        } catch (\Throwable $th) {
+            return response(["message"=>"error", 'error'=>$th],422);
+        }
     }
 
     /**

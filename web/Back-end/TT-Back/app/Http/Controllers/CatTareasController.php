@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\cat_tareas;
+use Illuminate\Support\Facades\DB;
 
 class CatTareasController extends Controller
 {
@@ -40,16 +41,16 @@ class CatTareasController extends Controller
         // return $request;
         try {
             $validated = $request->validate([
-                'nom_cat_tareas' => 'required'
+                'Nom_Cat_Tareas' => 'required'
                 // 'fecha_insercion' => 'required',
                 // 'fecha_ult_mod' => 'required'
             ]); 
             // return $validated;
             $cattarea = new cat_tareas();
             if ($cattarea) {
-                $cattarea->nom_cat_tareas = $request->nom_cat_tareas;
-                $cattarea->fecha_insercion = date("Y-m-d H:i:s");;
-                $cattarea->fecha_ult_mod = date("Y-m-d H:i:s");;
+                $cattarea->Nom_Cat_Tareas = $request->Nom_Cat_Tareas;
+                // $cattarea->fecha_insercion = date("Y-m-d H:i:s");
+                // $cattarea->fecha_ult_mod = date("Y-m-d H:i:s");
                 // return $cattarea;
                 $cattarea->save();
                 return response()->json(['data'=>[],"message"=>"Tarea en catálogo regristrada con éxito","code"=>201]);    
@@ -75,7 +76,7 @@ class CatTareasController extends Controller
         //
         // return cat_tareas::get();
         try { 
-            $ctarea = cat_tareas::where('id_cat_tareas', '=', $id)->get();
+            $ctarea = cat_tareas::where('Id_Cat_Tareas', '=', $id)->get();
             if (count($ctarea) == 0) {
                 return response()->json(["message"=>"Tarea en catalogo no encontrado","code"=>404],404);
             }else {
@@ -104,9 +105,23 @@ class CatTareasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        try {
+            $validated = $request->validate([
+                'Id_Cat_Tareas'=> 'required',
+                'Nom_Cat_Tareas'=> 'required',
+            ]); 
+            DB::table('cat_tareas')
+            ->where('Id_Cat_Tareas', $request->Id_Cat_Tareas)
+            ->update([
+                'Nom_Cat_Tareas'=>$request->Nom_Cat_Tareas,
+            ]);
+            return response()->json(['data'=>[],"message"=>"Catalogo de tareas actualizado con éxito","code"=>201]);
+        } catch (\Throwable $th) {
+            return response(["message"=>"error", 'error'=>$th],422);
+        }
     }
 
     /**
