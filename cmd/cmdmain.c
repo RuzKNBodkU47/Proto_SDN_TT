@@ -64,7 +64,7 @@ int InsertAdmin(int StatusAdmin, int TipAdmin , char* NomAdmin, char* ApPat, cha
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"INSERT INTO Administradores(%s) VALUES(%d,%d,'%s','%s','%s','%s','%s','%s','%s',%d);",CamposAdministradores,StatusAdmin,TipAdmin,NomAdmin,ApPat,ApMat,FechaIng,NomUser,Pass,FechaUlt,cantdias);
+    sprintf(consulta,"INSERT INTO administradores(%s) VALUES(%d,%d,'%s','%s','%s','%s','%s','%s','%s',%d);",CamposAdministradores,StatusAdmin,TipAdmin,NomAdmin,ApPat,ApMat,FechaIng,NomUser,Pass,FechaUlt,cantdias);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -90,7 +90,7 @@ int BuscarUsuario(char *user)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;  
-    sprintf(consulta,"SELECT Nombre_Usuario FROM Administradores WHERE Nombre_Usuario='%s';",user);
+    sprintf(consulta,"SELECT Nombre_Usuario FROM administradores WHERE Nombre_Usuario='%s';",user);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -133,7 +133,7 @@ int BuscarPass(char *user,char* pass)
     if(consulta==NULL)
         return -1;
     
-    sprintf(consulta,"SELECT Password_Hash FROM Administradores WHERE Nombre_Usuario='%s';",user);
+    sprintf(consulta,"SELECT Password_Hash FROM administradores WHERE Nombre_Usuario='%s';",user);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -172,7 +172,7 @@ int ObtenerIdUser(char *nomuser)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"SELECT Id_Administradores FROM Administradores WHERE Nombre_Usuario='%s';",nomuser);
+    sprintf(consulta,"SELECT Id_Administradores FROM administradores WHERE Nombre_Usuario='%s';",nomuser);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -207,7 +207,7 @@ int BuscarPermUsers(int id)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"SELECT Id_Tipo_Admin FROM Administradores WHERE Id_Administradores=%d;",id);
+    sprintf(consulta,"SELECT Id_Tipo_Admin FROM administradores WHERE Id_Administradores=%d;",id);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -244,7 +244,7 @@ int insert_login(char* Fecha,int id)
         return -1;
     IP=ObtIp();
     MAC=ObtMAC();
-    sprintf(consulta,"INSERT INTO Administradores_Tareas_Log(%s) VALUES(%d,%d,%d,'%s','%s',%d,'%s','%s');",CamposAdministradoresTareaslog,3,id,1,IP,MAC,id,Fecha,Fecha);
+    sprintf(consulta,"INSERT INTO administradores_tareas_log(%s) VALUES(%d,%d,%d,'%s','%s',%d,'%s','%s');",CamposAdministradoresTareaslog,3,id,1,IP,MAC,id,Fecha,Fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -271,7 +271,7 @@ int insert_logout(char* Fecha,int id)
         return -1;
     IP=ObtIp();
     MAC=ObtMAC();
-    sprintf(consulta,"INSERT INTO Administradores_Tareas_Log(%s) VALUES(%d,%d,%d,'%s','%s',%d,'%s','%s');",CamposAdministradoresTareaslog,3,id,2,IP,MAC,id,Fecha,Fecha);
+    sprintf(consulta,"INSERT INTO administradores_tareas_log(%s) VALUES(%d,%d,%d,'%s','%s',%d,'%s','%s');",CamposAdministradoresTareaslog,3,id,2,IP,MAC,id,Fecha,Fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -298,7 +298,7 @@ int insert_log_user1(int id,char*Fecha)
         return -1;
     IP=ObtIp();
     MAC=ObtMAC();
-    sprintf(consulta,"INSERT INTO Administradores_Tareas_Log(%s) VALUES(%d,%d,%d,'%s','%s',%d,'%s','%s');",CamposAdministradoresTareaslog,3,id,4,IP,MAC,id,Fecha,Fecha);
+    sprintf(consulta,"INSERT INTO administradores_tareas_log(%s) VALUES(%d,%d,%d,'%s','%s',%d,'%s','%s');",CamposAdministradoresTareaslog,3,id,4,IP,MAC,id,Fecha,Fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -325,7 +325,7 @@ int insert_log_Euser1(int id,char*Fecha)
         return -1;
     IP=ObtIp();
     MAC=ObtMAC();
-    sprintf(consulta,"INSERT INTO Administradores_Tareas_Log(%s) VALUES(%d,%d,%d,'%s','%s',%d,'%s','%s');",CamposAdministradoresTareaslog,2,id,4,IP,MAC,id,Fecha,Fecha);
+    sprintf(consulta,"INSERT INTO administradores_tareas_log(%s) VALUES(%d,%d,%d,'%s','%s',%d,'%s','%s');",CamposAdministradoresTareaslog,2,id,4,IP,MAC,id,Fecha,Fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -346,7 +346,7 @@ int imprimir_infouser(char * nomuser)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"SELECT %s FROM Administradores WHERE Nombre_Usuario='%s';",CamposAdministradores,nomuser);
+    sprintf(consulta,"SELECT %s FROM administradores WHERE Nombre_Usuario='%s';",CamposAdministradores,nomuser);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -393,7 +393,7 @@ int imprimir_permisotareas(char * nomuser)
         return -1;
     int id_user= ObtenerIdUser(nomuser);
     //printf("\nid del usuario: %d",id_user);
-    sprintf(consulta,"SELECT %s FROM Tipo_Admin_Cat_Tareas WHERE Id_Administrador=%d;",CamposTipoAdminCatTareas,id_user);
+    sprintf(consulta,"SELECT %s FROM tipo_admin_cat_Tareas WHERE Id_Administrador=%d;",CamposTipoAdminCatTareas,id_user);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -435,7 +435,7 @@ int imprimir_permisoServicios(char * nomuser)
         return -1;
     int id_user= ObtenerIdUser(nomuser);
     //printf("\nid del usuario: %d",id_user);
-    sprintf(consulta,"SELECT %s FROM Tipo_Admin_Cat_Servicios WHERE Id_Administrador=%d;",CamposTipoAdminCatServicios,id_user);
+    sprintf(consulta,"SELECT %s FROM tipo_admin_cat_servicios WHERE Id_Administrador=%d;",CamposTipoAdminCatServicios,id_user);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -473,7 +473,7 @@ int InsertarPermisosAgregarAdmin(int iduser,char* Fecha)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,iduser,4,Fecha);
+    sprintf(consulta,"INSERT INTO tipo_admin_cat_tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,iduser,4,Fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -496,7 +496,7 @@ int InsertarPermisosModifAdmin(int iduser,char* Fecha)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,iduser,5,Fecha);
+    sprintf(consulta,"INSERT INTO tipo_admin_cat_tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,iduser,5,Fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -519,7 +519,7 @@ int InsertarPermisosElimAdmin(int iduser,char* Fecha)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,iduser,6,Fecha);
+    sprintf(consulta,"INSERT INTO tipo_admin_cat_tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,iduser,6,Fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -542,7 +542,7 @@ int InsertarPermisosAgrgAdmin(int iduser,char* Fecha)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,iduser,8,Fecha);
+    sprintf(consulta,"INSERT INTO tipo_admin_cat_tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,iduser,8,Fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -565,7 +565,7 @@ int InsertarPermisosElimAgrgAdmin(int iduser,char* Fecha)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,iduser,7,Fecha);
+    sprintf(consulta,"INSERT INTO tipo_admin_cat_tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,iduser,7,Fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -588,7 +588,7 @@ int InsertarPermisosServMonit(int iduser,char* Fecha)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Servicios(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatServicios,iduser,1,Fecha);
+    sprintf(consulta,"INSERT INTO tipo_admin_cat_servicios(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatServicios,iduser,1,Fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -611,7 +611,7 @@ int InsertarPermisosServRouter(int iduser,char* Fecha)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Servicios(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatServicios,iduser,2,Fecha);
+    sprintf(consulta,"INSERT INTO tipo_admin_cat_servicios(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatServicios,iduser,2,Fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -634,7 +634,7 @@ int InsertarPermisosServSwitch(int iduser,char* Fecha)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Servicios(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatServicios,iduser,3,Fecha);
+    sprintf(consulta,"INSERT INTO tipo_admin_cat_servicios(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatServicios,iduser,3,Fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -657,7 +657,7 @@ int InsertarPermisosServSevidor(int iduser,char* Fecha)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Servicios(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatServicios,iduser,4,Fecha);
+    sprintf(consulta,"INSERT INTO tipo_admin_cat_servicios(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatServicios,iduser,4,Fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -680,7 +680,7 @@ int Actualizar_StatusAdmin(char * nomuser,int idstatus)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"UPDATE Administradores SET Id_Status_Admin= %d WHERE Nombre_Usuario='%s';",idstatus,nomuser);
+    sprintf(consulta,"UPDATE administradores SET Id_Status_Admin= %d WHERE Nombre_Usuario='%s';",idstatus,nomuser);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -703,7 +703,7 @@ int Actualizar_TipoAdmin(char * nomuser,int idtipo)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"UPDATE Administradores SET Id_Tipo_Admin= %d WHERE Nombre_Usuario='%s';",idtipo,nomuser);
+    sprintf(consulta,"UPDATE administradores SET Id_Tipo_Admin= %d WHERE Nombre_Usuario='%s';",idtipo,nomuser);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -726,7 +726,7 @@ int Actualizar_NombreAdmin(char * nomuser,char* Nombre)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"UPDATE Administradores SET Nombre_Admin='%s' WHERE Nombre_Usuario='%s';",Nombre,nomuser);
+    sprintf(consulta,"UPDATE administradores SET Nombre_Admin='%s' WHERE Nombre_Usuario='%s';",Nombre,nomuser);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -749,7 +749,7 @@ int Actualizar_APAdmin(char * nomuser,char* Nombre)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"UPDATE Administradores SET Apellido_P_Admin='%s' WHERE Nombre_Usuario='%s';",Nombre,nomuser);
+    sprintf(consulta,"UPDATE administradores SET Apellido_P_Admin='%s' WHERE Nombre_Usuario='%s';",Nombre,nomuser);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -772,7 +772,7 @@ int Actualizar_AMAdmin(char * nomuser,char* Nombre)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"UPDATE Administradores SET Apellido_M_Admin='%s' WHERE Nombre_Usuario='%s';",Nombre,nomuser);
+    sprintf(consulta,"UPDATE administradores SET Apellido_M_Admin='%s' WHERE Nombre_Usuario='%s';",Nombre,nomuser);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -795,7 +795,7 @@ int validaruser(char* nomuser)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"SELECT COUNT(*) FROM Administradores WHERE Nombre_Usuario='%s';",nomuser);
+    sprintf(consulta,"SELECT COUNT(*) FROM administradores WHERE Nombre_Usuario='%s';",nomuser);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -831,7 +831,7 @@ int Actualizar_NomUser(char * nomuser,char* Nombre)
          printf("\nError ya existe el nombre de usuario.");
          return -2;
      }   
-    sprintf(consulta,"UPDATE Administradores SET Nombre_Usuario='%s' WHERE Nombre_Usuario='%s';",Nombre,nomuser);
+    sprintf(consulta,"UPDATE administradores SET Nombre_Usuario='%s' WHERE Nombre_Usuario='%s';",Nombre,nomuser);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -853,7 +853,7 @@ int verifexistuser(char* nomuser)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"SELECT COUNT(*) FROM Administradores WHERE Nombre_Usuario='%s';",nomuser);
+    sprintf(consulta,"SELECT COUNT(*) FROM administradores WHERE Nombre_Usuario='%s';",nomuser);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -883,7 +883,7 @@ int valid_permTarea(int idtarea,int iduser)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"SELECT COUNT(*) FROM Tipo_Admin_Cat_Tareas WHERE Id_Administrador=%d AND Id_Cat_Tareas=%d;",iduser,idtarea);
+    sprintf(consulta,"SELECT COUNT(*) FROM tipo_admin_cat_tareas WHERE Id_Administrador=%d AND Id_Cat_Tareas=%d;",iduser,idtarea);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -915,7 +915,7 @@ int verif_existpermiTarea(int idtarea,char* NomUser,char *fecha)
     int id_user= ObtenerIdUser(NomUser);
     if(valid_permTarea(idtarea,id_user)!=1)
         return -4;
-    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,id_user,idtarea,fecha);
+    sprintf(consulta,"INSERT INTO tipo_admin_cat_tareas(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatTareas,id_user,idtarea,fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -939,7 +939,7 @@ int Elim_permiTarea(int idtarea,char*NomUser)
     if(consulta==NULL)
         return -1;
     int id_user= ObtenerIdUser(NomUser);
-    sprintf(consulta,"DELETE FROM Tipo_Admin_Cat_Tareas WHERE Id_Administrador=%d AND Id_Cat_Tareas=%d;",id_user,idtarea);
+    sprintf(consulta,"DELETE FROM tipo_admin_cat_tareas WHERE Id_Administrador=%d AND Id_Cat_Tareas=%d;",id_user,idtarea);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -963,7 +963,7 @@ int valid_permServicio(int idtarea,int iduser)
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
         return -1;
-    sprintf(consulta,"SELECT COUNT(*) FROM Tipo_Admin_Cat_Servicios WHERE Id_Administrador=%d AND Id_Cat_Servicios=%d;",iduser,idtarea);
+    sprintf(consulta,"SELECT COUNT(*) FROM tipo_admin_cat_servicios WHERE Id_Administrador=%d AND Id_Cat_Servicios=%d;",iduser,idtarea);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -995,7 +995,7 @@ int verif_existpermiServicio(int idtarea,char* NomUser,char *fecha)
     int id_user= ObtenerIdUser(NomUser);
     if(valid_permServicio(idtarea,id_user)!=1)
         return -4;
-    sprintf(consulta,"INSERT INTO Tipo_Admin_Cat_Servicios(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatServicios,id_user,idtarea,fecha);
+    sprintf(consulta,"INSERT INTO tipo_admin_cat_servicios(%s) VALUES(%d,%d,'%s');",CamposTipoAdminCatServicios,id_user,idtarea,fecha);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -1019,7 +1019,7 @@ int Elim_permiServicio(int idtarea,char*NomUser)
     if(consulta==NULL)
         return -1;
     int id_user= ObtenerIdUser(NomUser);
-    sprintf(consulta,"DELETE FROM Tipo_Admin_Cat_Servicios WHERE Id_Administrador=%d AND Id_Cat_Servicios=%d;",id_user,idtarea);
+    sprintf(consulta,"DELETE FROM tipo_admin_cat_servicios WHERE Id_Administrador=%d AND Id_Cat_Servicios=%d;",id_user,idtarea);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -1043,7 +1043,7 @@ int Elimuser(char * Nombre)
         return -1;
     if(verifexistuser(Nombre)!=1)
         return -2;
-    sprintf(consulta,"UPDATE Administradores SET Id_Status_Admin=3 WHERE Nombre_Usuario='%s';",Nombre);
+    sprintf(consulta,"UPDATE administradores SET Id_Status_Admin=3 WHERE Nombre_Usuario='%s';",Nombre);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -1065,7 +1065,7 @@ int listar_usuarios()
     if(consulta==NULL)
         return -1;
     //printf("\nid del usuario: %d",id_user);
-    sprintf(consulta,"SELECT %s FROM Administradores;",CamposAdministradores);
+    sprintf(consulta,"SELECT %s FROM administradores;",CamposAdministradores);
     if(mysql_query(conexion,consulta))
     {
         fprintf(stderr,"%s\n",mysql_error(conexion));
@@ -1090,4 +1090,70 @@ int listar_usuarios()
     }
     free(consulta);
     return 1;
+}
+/**
+ * @brief Verifica el status del administrador si estan fuera del sistema
+ * 
+ * @param user 
+ * @return int 
+ */
+int Verif_status(char *user)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"SELECT Id_Status_Admin,Cant_dias_limit  FROM administradores WHERE Nombre_Usuario='%s';",user);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion);
+    free(consulta);
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        if(atoi(row[0]) == 2 )
+        {
+            printf("\nUsuario Inactivo por %s dias\nHable con el administrador",row[1]);
+            return -1;
+        }
+        if(atoi(row[0]) == 3 )
+        {
+            printf("\nUsuario Fuera del sistema\nHable con el administrador.");
+            return -2;
+        }
+    }
+    return 1; 
+}
+/**
+ * @brief Funcion que actualiza los datos del usuario mediante su id.
+ * 
+ * @param flag recibe el valor de una bandera dependiendo de la opcion.
+ * @param user recibe el id del usuario.
+ * @param data recibe el nuevo nombre que se va a actualizar.
+ * @return int 
+ */
+
+int UpdateData(int flag, int user, char *data)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    if(flag==1)
+        sprintf(consulta,"UPDATE administradores SET Nombre_Admin='%s' WHERE Id_Administradores=%d;",data,user);
+    if(flag==2)
+        sprintf(consulta,"UPDATE administradores SET Apellido_P_Admin='%s' WHERE Id_Administradores=%d;",data,user);
+    if(flag==3)
+        sprintf(consulta,"UPDATE administradores SET Apellido_M_Admin='%s' WHERE Id_Administradores=%d;",data,user); 
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1; 
 }

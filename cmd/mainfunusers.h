@@ -10,19 +10,15 @@
  */
 #ifndef MAINFUNUSERS_H
 #define MAINFUNUSERS_H
-
-
-
 int regis_user();
 int ModificarUser(int flag);
 int RegistrarFuncionesUser(int IdUser);
-
 int obfecha();
-
 int ModificarPermisosTareas(int IdUser);
 int ModificarPermisosServicios(int IdUser);
 void menuflag1();
 void menuflag2();
 int EliminarUsers();
 int ListarAdministradores();
+int usermoddata(int user);
 #endif

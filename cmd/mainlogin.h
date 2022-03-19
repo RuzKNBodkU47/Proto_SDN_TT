@@ -34,9 +34,9 @@
 #define LOGS_CMD_2 "buscar"
 
 
-#define SYST_CMD "sistema"
-#define SYST_CMD_1 "tipoadmin"
-#define SYST_CMD_2 "statusadmin"
+#define SYST_CMD "monitorear"
+#define SYST_CMD_1 "info"
+#define SYST_CMD_2 "imprimir"
 #define SYST_CMD_3 "statuslog"
 #define SYST_CMD_4 "servicios"
 #define SYST_CMD_5 "tareas"

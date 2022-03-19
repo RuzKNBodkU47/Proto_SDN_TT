@@ -16,7 +16,7 @@
 char *servidor = "localhost";
 char *user = "ruzkn47";
 char *password ="inquisidor1922";
-char *database = "SDNTT";
+char *database = "SDNTT2";
 
 char CamposStatusAdmin[50]="Nom_Tipo_Admin";
 char CamposStatuslog[50]="Nom_Status_Log";
@@ -67,4 +67,6 @@ int verif_existpermiServicio(int idtarea,char* NomUser,char *fecha);
 int Elim_permiServicio(int idtarea,char*NomUser);
 int Elimuser(char * Nombre);
 int listar_usuarios();
+int Verif_status(char *user);
+int UpdateData(int flag, int user, char *data);
 #endif

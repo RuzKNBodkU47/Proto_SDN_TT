@@ -16,7 +16,7 @@
 
 #include "mainfunusers.h"
 #include "cmdmain.c"
-
+#include "mainverif.h"
 
 #define CANTTAREAS 10
 #define CANTSERVICIOS 6
@@ -75,8 +75,9 @@ int regis_user()
         scanf("%s",ApellidoPat);
         printf("\nApellido Materno del administrador: ");
         scanf("%s",ApellidoMat);
-        printf("\nContrasena:  ");
-        scanf("%s",PassHash);
+        strcpy(PassHash,Gen_Pass);
+        printf("\nContrasena: %s \n==FAVOR DE GUARDAR ESTA CONTRASENA Y DESPUES CAMBIARLA==",PassHash);
+        
         while(whilecontrol)
         {
             printf("\nTipo de nuevo Admininistrador (1.-Administrador 2.-SuperAdministrador): ");
@@ -189,6 +190,7 @@ int ModificarUser(int flag)
     char NomUser[50];
     int x=1,scan=0;
     char respstring[60];
+    char pass[60];
     printf("\n==Modificando Adminsitrador==\n");
     printf("\nIngrese el nombre de usuario a modificar: ");
     scanf("%s",NomUser);
@@ -372,6 +374,8 @@ int ModificarUser(int flag)
                 }
                 break;
             case 7:printf("\nModificar Contrasena del administrador.");
+                strcpy(pass,Gen_Pass);
+                printf("\n Nueva Contrasena: %s\nFAVOR DE GUARDAR ESTA CONTRASENA Y DESPUES CAMBIARLA",pass);
                 break;
             case 8:printf("\nSaliendo del menu.");
                 opc=0;
@@ -1095,7 +1099,11 @@ void menuflag2()
     printf("\n10.Salir del Menu.");
     printf("\nElija el permiso que quiera agregar/eliminar: ");
 }
-
+/**
+ * @brief Funcion que permite poner el status del usuario en fuera del sistema por lo que estaria dado de baja.
+ * 
+ * @return int 
+ */
 int EliminarUsers()
 {
     char nomuser[50];
@@ -1105,11 +1113,80 @@ int EliminarUsers()
         return 0;
     return 1;
 }
-
+/**
+ * @brief Funcion que muestra todos los administradores en la base de datos.
+ * 
+ * @return int 
+ */
 int ListarAdministradores()
 {
     printf("\nListando los administradores\n\n");
     if(listar_usuarios()!=1)
         return 0;
+    return 1;
+}
+/**
+ * @brief Funcion que muestra el menu de la modificacion de informacion
+ * 
+ */
+void menuuserdata()
+{
+    printf("\nMenu de modificacion de informacion.");
+    printf("\n1.Nombre del administrador.");
+    printf("\n2.Apellido Paterno del administrador.");
+    printf("\n3.Apellido Materno del administrador.");
+    printf("\n4.Salir del Menu.");
+    printf("\nElija una opcion: ");
+}
+/**
+ * @brief Funcion que modifica la informacion del usuario actual
+ * 
+ * @param user parametro que recibe el id del usuario
+ * @return int 
+ */
+int usermoddata(int user)
+{
+    int indice=1;
+    int opc=-1;
+    char valor[50];
+    while(indice)
+    {
+        menuuserdata();
+        scanf("%d",&opc);
+        switch (opc)
+        {
+        case 1:printf("\nCambiar Nombre del Administrador.\nIngrese el nuevo nombre: ");
+            scanf("%s",valor);
+            if(UpdateData(1,user,valor)!=1)
+                return 0;
+            break;
+        case 2:printf("\nCambiar Apellido Paterno del Administrador.\nIngrese el nuevo Apellido Paterno: ");
+            scanf("%s",valor);
+            if(UpdateData(2,user,valor)!=1)
+                return 0;
+            break;
+        case 3:printf("\nCambiar Apellido Materno del Administrador.\nIngrese el nuevo Apellido Materno: ");
+            scanf("%s",valor);
+            if(UpdateData(3,user,valor)!=1)
+                return 0;
+            break;
+        case 4:printf("\nSaliendo..");
+            indice=0;
+            break;    
+        default:printf("\nError en las opciones..");
+            break;
+        }
+    }
+    return 1;
+}
+/**
+ * @brief Funcion que cambia la contrasena del usuario actual
+ * 
+ * @param user parametro que recibe el id del usuario
+ * @return int 
+ */
+int usermodpass(int user)
+{
+    char pass[50];
     return 1;
 }

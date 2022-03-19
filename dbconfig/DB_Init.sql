@@ -134,8 +134,8 @@ CREATE TABLE Administradores_Servicios_Log(
 -- Tabla Administradores_Tareas_Log
 -- tabla donde se almacenan los logs de las actividades de los adminsitradores
 
-CREATE TABLE Administradores_Tareas_Log(
-	Id_Administradores_Servicios_Log int(100) NOT NULL AUTO_INCREMENT,
+CREATE TABLE administradores_tareas_logs(
+	Id_Administradores_Tareas_Log int(100) NOT NULL AUTO_INCREMENT,
 	Id_Status_Log int(2) NOT NULL,
 	Id_Administradores int(10) NOT NULL,
 	Id_Cat_Tareas int(10) NOT NULL,

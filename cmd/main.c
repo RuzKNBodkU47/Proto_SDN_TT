@@ -14,7 +14,6 @@
 #include <time.h>
 
 #include "mainlogin.h"
-#include "mainverif.h"
 #include "mainfunusers.h"
 #include "mainconfig.c" 
 /**
@@ -38,7 +37,7 @@ int imprimir_arch_help();
 void funcion_log();
 void funcion_system();
 void funcion_user_syst();
-
+void imprimirbanner();
 
 /**
  * @brief funcion principal del programa SDNTT de la linea de comandos
@@ -77,6 +76,7 @@ int main(int argc, char * argv[])
     }
     if(intentos!=3)
      {
+        imprimirbanner();
         if(obtener_fecha_sys()==0)
             return 0;
         printf("\nInicio de sesion %s",Fecha);
@@ -154,14 +154,18 @@ void funcion_user_syst()
     {
         printf("\nSDNTT>USERCONFIG>");
         scanf("%s",subcomando);
-        if(strcmp(subcomando,USER_SYST_CMD)==0)
-        {
-            /*verificar permisos del usuario si tiene permitido usar esta funcion**/
-            
-        }
-        else if(strcmp(subcomando,USER_SYST_CMD_1)==0)
+        if(strcmp(subcomando,USER_SYST_CMD_1)==0)
         {
             /*verficar los permisos del usuario si tiene permitido usar esta funcion*/
+            if(usermoddata(IDUSER)==1)
+            {
+                printf("\nInformacion Corregida con exito.");
+            }
+            else
+            {
+                printf("\nError al modificar sus datos.");
+            }
+
         }
         else if(strcmp(subcomando,USER_SYST_CMD_2)==0)
         {
@@ -216,7 +220,7 @@ void funcion_system()
     subcomando =(char *) malloc(sizeof(char)*MAX_COMMAND_TAM);
     while(indice!=0)
     {
-        printf("\nSDNTT>SYSTEM>");
+        printf("\nSDNTT>MONITOR>");
         scanf("%s",subcomando);
         if(strcmp(subcomando,SYST_CMD_1)==0)
         {
@@ -429,4 +433,12 @@ int imprimir_arch_help()
     }
     fclose(archivo_ayuda);
     return 1;
+}
+/**
+ * @brief Funcion que imprime el banner 
+ * 
+ */
+void imprimirbanner()
+{
+    system("./start.sh");
 }
