@@ -30,8 +30,14 @@
 #define USERS_CMD_4 "listar"
 
 #define LOGS_CMD "logs"
-#define LOGS_CMD_1 "mostrar_todo"
-#define LOGS_CMD_2 "buscar"
+#define LOGS_CMD_1 "mostrar"
+#define LOGS_SUBCMD_1 "tareas"
+#define LOGS_SUBCMD_2 "servicios"
+#define LOGS_CMD_2 "imprimir"
+#define LOGS_CMD_3 "buscar"
+#define LOGS_SUBCMD_3 "user"
+#define LOGS_SUBCMD_4 "fechainit"
+#define LOGS_SUBCMD_5 "fechafin"
 
 
 #define SYST_CMD "monitorear"

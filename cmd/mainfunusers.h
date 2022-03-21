@@ -21,4 +21,9 @@ void menuflag2();
 int EliminarUsers();
 int ListarAdministradores();
 int usermoddata(int user);
+void Gen_Pass();
+int ImLogTareas();
+int ImLogServicios();
+int ImLogTareasTxt();
+int ImLogServiciosTxt();
 #endif

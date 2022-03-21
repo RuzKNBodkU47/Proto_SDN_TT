@@ -18,7 +18,7 @@
 #include "mainlogin.h"
 
 #define TAMPASS 8
-#define TAMPASSGEN 10
+
 /**
  * @brief funcion que verifica que el tamano de la contrasena sea mayor a 8 caracteres
  * 
@@ -108,49 +108,4 @@ int verif_permi_users(int id)
         return 1;
     else
         return 0;
-}
-/**
- * @brief Funcion que genera los passwords
- * 
- * @return char* 
- */
-char* Gen_Pass()
-{
-    int x;
-    int random=0;
-    char num[] = "0123456789";
-    char l[] = "abcdefghijklmnoqprstuvwyzx";
-    char L[] = "ABCDEFGHIJKLMNOQPRSTUYWVZX";
-    char sim[] = "!@#$^&*?";
-    char *password;
-    srand((unsigned int )( time(NULL) ));
-    random = rand() % 4;
-    password=(char*)malloc(sizeof(char)*TAMPASSGEN);
-    if(password==NULL)
-        return NULL;
-    for(x=0;x<TAMPASSGEN;x++)
-    {
-        if(random == 1)
-        {
-            password[x]=num[rand()%10];
-            random =rand() % 4;
-        }
-        else if(random ==2)
-        {
-            password[x]=sim[rand()%8];
-            random =rand() % 4;
-        }
-        else if (random ==3)
-        {
-            password[x]=L[rand()%26];
-            random =rand() % 4;
-        }
-        else
-        {
-            password[x]=l[rand()%26];
-            random =rand() % 4;
-        }
-        
-    }
-    return password;
 }

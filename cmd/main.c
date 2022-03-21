@@ -170,6 +170,10 @@ void funcion_user_syst()
         else if(strcmp(subcomando,USER_SYST_CMD_2)==0)
         {
             /*verificar los permisos del usuario si tiene permitido usar esta funcion*/
+            if(usermodpass(IDUSER)==1)
+                printf("\nContrasena actualizada con exito.");
+            else
+                printf("\nContrasena no se actualizo correctamente.");
         }
         else if(strcmp(subcomando,EXIT_CMD)==0)
             break;
@@ -186,6 +190,7 @@ void funcion_user_syst()
 void funcion_log()
 {
     int indice=1;
+    int subindice=1;
     char * subcomando;
     subcomando =(char *) malloc(sizeof(char)*MAX_COMMAND_TAM);
     while(indice!=0)
@@ -194,12 +199,64 @@ void funcion_log()
         scanf("%s",subcomando);
         if(strcmp(subcomando,LOGS_CMD_1)==0)
         {
-            /*verificar permisos del usuario si tiene permitido usar esta funcion**/
+            while(subindice!=0)
+            {
+                printf("\nSDNTT>LOG>MOSTRAR>");
+                scanf("%s",subcomando);
+                if(strcmp(subcomando,LOGS_SUBCMD_1)==0)//tareas
+                {
+                    if(ImLogTareas()==1)
+                        printf("\nObtencion de logs exitoso.");
+                    else
+                        printf("\nObtencion de logs no exitoso.");
+                }
+                else if(strcmp(subcomando,LOGS_SUBCMD_2)==0)//servicios
+                {
+                    if(ImLogServicios()==1)
+                        printf("\nObtencion de logs exitoso.");
+                    else
+                        printf("\nObtencion de logs no exitoso.");
+                }
+                else if(strcmp(subcomando,EXIT_CMD)==0)
+                {
+                    subindice=0;
+                }
+                else
+                {
+                    printf("\nElija una opcion correcta.");
+                }
+            }
             
         }
         else if(strcmp(subcomando,LOGS_CMD_2)==0)
         {
-            /*verficar los permisos del usuario si tiene permitido usar esta funcion*/
+             while(subindice!=0)
+            {
+                printf("\nSDNTT>LOG>IMPRIMIR>");
+                scanf("%s",subcomando);
+                if(strcmp(subcomando,LOGS_SUBCMD_1)==0)//tareas
+                {
+                    if(ImLogTareasTxt()==1)
+                        printf("\nObtencion de logs exitoso.");
+                    else
+                        printf("\nObtencion de logs no exitoso.");
+                }
+                else if(strcmp(subcomando,LOGS_SUBCMD_2)==0)//servicios
+                {
+                    if(ImLogServiciosTxt()==1)
+                        printf("\nObtencion de logs exitoso.");
+                    else
+                        printf("\nObtencion de logs no exitoso.");
+                }
+                else if(strcmp(subcomando,EXIT_CMD)==0)
+                {
+                    subindice=0;
+                }
+                else
+                {
+                    printf("\nElija una opcion correcta.");
+                }
+            }
         }
         else if(strcmp(subcomando,EXIT_CMD)==0)
             break;

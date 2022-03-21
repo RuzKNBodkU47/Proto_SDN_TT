@@ -17,12 +17,13 @@
 #include "libred.c"
 #include <mysql/mysql.h>
 
-MYSQL *conexion;
-MYSQL_RES *res;
-MYSQL_ROW row;
+MYSQL *conexion,*conexion2;
+MYSQL_RES *res,*res2;
+MYSQL_ROW row,row2;
 
 #define MAXConsulta 10000
 
+char Nom_user[60];
 /**
  * @brief Funcion que realiza la conexion con la base de datos
  * 
@@ -37,10 +38,29 @@ void ControladorBD()
     }
     conexion = mysql_real_connect (conexion,servidor,user,password,database,0,NULL,0);
     if(conexion)
+        printf(" ");
+    else 
+        printf("\nError en la Conexion con BD");
+}
+/**
+ * @brief Funcion que realiza la conexion con la base de datos auxiliar
+ * 
+ */
+void ControladorBD2()
+{
+    conexion2 = mysql_init(NULL);
+    if(!conexion2)
+    {
+        fprintf(stderr,"mysql_init Error\n");
+        exit(1);
+    }
+    conexion2 = mysql_real_connect (conexion2,servidor,user,password,database,0,NULL,0);
+    if(conexion2)
         printf("\n");
     else 
         printf("\nError en la Conexion con BD");
 }
+
 /**
  * @brief Funcion que permite insertar administradores en la base de datos
  * 
@@ -1156,4 +1176,161 @@ int UpdateData(int flag, int user, char *data)
     }
     free(consulta);
     return 1; 
+}
+/**
+ * @brief Funcion que actualiza la contrasena del usuario
+ * 
+ * @param user parametro que recibe el id del usuario
+ * @param pass parametro que recibe la contrasena nueva
+ * @return int 
+ */
+int UpdatePass(int user,char *pass)
+{
+    ControladorBD();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"UPDATE administradores SET Password_Hash='%s' WHERE Id_Administradores=%d;",pass,user);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    free(consulta);
+    return 1; 
+}
+/**
+ * @brief Funcion que obtiene elnombre del usuario apartir del id
+ * 
+ * @param ID recibe el id del usuario
+ */
+void ObtenerNomUser(int id)
+{
+    
+    ControladorBD();
+    
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        printf("\nError en consulta");
+    sprintf(consulta,"SELECT Nombre_Usuario FROM administradores WHERE Id_Administradores=%d;",id);
+    
+    if(mysql_query(conexion2,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion2));
+    }
+    res2=mysql_use_result(conexion2);
+    free(consulta);
+    while((row2=mysql_fetch_row(res2)) != NULL)
+    {
+        strcpy(Nom_user,row2[0]);
+    }
+}
+/**
+ * @brief muestra todos los logs de las tareas
+ * 
+ * @return int 
+ */
+
+int MostrarLogsTareas()
+{
+    ControladorBD2();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"SELECT * FROM administradores_tareas_log ;");
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion);
+    free(consulta);
+    printf("\n|| IdLog || StatusLog ||    UserAdmin   ||        Tarea        ||     IpOrigen     ||     MACOrigen     ||   AdminObj   ||      FechaInit      ||      FechaFin      ||");
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        printf("\n|| %s   ",row[0]);
+        if(atoi(row[1]) == 1 )
+            printf("|| En Ejecucion ");
+        if(atoi(row[1]) == 2 )
+            printf("|| Error ");
+        if(atoi(row[1]) == 3 )
+            printf("|| Completado ");
+        ObtenerNomUser(atoi(row[2]));
+        printf("|| %s ",Nom_user);
+        //printf("|| %s ",row[2]);
+        if(atoi(row[3]) == 1 )
+            printf("|| Iniciar Sesion ");
+        if(atoi(row[3]) == 2 )
+            printf("|| Cerrar Sesion ");
+        if(atoi(row[3]) == 3 )
+            printf("|| Modificar Datos Propios ");
+        if(atoi(row[3]) == 4 )
+            printf("|| Alta Administrador ");
+        if(atoi(row[3]) == 5 )
+            printf("|| Modificar Datos Administrador ");
+        if(atoi(row[3]) == 6 )
+            printf("|| Eliminar Administrador ");
+        if(atoi(row[3]) == 7 )
+            printf("|| Eliminar Privilegios ");
+        if(atoi(row[3]) == 8 )
+            printf("|| Agregar Privilegios ");
+        printf("||  %s ",row[4]);
+        printf("||  %s ",row[5]);
+        ObtenerNomUser(atoi(row[6]));
+        printf("|| %s ",Nom_user);
+        //printf("|| %s ",row[6]);
+        printf("||  %s ",row[7]);
+        printf("||  %s ",row[8]);
+    }
+    return 1;
+}
+
+int MostrarLogsServicios()
+{
+    ControladorBD2();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"SELECT * FROM administradores_servicios_log ;");
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion);
+    free(consulta);
+    printf("\n|| IdLog || StatusLog ||    UserAdmin   ||        Servicio         ||   IPOrigen   ||   MACOrigen   ||   IPDispositivoDest   ||   IPDispositivoDestActual   ||   MACDispositivoDest   ||        FechaInit       ||       FechaFin       ||");
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        printf("\n|| %s   ",row[0]);
+        if(atoi(row[1]) == 1 )
+            printf("|| En Ejecucion ");
+        if(atoi(row[1]) == 2 )
+            printf("|| Error ");
+        if(atoi(row[1]) == 3 )
+            printf("|| Completado ");
+        ObtenerNomUser(atoi(row[2]));
+        printf("|| %s ",Nom_user);
+        //printf("|| %s ",row[2]);
+        if(atoi(row[3]) == 1 )
+            printf("|| Monitorizacion ");
+        if(atoi(row[3]) == 2 )
+            printf("|| Configuracion Router ");
+        if(atoi(row[3]) == 3 )
+            printf("|| Configuracion Switch ");
+        if(atoi(row[3]) == 4 )
+            printf("|| Configuracion Servidor ");
+        printf("||  %s ",row[4]);
+        printf("||  %s ",row[5]);
+        printf("||  %s ",row[6]);
+        printf("||  %s ",row[7]);
+        printf("||  %s ",row[8]);
+        printf("||  %s ",row[9]);
+        printf("||  %s ",row[10]);
+    }
+    return 1;
 }

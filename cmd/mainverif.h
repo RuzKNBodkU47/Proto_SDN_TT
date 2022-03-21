@@ -17,5 +17,4 @@ int verif_carac_let(char *cadena);
 int verif_carac_letM(char* cadena);
 int verif_carac_sim(char *cadena);
 int verif_permi_users(int id);
-char* Gen_Pass();
 #endif

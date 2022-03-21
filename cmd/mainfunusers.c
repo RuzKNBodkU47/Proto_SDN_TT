@@ -20,10 +20,10 @@
 
 #define CANTTAREAS 10
 #define CANTSERVICIOS 6
-
+#define TAMPASSGEN 10
 
 char FechaFunUser[70]="";
-
+char pass[30];
 /**
  * @brief funcion para registrar usuarios
  * 
@@ -75,9 +75,9 @@ int regis_user()
         scanf("%s",ApellidoPat);
         printf("\nApellido Materno del administrador: ");
         scanf("%s",ApellidoMat);
-        strcpy(PassHash,Gen_Pass);
-        printf("\nContrasena: %s \n==FAVOR DE GUARDAR ESTA CONTRASENA Y DESPUES CAMBIARLA==",PassHash);
-        
+        Gen_Pass();
+        strcpy(PassHash,pass);
+        printf("\nContrasena =>  %s \n\n==FAVOR DE GUARDAR ESTA CONTRASENA Y DESPUES CAMBIARLA==\n\n",PassHash);
         while(whilecontrol)
         {
             printf("\nTipo de nuevo Admininistrador (1.-Administrador 2.-SuperAdministrador): ");
@@ -100,7 +100,7 @@ int regis_user()
         opc=0;
         while(whilecontrol)
         {
-            printf("\nStatus del nuevo Admininistrador (1.-Activo 2.-Inactivo): ");
+            printf("\nStatus del nuevo Admininistrador (1.-Activo 2.-Inactivo):  ");
             scanf("%d",&opc);
                 switch (opc)
                 {
@@ -127,6 +127,7 @@ int regis_user()
                 }
         }
         opc=0;
+        printf("\n================================");
         printf("\n\nVerificando datos");
         printf("\nNombre del administrador: %s",NombreAdmin);
         printf("\nApellido paterno del Administrador: %s",ApellidoPat);
@@ -143,8 +144,7 @@ int regis_user()
         whilecontrol=1;
         while(whilecontrol)
         {
-            //probar si se puede tomar el valor ascii de y / n
-            printf("\nDesea continuar 1-si , 2-no: ");
+            printf("\nDesea continuar 1-si , 2-no:  ");
             scanf("%d",&opc);
             switch(opc)
             {
@@ -159,9 +159,7 @@ int regis_user()
                 default:printf("\nElija entre valores entre si y no");
                 break;
             }
-        }
-      
-       
+        }  
     } 
     if(obfecha()==0)
         printf("\nError con la fecha");
@@ -190,14 +188,9 @@ int ModificarUser(int flag)
     char NomUser[50];
     int x=1,scan=0;
     char respstring[60];
-    char pass[60];
     printf("\n==Modificando Adminsitrador==\n");
     printf("\nIngrese el nombre de usuario a modificar: ");
     scanf("%s",NomUser);
-    //obtener id del nombre del usuario
-    //if(id_user=ObtenerIdUser(NomUser)== -1)
-      //  return 0;
-    //printf("\nflag %d ",flag);
     if(verifexistuser(NomUser)!=1)
     {
         printf("\nUser no existe.");
@@ -374,8 +367,8 @@ int ModificarUser(int flag)
                 }
                 break;
             case 7:printf("\nModificar Contrasena del administrador.");
-                strcpy(pass,Gen_Pass);
-                printf("\n Nueva Contrasena: %s\nFAVOR DE GUARDAR ESTA CONTRASENA Y DESPUES CAMBIARLA",pass);
+                Gen_Pass();
+                printf("\n Nueva Contrasena: %s\n\n==FAVOR DE GUARDAR ESTA CONTRASENA Y DESPUES CAMBIARLA==",pass);
                 break;
             case 8:printf("\nSaliendo del menu.");
                 opc=0;
@@ -912,7 +905,7 @@ int ModificarPermisosTareas(int IdUser)
     else if (respuesta[4]==2)
         printf("\n[ ]Eliminar Privilegios a Administradores");
 
-    printf("\nDesea Continuar ( 1 si / 2 no)");
+    printf("\nDesea Continuar ( 1 si / 2 no): ");
     scanf("%d",&opcfinal);
     if(opcfinal==1)
         global=0;
@@ -1014,7 +1007,7 @@ int ModificarPermisosServicios(int IdUser)
         printf("\n[X]Configuracion de Servidor");
     else if (respuesta[3]==2)
         printf("\n[ ]Configuracion de Servidor");
-    printf("\nDesea Continuar ( 1 si / 2 no)");
+    printf("\nDesea Continuar ( 1 si / 2 no): ");
     scanf("%d",&opcfinal);
     if(opcfinal==1)
         global=0;
@@ -1188,5 +1181,82 @@ int usermoddata(int user)
 int usermodpass(int user)
 {
     char pass[50];
+    printf("\nIngrese la nueva contrasena: ");
+    scanf("%s",pass);
+    if(UpdatePass(user,pass)!=1)
+        return 0;
+    return 1;
+}
+
+/**
+ * @brief Funcion que genera los passwords
+ * 
+ * @return char* 
+ */
+void Gen_Pass()
+{
+    srand(time(NULL));
+	int x;
+	//int cifras=atoi(argv[1]);
+	char min[]="abcdefghijklmnopqrstuvwxyz";
+	char may[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	char num[]="0123456789";
+	for(x=0; x<TAMPASSGEN; x++) 
+    {
+		int eleccion=(int)(rand() % 3+1);
+		switch ( eleccion ) {
+		case 1:
+ 			pass[x]=min[rand() % 25+1];
+ 		break;
+		case 2:
+			pass[x]=may[rand() % 25+1];
+		break;
+		case 3:
+			pass[x]=num[rand() % 9+1];
+		break;
+		}
+	pass[TAMPASSGEN]='\0';
+	}
+	//printf("gen pass %s\n", pass);
+}
+
+/**
+ * @brief Funcion que manda a llamar la Funcion para imprimir los logs
+ * 
+ * @return int 
+ */
+int ImLogTareas()
+{
+    printf("\n\n==>Mostrando Todos los logs...");
+    if(MostrarLogsTareas()!=1)
+        return 0;
+    printf("\n\n==> Fin de Logs");
+    return 1;
+}
+
+int ImLogServicios()
+{
+    printf("\n\n==>Mostrando Todos los logs...");
+    if(MostrarLogsServicios()!=1)
+        return 0;
+    printf("\n\n==> Fin de Logs");
+    return 1;
+}
+
+int ImLogTareasTxt()
+{
+    printf("\n\n==>Imprimiendo Todos los logs...");
+    if(MostrarLogsTareas()!=1)
+        return 0;
+    printf("\n\n==> Archivo Log finalizado");
+    return 1;
+}
+
+int ImLogServiciosTxt()
+{
+    printf("\n\n==>Imprimiendo Todos los logs...");
+    if(MostrarLogsTareas()!=1)
+        return 0;
+    printf("\n\n==> Archivo Log finalizado");
     return 1;
 }
