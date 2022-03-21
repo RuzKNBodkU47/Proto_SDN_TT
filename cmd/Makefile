@@ -46,6 +46,6 @@ libred.o: $(REDOBJS)
 	$(CC) -g -c -Wall libred.c
 
 clean:
-	rm -f exefin *.o
+	rm -f exefin *.o *.dat
 
 

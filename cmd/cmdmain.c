@@ -1287,7 +1287,11 @@ int MostrarLogsTareas()
     }
     return 1;
 }
-
+/**
+ * @brief Muestra los logs de los servicios
+ * 
+ * @return int 
+ */
 int MostrarLogsServicios()
 {
     ControladorBD2();
@@ -1332,5 +1336,114 @@ int MostrarLogsServicios()
         printf("||  %s ",row[9]);
         printf("||  %s ",row[10]);
     }
+    return 1;
+}
+
+int GenLogTareasTxt(char *nomarch)
+{
+    ControladorBD2();
+    FILE *archivo = fopen(nomarch,"w");
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"SELECT * FROM administradores_tareas_log ;");
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion);
+    free(consulta);
+    fprintf(archivo,"\n|| IdLog || StatusLog ||    UserAdmin   ||        Tarea        ||     IpOrigen     ||     MACOrigen     ||   AdminObj   ||      FechaInit      ||      FechaFin      ||");
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        fprintf(archivo,"\n|| %s   ",row[0]);
+        if(atoi(row[1]) == 1 )
+            fprintf(archivo,"|| En Ejecucion ");
+        if(atoi(row[1]) == 2 )
+            fprintf(archivo,"|| Error ");
+        if(atoi(row[1]) == 3 )
+            fprintf(archivo,"|| Completado ");
+        ObtenerNomUser(atoi(row[2]));
+        fprintf(archivo,"|| %s ",Nom_user);
+        //printf("|| %s ",row[2]);
+        if(atoi(row[3]) == 1 )
+            fprintf(archivo,"|| Iniciar Sesion ");
+        if(atoi(row[3]) == 2 )
+            fprintf(archivo,"|| Cerrar Sesion ");
+        if(atoi(row[3]) == 3 )
+            fprintf(archivo,"|| Modificar Datos Propios ");
+        if(atoi(row[3]) == 4 )
+            fprintf(archivo,"|| Alta Administrador ");
+        if(atoi(row[3]) == 5 )
+            fprintf(archivo,"|| Modificar Datos Administrador ");
+        if(atoi(row[3]) == 6 )
+            fprintf(archivo,"|| Eliminar Administrador ");
+        if(atoi(row[3]) == 7 )
+            fprintf(archivo,"|| Eliminar Privilegios ");
+        if(atoi(row[3]) == 8 )
+            fprintf(archivo,"|| Agregar Privilegios ");
+        fprintf(archivo,"||  %s ",row[4]);
+        fprintf(archivo,"||  %s ",row[5]);
+        ObtenerNomUser(atoi(row[6]));
+        fprintf(archivo,"|| %s ",Nom_user);
+        //printf("|| %s ",row[6]);
+        fprintf(archivo,"||  %s ",row[7]);
+        fprintf(archivo,"||  %s  ||",row[8]);
+    }
+    fclose(archivo);
+    printf("\nArchivo %s listo..",nomarch);
+    return 1;
+}
+
+int GenLogServiciosTxt(char *nomarch)
+{
+    
+    ControladorBD2();
+    FILE *archivo = fopen(nomarch,"w");
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    sprintf(consulta,"SELECT * FROM administradores_servicios_log ;");
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion);
+    free(consulta);
+    fprintf(archivo,"\n|| IdLog || StatusLog ||    UserAdmin   ||        Servicio         ||   IPOrigen   ||   MACOrigen   ||   IPDispositivoDest   ||   IPDispositivoDestActual   ||   MACDispositivoDest   ||        FechaInit       ||       FechaFin       ||");
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        fprintf(archivo,"\n|| %s   ",row[0]);
+        if(atoi(row[1]) == 1 )
+            fprintf(archivo,"|| En Ejecucion ");
+        if(atoi(row[1]) == 2 )
+            fprintf(archivo,"|| Error ");
+        if(atoi(row[1]) == 3 )
+            fprintf(archivo,"|| Completado ");
+        ObtenerNomUser(atoi(row[2]));
+        fprintf(archivo,"|| %s ",Nom_user);
+        //printf("|| %s ",row[2]);
+        if(atoi(row[3]) == 1 )
+            fprintf(archivo,"|| Monitorizacion ");
+        if(atoi(row[3]) == 2 )
+            fprintf(archivo,"|| Configuracion Router ");
+        if(atoi(row[3]) == 3 )
+            fprintf(archivo,"|| Configuracion Switch ");
+        if(atoi(row[3]) == 4 )
+            fprintf(archivo,"|| Configuracion Servidor ");
+        fprintf(archivo,"||  %s ",row[4]);
+        fprintf(archivo,"||  %s ",row[5]);
+        fprintf(archivo,"||  %s ",row[6]);
+        fprintf(archivo,"||  %s ",row[7]);
+        fprintf(archivo,"||  %s ",row[8]);
+        fprintf(archivo,"||  %s ",row[9]);
+        fprintf(archivo,"||  %s ",row[10]);
+    }
+    fclose(archivo);
+    printf("\nArchivo %s listo..",nomarch);
     return 1;
 }

@@ -74,4 +74,6 @@ int UpdatePass(int user,char *pass);
 int MostrarLogsTareas();
 void ObtenerNomUser(int id);
 int MostrarLogsServicios();
+int GenLogTareasTxt(char *nomarch);
+int GenLogServiciosTxt(char *nomarch);
 #endif

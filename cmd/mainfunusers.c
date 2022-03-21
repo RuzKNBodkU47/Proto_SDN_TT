@@ -1233,7 +1233,11 @@ int ImLogTareas()
     printf("\n\n==> Fin de Logs");
     return 1;
 }
-
+/**
+ * @brief Despliega todos los logs de los servicios
+ * 
+ * @return int 
+ */
 int ImLogServicios()
 {
     printf("\n\n==>Mostrando Todos los logs...");
@@ -1242,21 +1246,39 @@ int ImLogServicios()
     printf("\n\n==> Fin de Logs");
     return 1;
 }
-
+/**
+ * @brief Genera un archivo .dat los logs de las tareas
+ * 
+ * @return int 
+ */
 int ImLogTareasTxt()
 {
+    char *nomarch;
+    nomarch = (char*) malloc(sizeof(char)* 30);
     printf("\n\n==>Imprimiendo Todos los logs...");
-    if(MostrarLogsTareas()!=1)
+    obfecha();
+    strcat(strcpy(nomarch,FechaFunUser),"_tarlog.dat");
+    if(GenLogTareasTxt(nomarch)!=1)
         return 0;
     printf("\n\n==> Archivo Log finalizado");
+    free(nomarch);
     return 1;
 }
-
+/**
+ * @brief Genera un archivo .dat con los logs de los servicios
+ * 
+ * @return int 
+ */
 int ImLogServiciosTxt()
 {
+    char *nomarch;
+    nomarch = (char*) malloc(sizeof(char)* 30);
     printf("\n\n==>Imprimiendo Todos los logs...");
-    if(MostrarLogsTareas()!=1)
+    obfecha();
+    strcat(strcpy(nomarch,FechaFunUser),"_servlog.dat");
+    if(GenLogServiciosTxt(nomarch)!=1)
         return 0;
     printf("\n\n==> Archivo Log finalizado");
+    free(nomarch);
     return 1;
 }
