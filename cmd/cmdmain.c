@@ -1338,7 +1338,12 @@ int MostrarLogsServicios()
     }
     return 1;
 }
-
+/**
+ * @brief Genera el log de las tareas y lo almacena en un txt
+ * 
+ * @param nomarch 
+ * @return int 
+ */
 int GenLogTareasTxt(char *nomarch)
 {
     ControladorBD2();
@@ -1367,7 +1372,6 @@ int GenLogTareasTxt(char *nomarch)
             fprintf(archivo,"|| Completado ");
         ObtenerNomUser(atoi(row[2]));
         fprintf(archivo,"|| %s ",Nom_user);
-        //printf("|| %s ",row[2]);
         if(atoi(row[3]) == 1 )
             fprintf(archivo,"|| Iniciar Sesion ");
         if(atoi(row[3]) == 2 )
@@ -1388,7 +1392,6 @@ int GenLogTareasTxt(char *nomarch)
         fprintf(archivo,"||  %s ",row[5]);
         ObtenerNomUser(atoi(row[6]));
         fprintf(archivo,"|| %s ",Nom_user);
-        //printf("|| %s ",row[6]);
         fprintf(archivo,"||  %s ",row[7]);
         fprintf(archivo,"||  %s  ||",row[8]);
     }
@@ -1396,7 +1399,12 @@ int GenLogTareasTxt(char *nomarch)
     printf("\nArchivo %s listo..",nomarch);
     return 1;
 }
-
+/**
+ * @brief Genera un archivo TXT con los logs de servicios
+ * 
+ * @param nomarch 
+ * @return int 
+ */
 int GenLogServiciosTxt(char *nomarch)
 {
     
@@ -1426,7 +1434,6 @@ int GenLogServiciosTxt(char *nomarch)
             fprintf(archivo,"|| Completado ");
         ObtenerNomUser(atoi(row[2]));
         fprintf(archivo,"|| %s ",Nom_user);
-        //printf("|| %s ",row[2]);
         if(atoi(row[3]) == 1 )
             fprintf(archivo,"|| Monitorizacion ");
         if(atoi(row[3]) == 2 )
@@ -1442,6 +1449,391 @@ int GenLogServiciosTxt(char *nomarch)
         fprintf(archivo,"||  %s ",row[8]);
         fprintf(archivo,"||  %s ",row[9]);
         fprintf(archivo,"||  %s ",row[10]);
+    }
+    fclose(archivo);
+    printf("\nArchivo %s listo..",nomarch);
+    return 1;
+}
+/**
+ * @brief Funcion que busca los logs de un usuario en especifico
+ * 
+ * @param nomuser 
+ * @param flag 
+ * @return int 
+ */
+int busquedaloguser(char * nomuser, int flag)
+{
+    ControladorBD2();
+    char nomarch[30]="logs_";
+    if(flag==1)
+        strcat(nomarch,"tareas_");
+    if(flag==2)
+        strcat(nomarch,"servicios_");
+    strcat(nomarch,nomuser);
+    strcat(nomarch,".dat");
+    FILE *archivo = fopen(nomarch,"w");
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    int id_user= ObtenerIdUser(nomuser);
+    if(flag==1)
+        sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Id_Administradores=%d;",id_user);
+    if(flag==2)
+        sprintf(consulta,"SELECT * FROM administradores_servicios_log WHERE Id_Administradores=%d;",id_user);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion);
+    free(consulta);
+    if(flag==1)
+    {
+        fprintf(archivo,"\n|| IdLog || StatusLog ||    UserAdmin   ||        Tarea        ||     IpOrigen     ||     MACOrigen     ||   AdminObj   ||      FechaInit      ||      FechaFin      ||");
+        printf("\n|| IdLog || StatusLog ||    UserAdmin   ||        Tarea        ||     IpOrigen     ||     MACOrigen     ||   AdminObj   ||      FechaInit      ||      FechaFin      ||");
+    }
+    if(flag==2)
+    {
+        fprintf(archivo,"\n|| IdLog || StatusLog ||    UserAdmin   ||        Servicio         ||   IPOrigen   ||   MACOrigen   ||   IPDispositivoDest   ||   IPDispositivoDestActual   ||   MACDispositivoDest   ||        FechaInit       ||       FechaFin       ||");
+        printf("\n|| IdLog || StatusLog ||    UserAdmin   ||        Servicio         ||   IPOrigen   ||   MACOrigen   ||   IPDispositivoDest   ||   IPDispositivoDestActual   ||   MACDispositivoDest   ||        FechaInit       ||       FechaFin       ||");
+    }   
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        if(flag==1)
+        {
+            fprintf(archivo,"\n|| %s   ",row[0]);
+            printf("\n|| %s   ",row[0]);
+            if(atoi(row[1]) == 1 )
+            {
+                fprintf(archivo,"|| En Ejecucion ");
+                printf("|| En Ejecucion ");
+            }    
+            if(atoi(row[1]) == 2 )
+            {
+                fprintf(archivo,"|| Error ");
+                printf("|| Error ");
+            }    
+            if(atoi(row[1]) == 3 )
+            {
+                fprintf(archivo,"|| Completado ");
+                printf("|| Completado ");
+            }    
+            ObtenerNomUser(atoi(row[2]));
+            fprintf(archivo,"|| %s ",Nom_user);
+            printf("|| %s ",Nom_user);
+            if(atoi(row[3]) == 1 )
+            {
+                fprintf(archivo,"|| Iniciar Sesion ");
+                printf("|| Iniciar Sesion ");
+            }
+            if(atoi(row[3]) == 2 )
+            {
+                fprintf(archivo,"|| Cerrar Sesion ");
+                printf("|| Cerrar Sesion ");
+            }    
+            if(atoi(row[3]) == 3 )
+            {
+                fprintf(archivo,"|| Modificar Datos Propios ");
+                printf("|| Modificar Datos Propios ");
+            }    
+            if(atoi(row[3]) == 4 )
+            {
+                fprintf(archivo,"|| Alta Administrador ");
+                printf("|| Alta Administrador ");
+            }
+            if(atoi(row[3]) == 5 )
+            {
+                fprintf(archivo,"|| Modificar Datos Administrador ");
+                printf("|| Modificar Datos Administrador ");
+            }    
+            if(atoi(row[3]) == 6 )
+            {
+                fprintf(archivo,"|| Eliminar Administrador ");
+                printf("|| Eliminar Administrador ");
+            }
+            if(atoi(row[3]) == 7 )
+            {
+                fprintf(archivo,"|| Eliminar Privilegios ");
+                printf("|| Eliminar Privilegios ");
+            }    
+            if(atoi(row[3]) == 8 )
+            {
+                fprintf(archivo,"|| Agregar Privilegios ");
+                printf("|| Agregar Privilegios ");
+            }    
+            fprintf(archivo,"||  %s ",row[4]);
+            printf("||  %s ",row[4]);
+            fprintf(archivo,"||  %s ",row[5]);
+            printf("||  %s ",row[5]);
+            ObtenerNomUser(atoi(row[6]));
+            fprintf(archivo,"|| %s ",Nom_user);
+            printf("|| %s ",Nom_user);
+            fprintf(archivo,"||  %s ",row[7]);
+            printf("||  %s ",row[7]);
+            fprintf(archivo,"||  %s  ||",row[8]);
+            printf("||  %s  ||",row[8]);
+        }
+        if(flag==2)
+        {
+            fprintf(archivo,"\n|| %s   ",row[0]);
+            printf("\n|| %s   ",row[0]);
+            if(atoi(row[1]) == 1 )
+            {
+                fprintf(archivo,"|| En Ejecucion ");
+                printf("|| En Ejecucion ");
+            }
+            if(atoi(row[1]) == 2 )
+            {
+                fprintf(archivo,"|| Error ");
+                printf("|| Error ");
+            }    
+            if(atoi(row[1]) == 3 )
+            {
+                fprintf(archivo,"|| Completado ");
+                printf("|| Completado ");
+            }    
+            ObtenerNomUser(atoi(row[2]));
+            fprintf(archivo,"|| %s ",Nom_user);
+            printf("|| %s ",Nom_user);
+            if(atoi(row[3]) == 1 )
+            {
+                fprintf(archivo,"|| Monitorizacion ");
+                printf("|| Monitorizacion ");
+            }
+            if(atoi(row[3]) == 2 )
+            {
+                fprintf(archivo,"|| Configuracion Router ");
+                printf("|| Configuracion Router ");
+            }
+            if(atoi(row[3]) == 3 )
+            {
+                fprintf(archivo,"|| Configuracion Switch ");
+                printf("|| Configuracion Switch ");
+            }
+            if(atoi(row[3]) == 4 )
+            {
+                fprintf(archivo,"|| Configuracion Servidor ");
+                printf("|| Configuracion Servidor ");
+            }
+            fprintf(archivo,"||  %s ",row[4]);
+            printf("||  %s ",row[4]);
+            fprintf(archivo,"||  %s ",row[5]);
+            printf("||  %s ",row[5]);
+            fprintf(archivo,"||  %s ",row[6]);
+            printf("||  %s ",row[6]);
+            fprintf(archivo,"||  %s ",row[7]);
+            printf("||  %s ",row[7]);
+            fprintf(archivo,"||  %s ",row[8]);
+            printf("||  %s ",row[8]);
+            fprintf(archivo,"||  %s ",row[9]);
+            printf("||  %s ",row[9]);
+            fprintf(archivo,"||  %s ",row[10]);
+            printf("||  %s ",row[10]);
+        }
+    }
+    fclose(archivo);
+    printf("\nArchivo %s listo..",nomarch);
+    return 1;
+}
+
+
+int busquedalogfecha(char * fecha, int flag, int flag2, int flag3)//flag 1 tarea/servicio logs flag 2 fecha inicio fecha fin flag3 metodo busqueda
+{
+    ControladorBD2();
+    char nomarch[30]="logsF_";
+    if(flag==1)
+        strcat(nomarch,"tareas");
+    if(flag==2)
+        strcat(nomarch,"servicios");
+    strcat(nomarch,".dat");
+    FILE *archivo = fopen(nomarch,"w");
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    if(flag==1 && flag2==1 && flag3==1)//busqueda de tarea de la fecha de inicio por anio
+        sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Fecha_Init_Serv LIKE '%s_______________';",fecha);
+    if(flag==1 && flag2==1 && flag3==2)//busqueda de tarea de la fecha de inicio por mes
+        sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Fecha_Init_Serv LIKE '_____%s____________';",fecha);
+    if(flag==1 && flag2==1 && flag3==3)//busqueda de tarea de la fecha de inicio por dia
+        sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Fecha_Init_Serv LIKE '________%s_________';",fecha);
+    if(flag==1 && flag2==1 && flag3==4)//busqueda de tarea de la fecha de inicio por hora
+        sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Fecha_Init_Serv LIKE '___________%s______';",fecha);
+    if(flag==1 && flag2==2 && flag3==1)//busqueda de tarea de la fecha final por anio
+        sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Fecha_Fin_Serv LIKE '%s_______________';",fecha);
+    if(flag==1 && flag2==2 && flag3==2)//busqueda de tarea de la fecha final por mes
+        sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Fecha_Fin_Serv LIKE '_____%s____________';",fecha);
+    if(flag==1 && flag2==2 && flag3==3)//busqueda de tarea de la fecha final por dia
+        sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Fecha_Fin_Serv LIKE '________%s_________';",fecha);
+    if(flag==1 && flag2==2 && flag3==4)//busqueda de tarea de la fecha final por hora
+        sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Fecha_Fin_Serv LIKE '___________%s______';",fecha);
+    if(flag==2 && flag2==1 && flag3==1)//busqueda de servicio de la fecha inicial por anio
+        sprintf(consulta,"SELECT * FROM administradores_servicios_log WHERE Fecha_Init_Serv LIKE '%s_______________';",fecha);
+    if(flag==2 && flag2==1 && flag3==2)//busqueda de servicio de la fecha inicial por mes
+        sprintf(consulta,"SELECT * FROM administradores_servicios_log WHERE Fecha_Init_Serv LIKE '_____%s____________';",fecha);
+    if(flag==2 && flag2==1 && flag3==3)//busqueda de servicio de la fecha inicial por dia
+        sprintf(consulta,"SELECT * FROM administradores_servicios_log WHERE Fecha_Init_Serv LIKE '________%s_________';",fecha);
+    if(flag==2 && flag2==1 && flag3==4)//busqueda de servicio de la fecha inicial por hora
+        sprintf(consulta,"SELECT * FROM administradores_servicios_log WHERE Fecha_Init_Serv LIKE '___________%s______';",fecha);
+    if(flag==2 && flag2==2 && flag3==1)//busqueda de servicio de la fecha final por anio
+        sprintf(consulta,"SELECT * FROM administradores_servicios_log WHERE Fecha_Fin_Serv LIKE '%s_______________';",fecha);
+    if(flag==2 && flag2==2 && flag3==2)//busqueda de servicio de la fecha final por mes
+        sprintf(consulta,"SELECT * FROM administradores_servicios_log WHERE Fecha_Fin_Serv LIKE '_____%s____________';",fecha);
+    if(flag==2 && flag2==2 && flag3==3)//busqueda de servicio de la fecha final por dia
+        sprintf(consulta,"SELECT * FROM administradores_servicios_log WHERE Fecha_Fin_Serv LIKE '________%s_________';",fecha);
+    if(flag==2 && flag2==2 && flag3==4)//busqueda de servicio de la fecha final por hora
+        sprintf(consulta,"SELECT * FROM administradores_servicios_log WHERE Fecha_Fin_Serv LIKE '___________%s______';",fecha);
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion);
+    free(consulta);
+    if(flag==1)
+    {
+        fprintf(archivo,"\n|| IdLog || StatusLog ||    UserAdmin   ||        Tarea        ||     IpOrigen     ||     MACOrigen     ||   AdminObj   ||      FechaInit      ||      FechaFin      ||");
+        printf("\n|| IdLog || StatusLog ||    UserAdmin   ||        Tarea        ||     IpOrigen     ||     MACOrigen     ||   AdminObj   ||      FechaInit      ||      FechaFin      ||");
+    }
+    if(flag==2)
+    {
+        fprintf(archivo,"\n|| IdLog || StatusLog ||    UserAdmin   ||        Servicio         ||   IPOrigen   ||   MACOrigen   ||   IPDispositivoDest   ||   IPDispositivoDestActual   ||   MACDispositivoDest   ||        FechaInit       ||       FechaFin       ||");
+        printf("\n|| IdLog || StatusLog ||    UserAdmin   ||        Servicio         ||   IPOrigen   ||   MACOrigen   ||   IPDispositivoDest   ||   IPDispositivoDestActual   ||   MACDispositivoDest   ||        FechaInit       ||       FechaFin       ||");
+    }   
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        if(flag==1)
+        {
+            fprintf(archivo,"\n|| %s   ",row[0]);
+            printf("\n|| %s   ",row[0]);
+            if(atoi(row[1]) == 1 )
+            {
+                fprintf(archivo,"|| En Ejecucion ");
+                printf("|| En Ejecucion ");
+            }    
+            if(atoi(row[1]) == 2 )
+            {
+                fprintf(archivo,"|| Error ");
+                printf("|| Error ");
+            }    
+            if(atoi(row[1]) == 3 )
+            {
+                fprintf(archivo,"|| Completado ");
+                printf("|| Completado ");
+            }    
+            ObtenerNomUser(atoi(row[2]));
+            fprintf(archivo,"|| %s ",Nom_user);
+            printf("|| %s ",Nom_user);
+            if(atoi(row[3]) == 1 )
+            {
+                fprintf(archivo,"|| Iniciar Sesion ");
+                printf("|| Iniciar Sesion ");
+            }
+            if(atoi(row[3]) == 2 )
+            {
+                fprintf(archivo,"|| Cerrar Sesion ");
+                printf("|| Cerrar Sesion ");
+            }    
+            if(atoi(row[3]) == 3 )
+            {
+                fprintf(archivo,"|| Modificar Datos Propios ");
+                printf("|| Modificar Datos Propios ");
+            }    
+            if(atoi(row[3]) == 4 )
+            {
+                fprintf(archivo,"|| Alta Administrador ");
+                printf("|| Alta Administrador ");
+            }
+            if(atoi(row[3]) == 5 )
+            {
+                fprintf(archivo,"|| Modificar Datos Administrador ");
+                printf("|| Modificar Datos Administrador ");
+            }    
+            if(atoi(row[3]) == 6 )
+            {
+                fprintf(archivo,"|| Eliminar Administrador ");
+                printf("|| Eliminar Administrador ");
+            }
+            if(atoi(row[3]) == 7 )
+            {
+                fprintf(archivo,"|| Eliminar Privilegios ");
+                printf("|| Eliminar Privilegios ");
+            }    
+            if(atoi(row[3]) == 8 )
+            {
+                fprintf(archivo,"|| Agregar Privilegios ");
+                printf("|| Agregar Privilegios ");
+            }    
+            fprintf(archivo,"||  %s ",row[4]);
+            printf("||  %s ",row[4]);
+            fprintf(archivo,"||  %s ",row[5]);
+            printf("||  %s ",row[5]);
+            ObtenerNomUser(atoi(row[6]));
+            fprintf(archivo,"|| %s ",Nom_user);
+            printf("|| %s ",Nom_user);
+            fprintf(archivo,"||  %s ",row[7]);
+            printf("||  %s ",row[7]);
+            fprintf(archivo,"||  %s  ||",row[8]);
+            printf("||  %s  ||",row[8]);
+        }
+        if(flag==2)
+        {
+            fprintf(archivo,"\n|| %s   ",row[0]);
+            printf("\n|| %s   ",row[0]);
+            if(atoi(row[1]) == 1 )
+            {
+                fprintf(archivo,"|| En Ejecucion ");
+                printf("|| En Ejecucion ");
+            }
+            if(atoi(row[1]) == 2 )
+            {
+                fprintf(archivo,"|| Error ");
+                printf("|| Error ");
+            }    
+            if(atoi(row[1]) == 3 )
+            {
+                fprintf(archivo,"|| Completado ");
+                printf("|| Completado ");
+            }    
+            ObtenerNomUser(atoi(row[2]));
+            fprintf(archivo,"|| %s ",Nom_user);
+            printf("|| %s ",Nom_user);
+            if(atoi(row[3]) == 1 )
+            {
+                fprintf(archivo,"|| Monitorizacion ");
+                printf("|| Monitorizacion ");
+            }
+            if(atoi(row[3]) == 2 )
+            {
+                fprintf(archivo,"|| Configuracion Router ");
+                printf("|| Configuracion Router ");
+            }
+            if(atoi(row[3]) == 3 )
+            {
+                fprintf(archivo,"|| Configuracion Switch ");
+                printf("|| Configuracion Switch ");
+            }
+            if(atoi(row[3]) == 4 )
+            {
+                fprintf(archivo,"|| Configuracion Servidor ");
+                printf("|| Configuracion Servidor ");
+            }
+            fprintf(archivo,"||  %s ",row[4]);
+            printf("||  %s ",row[4]);
+            fprintf(archivo,"||  %s ",row[5]);
+            printf("||  %s ",row[5]);
+            fprintf(archivo,"||  %s ",row[6]);
+            printf("||  %s ",row[6]);
+            fprintf(archivo,"||  %s ",row[7]);
+            printf("||  %s ",row[7]);
+            fprintf(archivo,"||  %s ",row[8]);
+            printf("||  %s ",row[8]);
+            fprintf(archivo,"||  %s ",row[9]);
+            printf("||  %s ",row[9]);
+            fprintf(archivo,"||  %s ",row[10]);
+            printf("||  %s ",row[10]);
+        }
     }
     fclose(archivo);
     printf("\nArchivo %s listo..",nomarch);

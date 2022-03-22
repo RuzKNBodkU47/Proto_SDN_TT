@@ -1282,3 +1282,203 @@ int ImLogServiciosTxt()
     free(nomarch);
     return 1;
 }
+/**
+ * @brief Imprime el menu de tipo de log para la busqueda
+ * 
+ */
+void menusublogs()
+{
+    printf("\n1.Logs de Tareas\n2.Logs de Servicios\n3.Salir\nElija en cual log desea realizar la busqueda: ");
+}
+/**
+ * @brief Funcion que busca logs por nombre de usuario
+ * 
+ * @return int 
+ */
+int busc_userlog()
+{
+    char nomuser[30];
+    int flag, ciclo=1;
+    while(ciclo)
+    {
+        menusublogs();
+        scanf("%d",&flag);
+        switch (flag)
+        {
+        case 1:printf("\nLogs de Tareas");
+            printf("\nIngrese el nombre del usuario: ");
+            scanf("%s",nomuser);
+            if(busquedaloguser(nomuser,flag)!=1)
+                return 0;
+            break;
+        case 2:printf("\nLogs de Servicios");
+            printf("\nIngrese el nombre del usuario: ");
+            scanf("%s",nomuser);
+            if(busquedaloguser(nomuser,flag)!=1)
+                return 0;
+            break;
+        case 3:printf("\nSaliendo..");
+            ciclo=0;
+            break;
+        default:printf("\nError escoja una correcta opcion");
+            break;
+        }
+    }
+    return 1;
+}
+
+int fun_fech(int flag,int flag2)
+{
+    int ciclo=1,opc=0;
+    char resp[10];
+    while(ciclo)
+    {
+        printf("\nMetodos de busqueda");
+        printf("\n1.Anual");
+        printf("\n2.Mensual");
+        printf("\n3.Dia");
+        printf("\n4.Hora");
+        printf("\n5.Salir");
+        printf("\nElije la opcion del metodo: ");
+        scanf("%d",&opc);
+        switch (opc)
+        {
+        case 1:printf("\nIngrese el anio a buscar en este formato (aaaa): ");
+            scanf("%s",resp);
+            if(verif_carac_num(resp)==1)
+            {
+                if(busquedalogfecha(resp,flag,flag2,1)!=1)
+                    return 0;
+            }    
+            else
+                printf("\nIngrese un anio correcto..");
+            break;
+        
+        case 2:
+            printf("\nIngrese el numero de mes en este formato (mm)");
+            scanf("%s",resp);
+            if(verif_carac_num(resp)==1)
+            {
+                if(busquedalogfecha(resp,flag,flag2,2)!=1)
+                    return 0;
+            }    
+            else
+                printf("\nIngrese un mes correcto..");
+            break;
+        case 3:
+            printf("\nIngrese el numero de dia en este formato (dd)");
+            scanf("%s",resp);
+            if(verif_carac_num(resp)==1)
+            {
+                if(busquedalogfecha(resp,flag,flag2,3)!=1)
+                    return 0;
+            }    
+            else
+                printf("\nIngrese un dia correcto..");
+            break;
+        
+        case 4:
+            printf("\nIngrese el numero de hora en este formato (hh)");
+            scanf("%s",resp);
+            if(verif_carac_num(resp)==1)
+            {
+                if(busquedalogfecha(resp,flag,flag2,4)!=1)
+                    return 0;
+            }    
+            else
+                printf("\nIngrese una hora correcto..");
+            break;
+
+        case 5:printf("\nSaliendo..");
+        ciclo=0;
+            break;
+        default:printf("\nElija una opcion correcta");
+            break;
+        }
+    }
+    return 1;
+}
+
+int busc_fechainitlog(int flag2)
+{
+    int flag, ciclo=1;
+    while(ciclo)
+    {
+        menusublogs();
+        scanf("%d",&flag);
+        switch (flag)
+        {
+        case 1:printf("\nLogs de Tareas");
+            if(fun_fech(flag,flag2)!=1)
+                return 0;
+            break;
+        case 2:printf("\nLogs de Servicios");
+            if(fun_fech(flag,flag2)!=1)
+                return 0;
+            break;
+        case 3:printf("\nSaliendo..");
+            ciclo=0;
+            break;
+        default:printf("\nError escoja una correcta opcion");
+            break;
+        }
+    }
+    return 1;
+}
+
+
+/*int opc=0;
+    int flag, ciclo=1,subciclo=1;
+    while(ciclo)
+    {
+        menusublogs();
+        scanf("%d",&flag);
+        switch (flag)
+        {
+        case 1:
+            while(subciclo)
+            {
+                printf("\nLogs de Tareas");
+                printf("\n1.Iniciar Sesion");
+                printf("\n2.Cerrar Sesion");
+                printf("\n3.Modificar Datos Propios");
+                printf("\n4.Alta Administrador");
+                printf("\n5.Modificacion Datos Administradores");
+                printf("\n6.Eliminar Administrador");
+                printf("\n7.Eliminar Privilegios");
+                printf("\n8.Agregar Privilegios");
+                printf("\n9.Salir");
+                printf("\nElija la tarea a buscar en los logs de tareas: ");
+                scanf("%d",&opc);
+                switch (opc)
+                {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                default:
+                    break;
+                }   
+            }
+            if(busquedaloguser(nomuser,flag)!=1)
+                return 0;
+            break;
+        case 2:printf("\nLogs de Servicios");
+            printf("\nIngrese el nombre del usuario: ");
+            scanf("%s",nomuser);
+            if(busquedaloguser(nomuser,flag)!=1)
+                return 0;
+            break;
+        case 3:printf("\nSaliendo..");
+            ciclo=0;
+            break;
+        default:printf("\nError escoja una correcta opcion");
+            break;
+        }
+    }*/

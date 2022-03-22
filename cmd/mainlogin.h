@@ -38,7 +38,9 @@
 #define LOGS_SUBCMD_3 "user"
 #define LOGS_SUBCMD_4 "fechainit"
 #define LOGS_SUBCMD_5 "fechafin"
-
+#define LOGS_SUBCMD_6 "tarea"
+#define LOGS_SUBCMD_7 "servicio"
+#define LOGS_SUBCMD_8 "id"
 
 #define SYST_CMD "monitorear"
 #define SYST_CMD_1 "info"

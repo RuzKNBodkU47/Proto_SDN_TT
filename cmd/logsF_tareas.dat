@@ -1,0 +1,22 @@
+
+|| IdLog || StatusLog ||    UserAdmin   ||        Tarea        ||     IpOrigen     ||     MACOrigen     ||   AdminObj   ||      FechaInit      ||      FechaFin      ||
+|| 7   || Completado || admin1 || Iniciar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || admin1 ||  2022-03-20 13:40:26 ||  2022-03-20 13:40:26  ||
+|| 8   || Completado || admin1 || Cerrar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || admin1 ||  2022-03-20 13:40:34 ||  2022-03-20 13:40:34  ||
+|| 9   || Completado || SDNTTROOT || Iniciar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 13:40:56 ||  2022-03-20 13:40:56  ||
+|| 10   || Completado || SDNTTROOT || Cerrar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 13:54:06 ||  2022-03-20 13:54:06  ||
+|| 11   || Completado || SDNTTROOT || Iniciar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 13:54:34 ||  2022-03-20 13:54:34  ||
+|| 12   || Completado || SDNTTROOT || Iniciar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 13:56:54 ||  2022-03-20 13:56:54  ||
+|| 13   || Completado || SDNTTROOT || Cerrar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 13:57:35 ||  2022-03-20 13:57:35  ||
+|| 14   || Completado || SDNTTROOT || Iniciar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 14:01:33 ||  2022-03-20 14:01:33  ||
+|| 15   || Completado || SDNTTROOT || Cerrar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 14:02:29 ||  2022-03-20 14:02:29  ||
+|| 16   || Completado || SDNTTROOT || Iniciar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 14:25:23 ||  2022-03-20 14:25:23  ||
+|| 17   || Completado || SDNTTROOT || Cerrar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 14:35:33 ||  2022-03-20 14:35:33  ||
+|| 18   || Completado || SDNTTROOT || Iniciar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 14:36:08 ||  2022-03-20 14:36:08  ||
+|| 19   || Completado || SDNTTROOT || Cerrar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 16:59:58 ||  2022-03-20 16:59:58  ||
+|| 20   || Completado || SDNTTROOT || Iniciar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 17:06:28 ||  2022-03-20 17:06:28  ||
+|| 21   || Completado || SDNTTROOT || Alta Administrador ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 17:06:28 ||  2022-03-20 17:06:28  ||
+|| 22   || Completado || SDNTTROOT || Cerrar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 17:09:34 ||  2022-03-20 17:09:34  ||
+|| 23   || Completado || nvo1 || Iniciar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || nvo1 ||  2022-03-20 17:10:18 ||  2022-03-20 17:10:18  ||
+|| 24   || Completado || nvo1 || Cerrar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || nvo1 ||  2022-03-20 17:10:22 ||  2022-03-20 17:10:22  ||
+|| 25   || Completado || SDNTTROOT || Iniciar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 17:11:04 ||  2022-03-20 17:11:04  ||
+|| 26   || Completado || SDNTTROOT || Cerrar Sesion ||  192.168.117.30 ||  B4:2E:99:4C:59:A0 || SDNTTROOT ||  2022-03-20 17:11:29 ||  2022-03-20 17:11:29  ||

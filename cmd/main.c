@@ -258,6 +258,65 @@ void funcion_log()
                 }
             }
         }
+        else if(strcmp(subcomando,LOGS_CMD_3)==0)
+        {
+            while(subindice!=0)
+            {
+                printf("\nSDNTT>LOG>BUSCAR>");
+                scanf("%s",subcomando);
+                if(strcmp(subcomando,LOGS_SUBCMD_3)==0)//buscar por user
+                {
+                    if(busc_userlog()==1)
+                        printf("\nObtencion de logs exitoso.");
+                    else
+                        printf("\nObtencion de logs no exitoso.");
+                }
+                else if(strcmp(subcomando,LOGS_SUBCMD_4)==0)//buscar por fecha de inicio
+                {
+                    if(busc_fechainitlog(1)==1)
+                        printf("\nObtencion de logs exitoso.");
+                    else
+                        printf("\nObtencion de logs no exitoso.");
+                    
+                }
+                else if(strcmp(subcomando,LOGS_SUBCMD_5)==0)//buscar por fecha fin
+                {
+                    if(busc_fechainitlog(2)==1)
+                        printf("\nObtencion de logs exitoso.");
+                    else
+                        printf("\nObtencion de logs no exitoso.");
+                }
+                else if(strcmp(subcomando,LOGS_SUBCMD_6)==0)//buscar por tarea
+                {
+                    //if()
+                      //  printf("\nObtencion de logs exitoso.");
+                    //else
+                      //  printf("\nObtencion de logs no exitoso.");
+                }
+                else if(strcmp(subcomando,LOGS_SUBCMD_7)==0)//buscar por servicio
+                {
+                    //if()
+                      //  printf("\nObtencion de logs exitoso.");
+                    //else
+                      //  printf("\nObtencion de logs no exitoso.");
+                }
+                else if(strcmp(subcomando,LOGS_SUBCMD_8)==0)//buscar por id
+                {
+                    //if()
+                      //  printf("\nObtencion de logs exitoso.");
+                    //else
+                      //  printf("\nObtencion de logs no exitoso.");
+                }
+                else if(strcmp(subcomando,EXIT_CMD)==0)
+                {
+                    subindice=0;
+                }
+                else
+                {
+                    printf("\nElija una opcion correcta.");
+                }
+            }
+        }
         else if(strcmp(subcomando,EXIT_CMD)==0)
             break;
         else

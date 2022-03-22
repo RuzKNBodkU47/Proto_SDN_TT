@@ -76,4 +76,6 @@ void ObtenerNomUser(int id);
 int MostrarLogsServicios();
 int GenLogTareasTxt(char *nomarch);
 int GenLogServiciosTxt(char *nomarch);
+int busquedaloguser(char * nomuser, int flag);
+int busquedalogfecha(char * fecha, int flag, int flag2, int flag3);
 #endif
