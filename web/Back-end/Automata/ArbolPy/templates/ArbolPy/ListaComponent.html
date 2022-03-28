@@ -8,7 +8,7 @@
 <ul>
     {% for component in Componentes %}
         <li>
-            <a href="% url 'ArbolPy:ComponenteIndividual' component.id%">{{component}}</a>
+            <a href="{% url 'ArbolPy:ComponenteIndividual' component.id%}">{{component}}</a>
         </li>
     {% empty %}
         <li>Error. No se encuentran los tipos de componente disponibles</li>
