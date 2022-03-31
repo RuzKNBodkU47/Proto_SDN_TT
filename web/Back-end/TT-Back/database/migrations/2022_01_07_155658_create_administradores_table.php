@@ -37,11 +37,11 @@ class CreateAdministradoresTable extends Migration
             $table->unsignedBigInteger('Id_Status_Admin');
             $table->foreign('Id_Status_Admin')->references('id_Status_Admin')->on('Status_admin');
             // $table->integer('id_tipo_admin');
-            $table->unsignedBigInteger('Id_tipo_admin');
+            $table->unsignedBigInteger('Id_Tipo_Admin');
             $table->foreign('Id_Tipo_Admin')->references('Id_Tipo_Admin')->on('Tipo_admin');
             $table->string('Nombre_Admin', 60)->comment('Nombre de pila del administrador');
-            $table->string('Apellido_P_Admini', 60)->comment('Apellido paterno del administrador');
-            $table->string('Apellido_M_Admini', 60)->comment('Apellido materno del administrador');
+            $table->string('Apellido_P_Admin', 60)->comment('Apellido paterno del administrador');
+            $table->string('Apellido_M_Admin', 60)->comment('Apellido materno del administrador');
             $table->string('Fecha_ingreso',60)->nullable()->comment('Fecha de la ultima vez que inicio sesión');
             $table->string('Nombre_Usuario', 60)->comment('Nombre que el administrador una como Nickname');
             $table->string('Password_Hash',60)->comment('Contraseña');

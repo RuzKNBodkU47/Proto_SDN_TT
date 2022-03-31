@@ -35,13 +35,13 @@ class CreateAdministradorServiciosLogsTable extends Migration
             $table->foreign('Id_Administradores')->references('Id_Administradores')->on('Administradores');
             $table->unsignedBigInteger('Id_Cat_Servicios');
             $table->foreign('Id_Cat_Servicios')->references('Id_Cat_Servicios')->on('Cat_servicios');
-            $table->string('Ip_Dispositivo_Orig', 40)->comment('dirección ip de origen');
-            $table->string('MAC_Dispositivo_orig', 40)->comment('dirección mac anterior');
-            $table->string('Ip_Dispositivo_Ant', 40)->comment('dirección ip anterior');            
-            $table->string('Ip_Dispositivo_Desp', 40)->comment('dirección ip posterior');
-            $table->string('Dir_MAC_Disp_Fin', 40)->comment('dirección mac del dispositivo final');
-            $table->string('Fecha_Init_Serv')->nullable()->comment('Fecha de inicio del servicio');
-            $table->string('Fecha_Fin_Serv')->nullable()->comment('Fecha de fin del servicio');
+            $table->string('Ip_Dispositivo_Orig', 20)->comment('dirección ip de origen');
+            $table->string('MAC_Dispositivo_Orig', 30)->comment('dirección mac anterior');
+            $table->string('Ip_Dispositivo_Ant', 20)->comment('dirección ip anterior');            
+            $table->string('Ip_Dispositivo_Desp', 20)->comment('dirección ip posterior');
+            $table->string('Dir_MAC_Disp_Fin', 30)->comment('dirección mac del dispositivo final');
+            $table->string('Fecha_Init_Serv',60)->nullable()->comment('Fecha de inicio del servicio');
+            $table->string('Fecha_Fin_Serv',60)->nullable()->comment('Fecha de fin del servicio');
         });
     }
 

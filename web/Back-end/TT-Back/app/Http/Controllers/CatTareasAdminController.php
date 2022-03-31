@@ -75,7 +75,7 @@ class CatTareasAdminController extends Controller
         //
         // return tipo_admin_cat_tareas::get();
         try { 
-            $ctareaadmin = tipo_admin_cat_tareas::where('Id_Tipo_Admin_Cat_Tareas', '=', $id)->get();
+            $ctareaadmin = tipo_admin_cat_tareas::where('Id_Tipo_Admin_Tareas', '=', $id)->get();
             if (count($ctareaadmin) == 0) {
                 return response()->json(["message"=>"Tarea en catalogo de administrador no encontrado","code"=>404],404);
             }else {
@@ -109,13 +109,13 @@ class CatTareasAdminController extends Controller
         //
         try {
             $validated = $request->validate([
-                'Id_Tipo_Admin_Cat_Tareas'=> 'required',
+                'Id_Tipo_Admin_Tareas'=> 'required',
                 'Id_Administrador'=> 'required',
                 'Id_Cat_Tareas'=> 'required',
                 'Fecha_Ult_Mod'=> 'required'
             ]); 
             DB::table('tipo_admin_cat_tareas')
-            ->where('Id_Tipo_Admin_Cat_Tareas', $request->Id_Tipo_Admin_Cat_Tareas)
+            ->where('Id_Tipo_Admin_Tareas', $request->Id_Tipo_Admin_Tareas)
             ->update([
                 'Id_Administrador'=>$request->Id_Administrador,
                 'Id_Cat_Tareas'=>$request->Id_Cat_Tareas,

@@ -33,12 +33,12 @@ class CreateAdministradorTareasLogsTable extends Migration
             $table->foreign('Id_Administradores')->references('Id_Administradores')->on('Administradores');
             $table->unsignedBigInteger('Id_Cat_Tareas');
             $table->foreign('Id_Cat_Tareas')->references('Id_Cat_Tareas')->on('Cat_tareas');
-            $table->string('Ip_Dispositivo_Orig', 40)->comment('dirección ip de origen');
-            $table->string('MAC_Dispositivo_Orig', 40)->comment('dirección mac anterior');
-            $table->unsignedBigInteger('Id_admin_Obj');
+            $table->string('Ip_Dispositivo_Orig', 20)->comment('dirección ip de origen');
+            $table->string('MAC_Dispositivo_Orig', 30)->comment('dirección mac anterior');
+            $table->unsignedBigInteger('Id_Admin_Obj');
             $table->foreign('Id_Admin_Obj')->references('Id_Cat_Tareas')->on('Cat_tareas');
-            $table->string('Fecha_Init_Serv')->nullable()->comment('Fecha de inicio de la tarea');
-            $table->string('Fecha_fin_Serv')->nullable()->comment('Fecha de fin de la tarea');
+            $table->string('Fecha_Init_Serv',60)->nullable()->comment('Fecha de inicio de la tarea');
+            $table->string('Fecha_Fin_Serv',60)->nullable()->comment('Fecha de fin de la tarea');
         });
     }
 

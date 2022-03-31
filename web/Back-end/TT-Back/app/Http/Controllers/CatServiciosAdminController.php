@@ -75,7 +75,7 @@ class CatServiciosAdminController extends Controller
         //
         // return tipo_admin_cat_servicios::get();
         try { 
-            $cservicioadmin = tipo_admin_cat_servicios::where('Id_Tipo_Admin_Cat_Servicios', '=', $id)->get();
+            $cservicioadmin = tipo_admin_cat_servicios::where('Id_Tipo_Admin_Servicios', '=', $id)->get();
             if (count($cservicioadmin) == 0) {
                 return response()->json(["message"=>"Servicio en catalogo del administrador no encontrado","code"=>404],404);
             }else {
@@ -109,15 +109,15 @@ class CatServiciosAdminController extends Controller
         //
         try {
             $validated = $request->validate([
-                'Id_Tipo_Admin_Cat_Servicios'=> 'required',
+                'Id_Tipo_Admin_Servicios'=> 'required',
                 'Id_Administrador'=> 'required',
                 'Id_Cat_Servicios'=> 'required',
                 'Fecha_Ult_Mod'=> 'required'
             ]); 
             DB::table('tipo_admin_cat_servicios')
-            ->where('Id_Tipo_Admin_Cat_Servicios', $request->Id_Tipo_Admin_Cat_Servicios)
+            ->where('Id_Tipo_Admin_Servicios', $request->Id_Tipo_Admin_Servicios)
             ->update([
-                'Id_Tipo_Admin_Cat_Servicios'=>$request->Id_Tipo_Admin_Cat_Servicios,
+                'Id_Tipo_Admin_Servicios'=>$request->Id_Tipo_Admin_Servicios,
                 'Id_Administrador'=>$request->Id_Administrador,
                 'Id_Cat_Servicios'=>$request->Id_Cat_Servicios,
                 'Fecha_Ult_Mod'=>$request->Fecha_Ult_Mod

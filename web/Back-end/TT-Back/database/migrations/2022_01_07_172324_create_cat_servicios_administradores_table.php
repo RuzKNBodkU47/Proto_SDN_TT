@@ -23,7 +23,7 @@ class CreateCatServiciosAdministradoresTable extends Migration
         //     $table->foreign('id_cat_servicios')->references('id_cat_servicios')->on('cat_servicios');        
         // });
         Schema::create('Tipo_Admin_Cat_Servicios', function (Blueprint $table) {
-            $table->bigIncrements('Id_Tipo_Admin_Cat_Servicios');
+            $table->bigIncrements('Id_Tipo_Admin_Servicios');
             // $table->integer('Status_Servicios_Admin');
             $table->unsignedBigInteger('Id_Administrador');
             $table->foreign('Id_Administrador')->references('Id_Administradores')->on('Administradores');

@@ -44,7 +44,7 @@ class AdminServiciosLogController extends Controller
                 'Id_Administradores' => 'required',
                 'Id_Cat_Servicios' => 'required',
                 'Ip_Dispositivo_Orig'=>'required',
-                'MAC_Dispositivo_orig'=>'required',
+                'MAC_Dispositivo_Orig'=>'required',
                 'Ip_Dispositivo_Ant' => 'required',
                 'Ip_Dispositivo_Desp' => 'required',
                 'Dir_MAC_Disp_Fin' => 'required',
@@ -58,7 +58,7 @@ class AdminServiciosLogController extends Controller
                 $adminserviciolog->Id_Administradores = $request->Id_Administradores;
                 $adminserviciolog->Id_Cat_Servicios = $request->Id_Cat_Servicios;
                 $adminserviciolog->Ip_Dispositivo_Orig = $request->Ip_Dispositivo_Orig;
-                $adminserviciolog->MAC_Dispositivo_orig = $request->MAC_Dispositivo_orig;
+                $adminserviciolog->MAC_Dispositivo_Orig = $request->MAC_Dispositivo_Orig;
                 $adminserviciolog->Ip_Dispositivo_Ant = $request->Ip_Dispositivo_Ant;
                 $adminserviciolog->Ip_Dispositivo_Desp = $request->Ip_Dispositivo_Desp;
                 $adminserviciolog->Dir_MAC_Disp_Fin = $request->Dir_MAC_Disp_Fin;
@@ -129,7 +129,7 @@ class AdminServiciosLogController extends Controller
                 'Id_Administradores' => 'required',
                 'Id_Cat_Servicios' => 'required',
                 'Ip_Dispositivo_Orig'=>'required',
-                'MAC_Dispositivo_orig'=>'required',
+                'MAC_Dispositivo_Orig'=>'required',
                 'Ip_Dispositivo_Ant' => 'required',
                 'Ip_Dispositivo_Desp' => 'required',
                 'Dir_MAC_Disp_Fin' => 'required',
@@ -143,7 +143,7 @@ class AdminServiciosLogController extends Controller
                 'Id_Administradores'=>$request->Id_Administradores,
                 'Id_Cat_Servicios'=>$request->Id_Cat_Servicios,
                 'Ip_Dispositivo_Orig'=>$request->Ip_Dispositivo_Orig,
-                'MAC_Dispositivo_orig'=>$request->MAC_Dispositivo_orig,
+                'MAC_Dispositivo_Orig'=>$request->MAC_Dispositivo_Orig,
                 'Ip_Dispositivo_Ant'=>$request->Ip_Dispositivo_Ant,
                 'Ip_Dispositivo_Desp'=>$request->Ip_Dispositivo_Desp,
                 'Dir_MAC_Disp_Fin'=>$request->Dir_MAC_Disp_Fin,
