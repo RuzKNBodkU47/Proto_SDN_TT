@@ -16,14 +16,14 @@
 
 #include "mainfunusers.h"
 #include "cmdmain.c"
-
+#include "mainverif.h"
 
 #define CANTTAREAS 10
 #define CANTSERVICIOS 6
-
+#define TAMPASSGEN 10
 
 char FechaFunUser[70]="";
-
+char pass[30];
 /**
  * @brief funcion para registrar usuarios
  * 
@@ -75,8 +75,9 @@ int regis_user()
         scanf("%s",ApellidoPat);
         printf("\nApellido Materno del administrador: ");
         scanf("%s",ApellidoMat);
-        printf("\nContrasena:  ");
-        scanf("%s",PassHash);
+        Gen_Pass();
+        strcpy(PassHash,pass);
+        printf("\nContrasena =>  %s \n\n==FAVOR DE GUARDAR ESTA CONTRASENA Y DESPUES CAMBIARLA==\n\n",PassHash);
         while(whilecontrol)
         {
             printf("\nTipo de nuevo Admininistrador (1.-Administrador 2.-SuperAdministrador): ");
@@ -99,7 +100,7 @@ int regis_user()
         opc=0;
         while(whilecontrol)
         {
-            printf("\nStatus del nuevo Admininistrador (1.-Activo 2.-Inactivo): ");
+            printf("\nStatus del nuevo Admininistrador (1.-Activo 2.-Inactivo):  ");
             scanf("%d",&opc);
                 switch (opc)
                 {
@@ -126,6 +127,7 @@ int regis_user()
                 }
         }
         opc=0;
+        printf("\n================================");
         printf("\n\nVerificando datos");
         printf("\nNombre del administrador: %s",NombreAdmin);
         printf("\nApellido paterno del Administrador: %s",ApellidoPat);
@@ -142,8 +144,7 @@ int regis_user()
         whilecontrol=1;
         while(whilecontrol)
         {
-            //probar si se puede tomar el valor ascii de y / n
-            printf("\nDesea continuar 1-si , 2-no: ");
+            printf("\nDesea continuar 1-si , 2-no:  ");
             scanf("%d",&opc);
             switch(opc)
             {
@@ -158,9 +159,7 @@ int regis_user()
                 default:printf("\nElija entre valores entre si y no");
                 break;
             }
-        }
-      
-       
+        }  
     } 
     if(obfecha()==0)
         printf("\nError con la fecha");
@@ -192,10 +191,6 @@ int ModificarUser(int flag)
     printf("\n==Modificando Adminsitrador==\n");
     printf("\nIngrese el nombre de usuario a modificar: ");
     scanf("%s",NomUser);
-    //obtener id del nombre del usuario
-    //if(id_user=ObtenerIdUser(NomUser)== -1)
-      //  return 0;
-    //printf("\nflag %d ",flag);
     if(verifexistuser(NomUser)!=1)
     {
         printf("\nUser no existe.");
@@ -372,6 +367,8 @@ int ModificarUser(int flag)
                 }
                 break;
             case 7:printf("\nModificar Contrasena del administrador.");
+                Gen_Pass();
+                printf("\n Nueva Contrasena: %s\n\n==FAVOR DE GUARDAR ESTA CONTRASENA Y DESPUES CAMBIARLA==",pass);
                 break;
             case 8:printf("\nSaliendo del menu.");
                 opc=0;
@@ -908,7 +905,7 @@ int ModificarPermisosTareas(int IdUser)
     else if (respuesta[4]==2)
         printf("\n[ ]Eliminar Privilegios a Administradores");
 
-    printf("\nDesea Continuar ( 1 si / 2 no)");
+    printf("\nDesea Continuar ( 1 si / 2 no): ");
     scanf("%d",&opcfinal);
     if(opcfinal==1)
         global=0;
@@ -1010,7 +1007,7 @@ int ModificarPermisosServicios(int IdUser)
         printf("\n[X]Configuracion de Servidor");
     else if (respuesta[3]==2)
         printf("\n[ ]Configuracion de Servidor");
-    printf("\nDesea Continuar ( 1 si / 2 no)");
+    printf("\nDesea Continuar ( 1 si / 2 no): ");
     scanf("%d",&opcfinal);
     if(opcfinal==1)
         global=0;
@@ -1095,7 +1092,11 @@ void menuflag2()
     printf("\n10.Salir del Menu.");
     printf("\nElija el permiso que quiera agregar/eliminar: ");
 }
-
+/**
+ * @brief Funcion que permite poner el status del usuario en fuera del sistema por lo que estaria dado de baja.
+ * 
+ * @return int 
+ */
 int EliminarUsers()
 {
     char nomuser[50];
@@ -1105,7 +1106,11 @@ int EliminarUsers()
         return 0;
     return 1;
 }
-
+/**
+ * @brief Funcion que muestra todos los administradores en la base de datos.
+ * 
+ * @return int 
+ */
 int ListarAdministradores()
 {
     printf("\nListando los administradores\n\n");
@@ -1113,3 +1118,367 @@ int ListarAdministradores()
         return 0;
     return 1;
 }
+/**
+ * @brief Funcion que muestra el menu de la modificacion de informacion
+ * 
+ */
+void menuuserdata()
+{
+    printf("\nMenu de modificacion de informacion.");
+    printf("\n1.Nombre del administrador.");
+    printf("\n2.Apellido Paterno del administrador.");
+    printf("\n3.Apellido Materno del administrador.");
+    printf("\n4.Salir del Menu.");
+    printf("\nElija una opcion: ");
+}
+/**
+ * @brief Funcion que modifica la informacion del usuario actual
+ * 
+ * @param user parametro que recibe el id del usuario
+ * @return int 
+ */
+int usermoddata(int user)
+{
+    int indice=1;
+    int opc=-1;
+    char valor[50];
+    while(indice)
+    {
+        menuuserdata();
+        scanf("%d",&opc);
+        switch (opc)
+        {
+        case 1:printf("\nCambiar Nombre del Administrador.\nIngrese el nuevo nombre: ");
+            scanf("%s",valor);
+            if(UpdateData(1,user,valor)!=1)
+                return 0;
+            break;
+        case 2:printf("\nCambiar Apellido Paterno del Administrador.\nIngrese el nuevo Apellido Paterno: ");
+            scanf("%s",valor);
+            if(UpdateData(2,user,valor)!=1)
+                return 0;
+            break;
+        case 3:printf("\nCambiar Apellido Materno del Administrador.\nIngrese el nuevo Apellido Materno: ");
+            scanf("%s",valor);
+            if(UpdateData(3,user,valor)!=1)
+                return 0;
+            break;
+        case 4:printf("\nSaliendo..");
+            indice=0;
+            break;    
+        default:printf("\nError en las opciones..");
+            break;
+        }
+    }
+    return 1;
+}
+/**
+ * @brief Funcion que cambia la contrasena del usuario actual
+ * 
+ * @param user parametro que recibe el id del usuario
+ * @return int 
+ */
+int usermodpass(int user)
+{
+    char pass[50];
+    printf("\nIngrese la nueva contrasena: ");
+    scanf("%s",pass);
+    if(UpdatePass(user,pass)!=1)
+        return 0;
+    return 1;
+}
+
+/**
+ * @brief Funcion que genera los passwords
+ * 
+ * @return char* 
+ */
+void Gen_Pass()
+{
+    srand(time(NULL));
+	int x;
+	//int cifras=atoi(argv[1]);
+	char min[]="abcdefghijklmnopqrstuvwxyz";
+	char may[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	char num[]="0123456789";
+	for(x=0; x<TAMPASSGEN; x++) 
+    {
+		int eleccion=(int)(rand() % 3+1);
+		switch ( eleccion ) {
+		case 1:
+ 			pass[x]=min[rand() % 25+1];
+ 		break;
+		case 2:
+			pass[x]=may[rand() % 25+1];
+		break;
+		case 3:
+			pass[x]=num[rand() % 9+1];
+		break;
+		}
+	pass[TAMPASSGEN]='\0';
+	}
+	//printf("gen pass %s\n", pass);
+}
+
+/**
+ * @brief Funcion que manda a llamar la Funcion para imprimir los logs
+ * 
+ * @return int 
+ */
+int ImLogTareas()
+{
+    printf("\n\n==>Mostrando Todos los logs...");
+    if(MostrarLogsTareas()!=1)
+        return 0;
+    printf("\n\n==> Fin de Logs");
+    return 1;
+}
+/**
+ * @brief Despliega todos los logs de los servicios
+ * 
+ * @return int 
+ */
+int ImLogServicios()
+{
+    printf("\n\n==>Mostrando Todos los logs...");
+    if(MostrarLogsServicios()!=1)
+        return 0;
+    printf("\n\n==> Fin de Logs");
+    return 1;
+}
+/**
+ * @brief Genera un archivo .dat los logs de las tareas
+ * 
+ * @return int 
+ */
+int ImLogTareasTxt()
+{
+    char *nomarch;
+    nomarch = (char*) malloc(sizeof(char)* 30);
+    printf("\n\n==>Imprimiendo Todos los logs...");
+    obfecha();
+    strcat(strcpy(nomarch,FechaFunUser),"_tarlog.dat");
+    if(GenLogTareasTxt(nomarch)!=1)
+        return 0;
+    printf("\n\n==> Archivo Log finalizado");
+    free(nomarch);
+    return 1;
+}
+/**
+ * @brief Genera un archivo .dat con los logs de los servicios
+ * 
+ * @return int 
+ */
+int ImLogServiciosTxt()
+{
+    char *nomarch;
+    nomarch = (char*) malloc(sizeof(char)* 30);
+    printf("\n\n==>Imprimiendo Todos los logs...");
+    obfecha();
+    strcat(strcpy(nomarch,FechaFunUser),"_servlog.dat");
+    if(GenLogServiciosTxt(nomarch)!=1)
+        return 0;
+    printf("\n\n==> Archivo Log finalizado");
+    free(nomarch);
+    return 1;
+}
+/**
+ * @brief Imprime el menu de tipo de log para la busqueda
+ * 
+ */
+void menusublogs()
+{
+    printf("\n1.Logs de Tareas\n2.Logs de Servicios\n3.Salir\nElija en cual log desea realizar la busqueda: ");
+}
+/**
+ * @brief Funcion que busca logs por nombre de usuario
+ * 
+ * @return int 
+ */
+int busc_userlog()
+{
+    char nomuser[30];
+    int flag, ciclo=1;
+    while(ciclo)
+    {
+        menusublogs();
+        scanf("%d",&flag);
+        switch (flag)
+        {
+        case 1:printf("\nLogs de Tareas");
+            printf("\nIngrese el nombre del usuario: ");
+            scanf("%s",nomuser);
+            if(busquedaloguser(nomuser,flag)!=1)
+                return 0;
+            break;
+        case 2:printf("\nLogs de Servicios");
+            printf("\nIngrese el nombre del usuario: ");
+            scanf("%s",nomuser);
+            if(busquedaloguser(nomuser,flag)!=1)
+                return 0;
+            break;
+        case 3:printf("\nSaliendo..");
+            ciclo=0;
+            break;
+        default:printf("\nError escoja una correcta opcion");
+            break;
+        }
+    }
+    return 1;
+}
+
+int fun_fech(int flag,int flag2)
+{
+    int ciclo=1,opc=0;
+    char resp[10];
+    while(ciclo)
+    {
+        printf("\nMetodos de busqueda");
+        printf("\n1.Anual");
+        printf("\n2.Mensual");
+        printf("\n3.Dia");
+        printf("\n4.Hora");
+        printf("\n5.Salir");
+        printf("\nElije la opcion del metodo: ");
+        scanf("%d",&opc);
+        switch (opc)
+        {
+        case 1:printf("\nIngrese el anio a buscar en este formato (aaaa): ");
+            scanf("%s",resp);
+            if(verif_carac_num(resp)==1)
+            {
+                if(busquedalogfecha(resp,flag,flag2,1)!=1)
+                    return 0;
+            }    
+            else
+                printf("\nIngrese un anio correcto..");
+            break;
+        
+        case 2:
+            printf("\nIngrese el numero de mes en este formato (mm)");
+            scanf("%s",resp);
+            if(verif_carac_num(resp)==1)
+            {
+                if(busquedalogfecha(resp,flag,flag2,2)!=1)
+                    return 0;
+            }    
+            else
+                printf("\nIngrese un mes correcto..");
+            break;
+        case 3:
+            printf("\nIngrese el numero de dia en este formato (dd)");
+            scanf("%s",resp);
+            if(verif_carac_num(resp)==1)
+            {
+                if(busquedalogfecha(resp,flag,flag2,3)!=1)
+                    return 0;
+            }    
+            else
+                printf("\nIngrese un dia correcto..");
+            break;
+        
+        case 4:
+            printf("\nIngrese el numero de hora en este formato (hh)");
+            scanf("%s",resp);
+            if(verif_carac_num(resp)==1)
+            {
+                if(busquedalogfecha(resp,flag,flag2,4)!=1)
+                    return 0;
+            }    
+            else
+                printf("\nIngrese una hora correcto..");
+            break;
+
+        case 5:printf("\nSaliendo..");
+        ciclo=0;
+            break;
+        default:printf("\nElija una opcion correcta");
+            break;
+        }
+    }
+    return 1;
+}
+
+int busc_fechainitlog(int flag2)
+{
+    int flag, ciclo=1;
+    while(ciclo)
+    {
+        menusublogs();
+        scanf("%d",&flag);
+        switch (flag)
+        {
+        case 1:printf("\nLogs de Tareas");
+            if(fun_fech(flag,flag2)!=1)
+                return 0;
+            break;
+        case 2:printf("\nLogs de Servicios");
+            if(fun_fech(flag,flag2)!=1)
+                return 0;
+            break;
+        case 3:printf("\nSaliendo..");
+            ciclo=0;
+            break;
+        default:printf("\nError escoja una correcta opcion");
+            break;
+        }
+    }
+    return 1;
+}
+
+
+/*int opc=0;
+    int flag, ciclo=1,subciclo=1;
+    while(ciclo)
+    {
+        menusublogs();
+        scanf("%d",&flag);
+        switch (flag)
+        {
+        case 1:
+            while(subciclo)
+            {
+                printf("\nLogs de Tareas");
+                printf("\n1.Iniciar Sesion");
+                printf("\n2.Cerrar Sesion");
+                printf("\n3.Modificar Datos Propios");
+                printf("\n4.Alta Administrador");
+                printf("\n5.Modificacion Datos Administradores");
+                printf("\n6.Eliminar Administrador");
+                printf("\n7.Eliminar Privilegios");
+                printf("\n8.Agregar Privilegios");
+                printf("\n9.Salir");
+                printf("\nElija la tarea a buscar en los logs de tareas: ");
+                scanf("%d",&opc);
+                switch (opc)
+                {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                default:
+                    break;
+                }   
+            }
+            if(busquedaloguser(nomuser,flag)!=1)
+                return 0;
+            break;
+        case 2:printf("\nLogs de Servicios");
+            printf("\nIngrese el nombre del usuario: ");
+            scanf("%s",nomuser);
+            if(busquedaloguser(nomuser,flag)!=1)
+                return 0;
+            break;
+        case 3:printf("\nSaliendo..");
+            ciclo=0;
+            break;
+        default:printf("\nError escoja una correcta opcion");
+            break;
+        }
+    }*/

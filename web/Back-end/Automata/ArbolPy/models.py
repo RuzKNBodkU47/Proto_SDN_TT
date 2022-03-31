@@ -35,6 +35,7 @@ class Elemento(models.Model):
         status = models.CharField(max_length=20)
         protocolo = models.CharField(max_length=8)
         tipo_conexion = models.CharField(max_length=30)
+        rolPoH = models.SlugField(max_length=5)
         
     
     class Server(models.Model):
@@ -79,3 +80,12 @@ class Arbol(models.Model):
     class Meta:
         verbose_name = "Nodo"
         verbose_name_plural = "Nodos"
+
+class RedScan(models.Model):
+    idEscaneo = models.ForeignKey("self",on_delete=models.CASCADE)
+    segmento_red = models.GenericIPAddressField(protocol = 'both', unpack_ipv4 = False)
+    subred_comienzo = models.SlugField(max_length = 3)
+    subred_final = models.SlugField(max_length = 3)
+    puertos_escaneo = models.CharField(max_length=50)
+
+    

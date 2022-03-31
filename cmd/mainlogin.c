@@ -28,7 +28,10 @@ int login_cli(char *user, char *pass)
 {
      if(BuscarUsuario(user)==1)
         if(BuscarPass(user,pass)==1)
-            return GetIdUser(user);
+            if(Verif_status(user)==1)
+                return GetIdUser(user);
+            else
+                return 0;
         else
             return 0;
     else
@@ -70,8 +73,10 @@ int login_cli_gui()
     {
         if(BuscarPass(user,pwd)==1)
         {
-            
-            return GetIdUser(user);
+            if(Verif_status(user)==1)
+                return GetIdUser(user);
+            else
+                return 0;
         }
         else
         {

@@ -16,7 +16,7 @@
 char *servidor = "localhost";
 char *user = "ruzkn47";
 char *password ="inquisidor1922";
-char *database = "SDNTT";
+char *database = "SDNTT2";
 
 char CamposStatusAdmin[50]="Nom_Tipo_Admin";
 char CamposStatuslog[50]="Nom_Status_Log";
@@ -30,6 +30,7 @@ char CamposAdministradoresServicioslog[500]="Id_Status_Log,Id_Administradores,Id
 char CamposAdministradoresTareaslog[500]="Id_Status_Log,Id_Administradores,Id_Cat_Tareas,IP_Dispositivo_Orig,MAC_Dispositivo_Orig,Id_Admin_Obj,Fecha_Init_Serv,Fecha_Fin_Serv";
 
 void ControladorBD();
+void ControladorBD2();
 int InsertAdmin(int StatusAdmin, int TipAdmin , char* NomAdmin, char* ApPat, char* ApMat, char* FechaIng, char* NomUser, char* Pass, char* FechaUlt, int cantdias);
 int ObtenerIdUser(char *nomuser);
 int BuscarUsuario(char *user);
@@ -67,4 +68,14 @@ int verif_existpermiServicio(int idtarea,char* NomUser,char *fecha);
 int Elim_permiServicio(int idtarea,char*NomUser);
 int Elimuser(char * Nombre);
 int listar_usuarios();
+int Verif_status(char *user);
+int UpdateData(int flag, int user, char *data);
+int UpdatePass(int user,char *pass);
+int MostrarLogsTareas();
+void ObtenerNomUser(int id);
+int MostrarLogsServicios();
+int GenLogTareasTxt(char *nomarch);
+int GenLogServiciosTxt(char *nomarch);
+int busquedaloguser(char * nomuser, int flag);
+int busquedalogfecha(char * fecha, int flag, int flag2, int flag3);
 #endif
