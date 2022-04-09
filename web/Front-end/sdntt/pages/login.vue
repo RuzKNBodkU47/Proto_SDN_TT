@@ -1,4 +1,4 @@
-<template style="background-color: #6b123c">
+<template>
   <div class="container">
     <div class="align-items-right">
       <FormLogin/>
