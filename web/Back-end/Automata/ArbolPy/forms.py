@@ -36,8 +36,9 @@ class ConnForm(forms.ModelForm):
 class RedInfo(forms.ModelForm):
     class Meta:
         model = RedScan
-        fields = ['segmento_red','subred_comienzo','subred_final','puertos_escaneo']
-        labels = {'segmento_red':'Ingresa la dirección del segmento de red a escanear',
+        fields = ['MasRed','segmento_red','subred_comienzo','subred_final','puertos_escaneo']
+        labels = {'MasRed':'Ingresa la mascara de subred del segmento',
+                  'segmento_red':'Ingresa la dirección del segmento de red a escanear',
                   'subred_comienzo': 'Ingresa el número de subred donde se iniciará el escaneo',
                   'subred_final': 'Ingresa el número de subred donde terminara el escaneo',
                   'puertos_escaneo': 'Ingresa los puertos, separados por comas, en los que deseas realizar el escaneo'}

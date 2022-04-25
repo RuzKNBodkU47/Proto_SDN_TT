@@ -82,7 +82,7 @@ class Arbol(models.Model):
         verbose_name_plural = "Nodos"
 
 class RedScan(models.Model):
-    idEscaneo = models.ForeignKey("self",on_delete=models.CASCADE)
+    MasRed = models.SlugField(max_length=4)
     segmento_red = models.GenericIPAddressField(protocol = 'both', unpack_ipv4 = False)
     subred_comienzo = models.SlugField(max_length = 3)
     subred_final = models.SlugField(max_length = 3)

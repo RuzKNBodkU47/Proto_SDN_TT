@@ -1,0 +1,24 @@
+<!--Hereda de la plantilla padre base.html-->
+{% extends "ArbolPy/base.html" %}
+
+<!-- block content contendra todo lo que no se herede de la plantilla padre que es base.html-->
+{% block content %}
+    <p>Direcciones en las que se esta realizando el escaneo:</p>
+    <ul>
+        {% for host in Hosts %}
+            <li>
+                {{host}}
+            </li>
+        {% empty %}
+            <li>Error no se han podido obtener las redes. Ingrese de nuevo los datos para el escaneo</li>
+        {% endfor %}
+
+        {% for hostname in HostName %}
+            <li>
+                {{hostname}}
+            </li>
+        {% empty %}
+            <li>Error no se han podido obtener los hostname de las redes</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

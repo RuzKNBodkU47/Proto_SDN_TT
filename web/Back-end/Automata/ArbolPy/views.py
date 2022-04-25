@@ -1,4 +1,5 @@
 from ast import iter_child_nodes
+from turtle import width
 from unittest import loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -10,6 +11,7 @@ import os, sys, platform
 from datetime import datetime
 import nmap
 import networkx as nx
+import matplotlib.pyplot as plt
 
 #Url para la pagina de inicio
 def index(request):
@@ -116,7 +118,7 @@ def datosRed(request):
         if(form.is_valid()):
             new_scan = form.save(commit = False)
             new_scan.save()
-            return HttpResponseRedirect(reverse('ArbolPy:ListaComponent'))#Cambiar ListaComponent por otra vista 
+            return HttpResponseRedirect(reverse('ArbolPy:autoRed'))#Cambiar ListaComponent por otra vista 
     context = {'form':form}
     return render(request, 'ArbolPy/TomaDatosScan.html',context)
        
@@ -124,15 +126,8 @@ def datosRed(request):
 #Funcion de ejemplo para visualizar la red
 def _inicializarArbol():
     Arbol.objects.all().delete()
-    routerArray = Elemento.Router.objects.raw('SELECT idRouter,tipo_conexion FROM ArbolPy_router')
-    connArray = Elemento.Conexion.objects.raw('SELECT extremoIni,extremoFin,idConn FROM ArbolPy_conexion')
-    serverArray = Elemento.Server.objects.raw('SELECT idServer,tipo_conexion FROM ArbolPy_server')
-    switchArray = Elemento.Server.objects.raw('SELECT idSW,tipo_conexion FROM ArbolPy_switch')
-    switchMArray = Elemento.Server.objects.raw('SELECT idSWM,tipo_conexion FROM ArbolPy_switchmulticapa')
     elementoarray = Elemento.objects.raw('SELECT * FROM ArbolPy_elemento')
     ip =  RedScan.objects.raw('SELECT * FROM ArbolPy_redscan')
-    #i = 0
-    #lenRoutArr = len(routerArray)
     
     nodo_raiz = Arbol(
         elementoNodo = elementoarray[2]
@@ -170,42 +165,111 @@ def nodosAr(request):
 
 #Función para escanear la red por medio de la IP de la red
 def EscanearRed(request):
-    ip =  RedScan.objects.raw('SELECT * FROM ArbolPy_redscan') #Obtención de la tupla con los datos para el escaneo de la red
-    divIP = ip[0].segmento_red #Asignación del valor segmnto_red a la variable divIP
+    ip =  RedScan.objects.all() #Obtención de la tupla con los datos para el escaneo de la red  (para raw 'SELECT * FROM ArbolPy_redscan;')
+    ipExiste = ip.exists()
+    print(ip)
+    if(ip == None):
+        arrayHostdeRed = []
+        arrayHosts = []
+        context = {'Hosts':arrayHostdeRed,
+                   'HostName':arrayHosts}
+        return render(request, 'ArbolPy/ArbolAuto.html',context)
+    elif (ip != None):
+        divIP = ip[0].segmento_red #Asignación del valor segmnto_red a la variable divIP
     scanPort = nmap.PortScanner() #Creación de un objeto nmap para escanear puertos
-    try:
-        componentesIP = divIP.split(".") #Division del segmento de red realizada en cada punto de la cadena
-        #Concatenación de los 3 primeros valores del segmento de red
-        red = componentesIP[0]+'.'+componentesIP[1]+'.'+componentesIP[2]+'.'
-        comienzo = int(ip[0].subred_comienzo)
-        fin = int(ip[0].subred_final)
-        num_puertos = int(ip[0].puertos_escaneo)
+    MascaraR = ip[0].MasRed
+    componentesIP = divIP.split(".") #Division del segmento de red realizada en cada punto de la cadena
+    if(MascaraR == '16'):
+        #Concatenación de los valores del segmento de red
+            red = componentesIP[0]+'.'+componentesIP[1]+'.'
+            comienzo = int(ip[0].subred_comienzo)
+            fin = int(ip[0].subred_final)
+            num_puertos = int(ip[0].puertos_escaneo)
 
-        direccion_inicio = red+str(comienzo)
-        direccion_final = red+str(fin)
-    except:
-        print("Error")
-        #sys.exit(1)
+            direccion_inicio = red+str(comienzo)
+            direccion_final = red+str(fin)
+
+    elif(MascaraR == '24'): 
+        try:
+            #Concatenación de los 3 primeros valores del segmento de red
+            red = componentesIP[0]+'.'+componentesIP[1]+'.'+componentesIP[2]+'.'
+            comienzo = int(ip[0].subred_comienzo)
+            fin = int(ip[0].subred_final)
+            num_puertos = int(ip[0].puertos_escaneo)
+
+            direccion_inicio = red+str(comienzo)
+            direccion_final = red+str(fin)
+        except:
+            print("Error")
     
+    #Evalua la mascara de subred para iniciar el escaneo
     #Se pasan los parametros y se empieza el escaneo
     scanPort.scan(direccion_inicio+'-'+str(fin),str(num_puertos))
     arrayHostdeRed = scanPort.all_hosts() #Se almacenan todas las direcciones encontradas en el rango especificado
     arrayHosts = []
     for arrayhost in arrayHostdeRed:
         arrayHosts.append(scanPort[arrayhost].hostname())
-        
+    
     context = {'Hosts':arrayHostdeRed,
-                'HostName':arrayHosts}
+               'HostName':arrayHosts}
     
-    return render(request, 'ArbolPy/ArbolAuto.html',context)
-    
-#Función para devolver los datos escaneados de la red
-def devolverRed(request):
-    EscanearRed()
+    DibujarArbol(arrayHostdeRed,arrayHosts)
 
-    context = {}
+    RedScan.objects.all().delete()    #Borra el registro de la tabla para el escaneo de la red
     return render(request, 'ArbolPy/ArbolAuto.html',context)
 
 #Funcion para dibujar el arbol de nuestra red de manera dinámica en el navegador
-def DibujarArbol():
+def DibujarArbol(CantidadHosts,HostName): #CantidadHosts = Direcciones IP detectadas en el escaneo
+                                          #HostName = Nombre de host de cada dirección IP detectada
+    subredcomponents = [] #Arreglo para almacenar los elementos de la red que no son gateways
+    sublabel = [] #Arreglo para almacenar los labels que no pertenezcan a un gateway
     graph = nx.Graph()
+    i=1 #Variable de control para labels de los nodos
+    k=1 #Variable de control para los nodos no gateway
+
+    #Se van recorriendo todos los elementos de HostName
+    for hostN in HostName: 
+        graph.add_node(i, name = hostN) #Añade todos los nombres de host como nodos
+        i = i + 1 #Se incrementa el contador i para dar a cada nodo un label diferente
+        
+
+    #Revisar los nombres de los host para obtener los gateway
+    for host in HostName:
+        sublabel = list(graph.nodes) #Se almacenan los label de los nodos 
+
+        #Revisa que el valor sea distinto de _gateway 
+        if(host != '_gateway'):
+            subredcomponents.append(host) #De cumplir la condicion mete el nombre en el arreglo    
+        else:
+            limiteForGate = len(sublabel)
+            subcomp = 1
+            while subcomp < limiteForGate:
+                #Busca el nodo con el nombre gateway para quitarlo del arreglo sublabel
+                if(graph.nodes[subcomp]['name'] == '_gateway'):
+                    sublabel.remove(subcomp)
+                    for subl in sublabel:
+                        graph.add_edge(subcomp,subl)# Se añade el gateway como edge
+                        print("El valor de subl es: "+str(subl))
+
+                subcomp = subcomp + 1
+                print("El valor de subcomp ahora es: "+str(subcomp))
+    
+    #Pruebas para correccion de errores y ver datos
+    print(CantidadHosts) #hosts de la red
+    print(len(CantidadHosts)) #cantidad de hosts en la red
+    print(HostName) #nombres de los hosts
+    print(subredcomponents) #nombres de los hosts excluyendo gateways
+    print(list(graph.nodes)) #nodos en el grafico
+    print(sublabel)
+    print(graph.nodes[1]['name'])
+    print(list(graph.edges)) #edges en el grafico
+
+    #Hace un archivo gml de nuestro gráfico
+    nx.write_gml(graph,"grafico_segmentoRed.gml")
+
+    #Dibuja el grafico con los atributos especificados tamaño de nodo, ancho de lineas y mostrar o no labels de los nodos
+    nx.draw(graph,with_labels = True) 
+    #plt.axis("equal") #Redimensionar los ejes a longitudes iguales
+    #plt.show() #mostrar el grafico en pantalla
+    plt.savefig("Grafico_Red.png", format = "PNG")
+    

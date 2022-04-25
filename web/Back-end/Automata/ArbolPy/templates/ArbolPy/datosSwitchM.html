@@ -1,0 +1,14 @@
+<!--Hereda de la plantilla padre base.html-->
+{% extends "ArbolPy/base.html" %}
+
+<!-- block content contendra todo lo que no se herede de la plantilla padre que es base.html-->
+{% block content %}
+    <p>Router</p>
+    <p>Llene los datos para crear un nuevo switch multicapa:</p>
+    <form action="{% url 'ArbolPy:datosSwitchM' %}" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button name = "submit">Añadir Switch Multicapa</button>
+    </form>
+
+{% endblock content %}
