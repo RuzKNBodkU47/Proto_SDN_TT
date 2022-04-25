@@ -1,0 +1,25 @@
+<< Bienvenido a la ayuda de SDNTT >>
+
+#- SDNTT es un prototipo de red definida por sofware desarrollado especificamente para el Instituto Politecnico Nacional.
+
+    [X] config.- El comando config direcciona a las funciones relacionadas con la configuracion de equipos de red. Tiene 3 diferentes
+                opciones respecto al dispositivo que el usuario quiera modificar. (router, switch, server).
+                
+                Ejemplo:
+                SDNTT> config
+                SDNTT>CONFIG>
+
+        [-] router.- Esta seccion permite ejecutar todos los comandos de configuracion respecto a los routers.
+                
+                Ejemplo:
+                SDNTT>CONFIG> router
+
+        [-] switch.- Esta seccion permite ejeutar todos los comandos de configuracion para los switches.
+                
+                Ejemplo:
+                SDNTT>CONFIG> switch
+
+        [-] server.- Esta seccion permite ejecutar todos los comandos de configuracion para los servidores.
+
+                Ejemplo:
+                SDNTT>CONFIG> server

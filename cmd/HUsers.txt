@@ -1,0 +1,33 @@
+<< Bienvenido a la ayuda de SDNTT >>
+
+#- SDNTT es un prototipo de red definida por sofware desarrollado especificamente para el Instituto Politecnico Nacional.
+[X] users.- El comando users dirige a las opciones de administrar la informacion de los usuarios, para este comando solo tiene acceso
+                los superadministradores.
+
+                Ejemplo:
+                SDNTT> users
+                SDNTT>USERS>
+
+        [-] agregar.- Esta seccion despliega un formulario para agregar usuarios al sistema.
+                
+                Ejemplo:
+                SDNTT>USERS> agregar
+                ==Registrando Nuevo Adminsitrador==
+                
+                Nombre de usuario: 
+
+        [-] modificar.- Esta seccion despliega un formulario solicitando el nombre de usuario del que se tenga el proposito para modificar.
+
+                Ejemplo:
+                SDNTT>USERS> modificar
+                ==Modificando Adminsitrador==
+                
+                Ingrese el nombre de usuario a modificar:
+
+        [-] eliminar.- Esta seccion despliega un formulario solicitando el nombre de usuario del que se tenga el proposito para eliminar.
+
+                Ejemplo;
+                SDNTT>USERS> eliminar
+                Ingrese el 
+        
+        [-] listar

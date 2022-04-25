@@ -1,0 +1,4 @@
+instalar paramiko para que funcione ConfigDev
+
+sudo pip3 install paramiko
+

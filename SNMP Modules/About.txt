@@ -1,0 +1,3 @@
+modulos para el uso de informacion SNMP
+
+pip install pysnmp
