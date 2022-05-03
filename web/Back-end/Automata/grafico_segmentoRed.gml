@@ -27,7 +27,7 @@ graph [
   node [
     id 5
     label "6"
-    name ""
+    name "dangq-X556UA"
   ]
   node [
     id 6
@@ -37,16 +37,11 @@ graph [
   node [
     id 7
     label "8"
-    name "dangq-X556UA"
+    name ""
   ]
   node [
     id 8
     label "9"
-    name ""
-  ]
-  node [
-    id 9
-    label "10"
     name ""
   ]
   edge [
@@ -80,9 +75,5 @@ graph [
   edge [
     source 0
     target 8
-  ]
-  edge [
-    source 0
-    target 9
   ]
 ]
