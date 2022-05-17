@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\administradores_servicios_log;
+use App\Models\cat_servicios;
+use App\Models\status_log;
 use Illuminate\Support\Facades\DB;
 
 class AdminServiciosLogController extends Controller
@@ -167,8 +169,16 @@ class AdminServiciosLogController extends Controller
         //
     }
     public function showall(){
-        try { 
-            return administradores_servicios_log::get();
+        try {
+            $admin=administradores_servicios_log::get();
+            for ($i=0; $i < count($admin); $i++) { 
+                $serv = cat_servicios::where('Id_Cat_Servicios', '=', $admin[$i]->Id_Cat_Servicios)->get();
+                $status = status_log::where('Id_Status_Log', '=', $admin[$i]->Id_Status_Log)->get();
+                $admin[$i]->Id_Cat_Servicios=$serv;
+                $admin[$i]->Id_Status_Log=$status;
+            }
+            return $admin;
+            // return administradores_servicios_log::get(); //Así lo tenía originalmente
         } catch (\Throwable $th) {
             return \Response::json(['created' => false,"message"=>$th], 422);
         }

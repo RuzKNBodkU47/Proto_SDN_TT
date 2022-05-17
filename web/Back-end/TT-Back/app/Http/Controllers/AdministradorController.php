@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\GuardarAdministradorRequest;
 use App\Models\administradores;
 use App\Models\tipo_admin_cat_tareas;
+use App\Models\status_admin;
+use App\Models\tipo_admin;
 use Illuminate\Support\Facades\DB;
 
 class AdministradorController extends Controller
@@ -160,8 +162,20 @@ class AdministradorController extends Controller
     }
 
     public function showall(){
-        try { 
-            return administradores::get();
+        try {
+            $admin=administradores::get();
+            $adminconstatus['status']=[];
+            $tipoadmin['tipo']=[];
+            for ($i=0; $i < count($admin); $i++) { 
+                $adminmas = status_admin::where('Id_Status_Admin', '=', $admin[$i]->Id_Status_Admin)->get();
+                $tadmin = tipo_admin::where('Id_Tipo_Admin', '=', $admin[$i]->Id_Tipo_Admin)->get();
+                // array_push($adminconstatus['status'], $adminmas);
+                $admin[$i]->Id_Status_Admin=$adminmas;
+                $admin[$i]->Id_Tipo_Admin=$tadmin;
+            }
+            // array_push($admin['status'], $adminconstatus);
+            return $admin; 
+            // return administradores::get();
         } catch (\Throwable $th) {
             return \Response::json(['created' => false,"message"=>$th], 422);
         }
