@@ -1,7 +1,12 @@
 ----- Directorio web -----
-Directorio donde se encuentran los modulos para la interfaz web.
+Directorio donde se encuentran los modulos para la interfaz web y librerias para el funcionamiento del programa.
 
 Para el autómata
+* pip install Django
+
  * Nombre de entorno virtual: SND_env
  * Nombre de proyecto: AutomataPyW
  * Nombres de apps: ArbolPy,
+ 
+Para las funciones SNMP
+  * pip install pysnmp

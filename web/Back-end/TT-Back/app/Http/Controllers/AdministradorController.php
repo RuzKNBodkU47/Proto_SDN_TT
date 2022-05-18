@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\GuardarAdministradorRequest;
 use App\Models\administradores;
+use App\Models\tipo_admin_cat_tareas;
+use App\Models\status_admin;
+use App\Models\tipo_admin;
 use Illuminate\Support\Facades\DB;
 
 class AdministradorController extends Controller
@@ -159,10 +162,65 @@ class AdministradorController extends Controller
     }
 
     public function showall(){
-        try { 
-            return administradores::get();
+        try {
+            $admin=administradores::get();
+            $adminconstatus['status']=[];
+            $tipoadmin['tipo']=[];
+            for ($i=0; $i < count($admin); $i++) { 
+                $adminmas = status_admin::where('Id_Status_Admin', '=', $admin[$i]->Id_Status_Admin)->get();
+                $tadmin = tipo_admin::where('Id_Tipo_Admin', '=', $admin[$i]->Id_Tipo_Admin)->get();
+                // array_push($adminconstatus['status'], $adminmas);
+                $admin[$i]->Id_Status_Admin=$adminmas;
+                $admin[$i]->Id_Tipo_Admin=$tadmin;
+            }
+            // array_push($admin['status'], $adminconstatus);
+            return $admin; 
+            // return administradores::get();
         } catch (\Throwable $th) {
             return \Response::json(['created' => false,"message"=>$th], 422);
+        }
+    }
+    public function adminwithtareas(Request $request){
+        try {
+            $admin = new administradores();
+            $admin->Id_Status_Admin = $request->Id_Status_Admin;
+            $admin->Id_Tipo_Admin = $request->Id_Tipo_Admin;
+            $admin->Nombre_Admin = $request->Nombre_Admin;
+            $admin->Apellido_P_Admin = $request->Apellido_P_Admin;
+            $admin->Apellido_M_Admin = $request->Apellido_M_Admin;
+            $admin->Fecha_ingreso = date("Y-m-d H:i:s");
+            $admin->Nombre_Usuario = $request->Nombre_Usuario;
+            // $admin->Password_Hash = bcrypt($request->Password_Hash);
+            $admin->Password_Hash = $request->Password_Hash;
+            $admin->Fecha_Ultimo_Cambio_Pass = $request->Fecha_Ultimo_Cambio_Pass;
+            $admin->Cant_dias_limit = $request->Cant_dias_limit;
+            $admin->save();
+            $cadena = trim($request->Id_Cat_Tareas, '[]');
+            // return str_replace(array("[", "]"), '', $request->Id_Cat_Tareas);
+            $arreglo = explode(",", $cadena);
+                for ($i=0; $i < count($arreglo); $i++) { 
+                    $cattareasadmin = new tipo_admin_cat_tareas();
+                    $cattareasadmin->Id_Administrador = $admin->id;
+                    $cattareasadmin->Id_Cat_Tareas = $arreglo[$i];
+                    $cattareasadmin->Fecha_Ult_Mod = $request->date("Y-m-d H:i:s");
+                    // return $cattareasadmin;
+                    $cattareasadmin->save();
+                }
+            return response()->json(['data'=>[],"message"=>"Administrador y tareas regristradas con éxito","code"=>201]);
+        } catch (\Throwable $th) {
+            return \Response::json(['created' => false,"message"=>$th], 422);
+        }
+    }
+    public function elimina(Request $request) {
+        try {
+            DB::table('administradores')
+            ->where('Id_Administradores', $request->Id_Administradores)
+            ->update([
+                'Id_Status_Admin'=>$request->Id_Status_Admin, 
+            ]);
+            return response()->json(['data'=>[],"message"=>"Administrador eliminado con éxito","code"=>201]);
+        } catch (\Throwable $th) {
+            return response(["message"=>"error", 'error'=>$th],422);
         }
     }
 }

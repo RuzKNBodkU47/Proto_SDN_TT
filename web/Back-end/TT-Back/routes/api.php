@@ -83,3 +83,6 @@ Route::put('updatecattareaadmin','App\Http\Controllers\CatTareasAdminController@
 Route::put('updatecatservicioadmin','App\Http\Controllers\CatServiciosAdminController@update');
 Route::put('updateadmintarealog','App\Http\Controllers\AdminTareasLogController@update');
 Route::put('updateadminserviciolog','App\Http\Controllers\AdminServiciosLogController@update');
+
+Route::post('createadmintareas','App\Http\Controllers\AdministradorController@adminwithtareas');
+Route::post('deleteadmin','App\Http\Controllers\AdministradorController@elimina');

@@ -4,12 +4,13 @@ from pysnmp.hlapi import *
 #Función get de SNMP
 
 def GetFunc():
-    getCommand = getCmd(SnmpEngine(), 
-                        CommunityData('public', mpModel = 1),
-                        UdpTransportTarget(('demo.snmplabs.com',200)),
-                        ContextData(),
-                        ObjectType(ObjectIdentity('SNMPv2-MIB','sysDescr',0))
-                        ) #mpModel = 0 es para SNMP version 1, mpModel = 1 es para version 2c
+    getCommand = getCmd(SnmpEngine(), #Instancia de la clase SNMPengine (obligatorio en la funcion)
+                        CommunityData('public', mpModel = 1), #Eleccion de version mpModel = 0 es para SNMP version 1, mpModel = 1 es para version 2c
+                        UdpTransportTarget(('demo.snmplabs.com',200)), #Establecer transport y target
+                        ContextData(), #Contexto SNMP vacio valor default
+                        ObjectType(ObjectIdentity('SNMPv2-MIB','sysDescr',0)) #ObjectIdentity aborda objetos MIB desde perspectiva humana
+                                                                              #ObjectType objeto contenedor que referencia a instancias ObjectIdentity y SNMP
+                        ) 
 
 
     errorIndication, errorStatus, errorIndex, varBinds = next(getCommand)
