@@ -35,6 +35,7 @@ def nextFunc():
                           ContextData(),
                           ObjectType(ObjectIdentity('SNMPv2-MIB','sysDescr'))
                         )
+    next(nextCommand)
 
 #Funcion Set de SNMP
 def SetFunc():
@@ -44,6 +45,7 @@ def SetFunc():
                         ContextData(),
                         ObjectType(ObjectIdentity('SNMPv2-MIB','sysDescr', 0), 'Linux i386')
                         )
+    next(setCommand)
 
 #Envio de una trampa SNMP (establecimiento de comunicación agent-to-manager de una sola via)
 def TrapFunc():
@@ -54,6 +56,7 @@ def TrapFunc():
                                'trap',
                                NotificationType(ObjectIdentity('IF-MIB', 'linkup'),instanceIndex=(123,))
                                )
+    next(setTrap)
 
 #Comando inform para comunicación manager-to-manager y agent-to-manager
 def InformFunc():
@@ -64,3 +67,6 @@ def InformFunc():
                                  'inform',
                                  NotificationType(ObjectIdentity('IF-MIB', 'linkUp'), instanceIndex=(123,))
                                 )
+    next(setInform)
+    
+GetFunc()

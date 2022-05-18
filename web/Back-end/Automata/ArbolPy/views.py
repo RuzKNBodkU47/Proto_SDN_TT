@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import RequestContext
 from django.urls import reverse
-from .models import Arbol, Componente, Elemento, RedScan
+from .models import Arbol, Componente, Elemento, RedScan, SubRedIMG
 from .forms import *
 import os, sys, platform
 from datetime import datetime
@@ -123,50 +123,16 @@ def datosRed(request):
     return render(request, 'ArbolPy/TomaDatosScan.html',context)
        
 
-#Funcion de ejemplo para visualizar la red
-def _inicializarArbol():
-    Arbol.objects.all().delete()
-    elementoarray = Elemento.objects.raw('SELECT * FROM ArbolPy_elemento')
-    ip =  RedScan.objects.raw('SELECT * FROM ArbolPy_redscan')
-    
-    nodo_raiz = Arbol(
-        elementoNodo = elementoarray[2]
-    )
-    nodo_raiz.save()
-
-    subnodo = Arbol(
-        elementoNodo = elementoarray[1],
-        parent = nodo_raiz
-    )
-
-    subnodo.save()
-
-    subnodo = Arbol(
-        elementoNodo = elementoarray[0].date_added,
-        parent = nodo_raiz
-    )   
-
-    subnodo.save()
-
-    subnodo = Arbol(
-        elementoNodo = ip[0].segmento_red.split("."),
-        parent = nodo_raiz
-    )
-
-    subnodo.save()
-
 #funcion para cargar los nodos y subirlos a la plantilla
-def nodosAr(request):
-    _inicializarArbol()
-    nodos = Arbol.objects.filter(parent = None)
-    context = {'nodos':nodos}
-
+def nodosView(request):
+    context = {"segRed": SubRedIMG.objects.first()}
     return render(request,'ArbolPy/ArbolRed.html',context)
 
 #Función para escanear la red por medio de la IP de la red
 def EscanearRed(request):
     ip =  RedScan.objects.all() #Obtención de la tupla con los datos para el escaneo de la red  (para raw 'SELECT * FROM ArbolPy_redscan;')
     ipExiste = ip.exists()
+    arrayHostdeRed = []
     print(ip)
     if(ip == None):
         arrayHostdeRed = []
@@ -175,21 +141,43 @@ def EscanearRed(request):
                    'HostName':arrayHosts}
         return render(request, 'ArbolPy/ArbolAuto.html',context)
     elif (ip != None):
-        divIP = ip[0].segmento_red #Asignación del valor segmnto_red a la variable divIP
+        divIP = ip[0].segmento_red #Asignación del valor segmento_red a la variable divIP
     scanPort = nmap.PortScanner() #Creación de un objeto nmap para escanear puertos
     MascaraR = ip[0].MasRed
     componentesIP = divIP.split(".") #Division del segmento de red realizada en cada punto de la cadena
-    if(MascaraR == '16'):
+    
+    #Evalua la mascara de subred para iniciar el escaneo
+    if(MascaraR >= '8' and MascaraR <= '15'):
+        #Concatenación de los valores del segmento de red
+            red = componentesIP[0]+'.'
+            comienzo = int(ip[0].subred_comienzo)
+            fin = int(ip[0].subred_final)
+            num_puertos = int(ip[0].puertos_escaneo)
+
+            direccion_inicio = red+str(comienzo)+'.0.0'
+            direccion_final = red+str(fin)
+            scanPort.scan(direccion_inicio+'/'+str(MascaraR),str(num_puertos))
+
+    elif(MascaraR >= '16' and MascaraR <= '23'):
         #Concatenación de los valores del segmento de red
             red = componentesIP[0]+'.'+componentesIP[1]+'.'
             comienzo = int(ip[0].subred_comienzo)
             fin = int(ip[0].subred_final)
             num_puertos = int(ip[0].puertos_escaneo)
 
-            direccion_inicio = red+str(comienzo)
+            direccion_inicio = red+str(comienzo)+'.0'
             direccion_final = red+str(fin)
+            contador = int(componentesIP[1])
+            while contador <= 255:
+                scanPort.scan(direccion_inicio+'/'+str(MascaraR),str(num_puertos))
 
-    elif(MascaraR == '24'): 
+                arrayHostdeRed.append(scanPort.all_hosts())#Se almacenan todas las direcciones encontradas en el rango especificado
+                arrayHosts = [] #arreglo para almacenar unicamente los nombres de los host de cada dirección
+                for arrayhost in arrayHostdeRed:
+                    arrayHosts.append(scanPort[arrayhost].hostname())
+                contador = contador + 1    
+
+    elif(MascaraR >= '24' and MascaraR <= '31'): 
         try:
             #Concatenación de los 3 primeros valores del segmento de red
             red = componentesIP[0]+'.'+componentesIP[1]+'.'+componentesIP[2]+'.'
@@ -199,16 +187,18 @@ def EscanearRed(request):
 
             direccion_inicio = red+str(comienzo)
             direccion_final = red+str(fin)
+            #Objeto scanPort escanea la red dirección de inicio con la mascara especificada
+            #Se pasan los parametros y se empieza el escaneo
+            contador = int(componentesIP[2])
+            scanPort.scan(direccion_inicio+'/'+str(MascaraR),str(num_puertos))
+
+            arrayHostdeRed = scanPort.all_hosts()   #Se almacenan todas las direcciones encontradas en el rango especificado
+            arrayHosts = [] #arreglo para almacenar unicamente los nombres de los host de cada dirección
+            for arrayhost in arrayHostdeRed:
+                arrayHosts.append(scanPort[arrayhost].hostname())
+
         except:
             print("Error")
-    
-    #Evalua la mascara de subred para iniciar el escaneo
-    #Se pasan los parametros y se empieza el escaneo
-    scanPort.scan(direccion_inicio+'-'+str(fin),str(num_puertos))
-    arrayHostdeRed = scanPort.all_hosts() #Se almacenan todas las direcciones encontradas en el rango especificado
-    arrayHosts = []
-    for arrayhost in arrayHostdeRed:
-        arrayHosts.append(scanPort[arrayhost].hostname())
     
     context = {'Hosts':arrayHostdeRed,
                'HostName':arrayHosts}
@@ -249,10 +239,8 @@ def DibujarArbol(CantidadHosts,HostName): #CantidadHosts = Direcciones IP detect
                     sublabel.remove(subcomp)
                     for subl in sublabel:
                         graph.add_edge(subcomp,subl)# Se añade el gateway como edge
-                        print("El valor de subl es: "+str(subl))
 
                 subcomp = subcomp + 1
-                print("El valor de subcomp ahora es: "+str(subcomp))
     
     #Pruebas para correccion de errores y ver datos
     print(CantidadHosts) #hosts de la red
@@ -269,7 +257,5 @@ def DibujarArbol(CantidadHosts,HostName): #CantidadHosts = Direcciones IP detect
 
     #Dibuja el grafico con los atributos especificados tamaño de nodo, ancho de lineas y mostrar o no labels de los nodos
     nx.draw(graph,with_labels = True) 
-    #plt.axis("equal") #Redimensionar los ejes a longitudes iguales
-    #plt.show() #mostrar el grafico en pantalla
     plt.savefig("Grafico_Red.png", format = "PNG")
     

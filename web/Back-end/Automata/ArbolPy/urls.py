@@ -22,7 +22,7 @@ urlpatterns = [
     #Requerimientos de datos para un switch multicapa
     path('nuevoSwitchM/',views.datosSwitchM, name = 'datosSwitchM'),
     #Vista de la red estática
-    path('VistaRed/', views.nodosAr, name = "verRed"),
+    path('VistaRed/', views.nodosView, name = "verRed"),
     #Recopilar datos para escanear la red
     path('getRedData/',views.datosRed, name = 'getRedinfo'),
     #Vista de la red automática

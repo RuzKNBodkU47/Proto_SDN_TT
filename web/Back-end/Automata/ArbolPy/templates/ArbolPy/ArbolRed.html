@@ -1,17 +1,42 @@
-
+<!--Hereda de la plantilla padre base.html-->
+{% extends "ArbolPy/base.html" %}
 
 <!-- block content contendra todo lo que no se herede de la plantilla padre que es base.html-->
 
 {% block content %}
-    <ul>
-        {% for nodo in nodos %}
-            <li id="child_node-{{ nodo.pk }}">{{ nodo.elementoNodo}}
-                {% if nodo.children.exists %}
-                    {% with nodo.children.all as nodos %}
-                        {% include "ArbolPy/ArbolRed.html" %}
-                    {% endwith %}
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+    <style>
+        .container {
+            display: flex
+        }
+    </style>
+    <div class = "container">
+        <div class = "imagen">
+            <ul>
+                {% load static %}
+                <img src="{% static 'img/Grafico_Red.png' %}" alt="Segmento" width="400" height="300">
+                
+            </ul>
+        </div>
+
+        <div class = "CrearComp">
+            <ul>
+                <li>
+                    <a href="{% url 'ArbolPy:datosRouter' %}">Crear nuevo router</a>
+                </li>
+                <li>
+                    <a href="{% url 'ArbolPy:datosServer' %}">Crear nuevo Server</a>
+                </li>
+                <li>
+                    <a href="{% url 'ArbolPy:datosSwitch' %}">Crear nuevo Switch</a>
+                </li>
+                <li>
+                    <a href="{% url 'ArbolPy:datosSwitchM' %}">Crear nuevo Switch Multicapa</a>
+                </li>
+                <li>
+                    <a href="{% url 'ArbolPy:datosConn' %}">Crear nueva Conexion</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
 {% endblock content %}

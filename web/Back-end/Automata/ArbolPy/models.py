@@ -86,6 +86,7 @@ class RedScan(models.Model):
     segmento_red = models.GenericIPAddressField(protocol = 'both', unpack_ipv4 = False)
     subred_comienzo = models.SlugField(max_length = 3)
     subred_final = models.SlugField(max_length = 3)
-    puertos_escaneo = models.CharField(max_length=50)
+    puertos_escaneo = models.CharField(max_length = 50)
 
-    
+class SubRedIMG(models.Model):
+    graficaSegmento = models.ImageField()   
