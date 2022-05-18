@@ -20,6 +20,8 @@
 
                 Ejemplo:
                 SDNTT>USERS> modificar
+                SDNTT>USERS>MODIFICAR> 
+                [-] 
                 ==Modificando Adminsitrador==
                 
                 Ingrese el nombre de usuario a modificar:
@@ -28,6 +30,6 @@
 
                 Ejemplo;
                 SDNTT>USERS> eliminar
-                Ingrese el 
+                Ingrese el Nombre del usuario a Eliminar del sistema: root
         
-        [-] listar
+        [-] listar.-n Esta seccion en lista todos los usuarios que estan dentro del sistema agregados.
