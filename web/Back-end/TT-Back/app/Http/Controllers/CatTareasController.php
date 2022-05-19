@@ -109,10 +109,10 @@ class CatTareasController extends Controller
     {
         //
         try {
-            $validated = $request->validate([
-                'Id_Cat_Tareas'=> 'required',
-                'Nom_Cat_Tareas'=> 'required',
-            ]); 
+            // $validated = $request->validate([
+            //     'Id_Cat_Tareas'=> 'required',
+            //     'Nom_Cat_Tareas'=> 'required',
+            // ]); 
             DB::table('cat_tareas')
             ->where('Id_Cat_Tareas', $request->Id_Cat_Tareas)
             ->update([

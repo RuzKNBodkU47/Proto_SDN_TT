@@ -104,10 +104,10 @@ class StatusLogController extends Controller
     {
         //
         try {
-            $validated = $request->validate([
-                'Id_Status_Log'=>'required',
-                'Nom_Status_Log' => 'required'
-            ]); 
+            // $validated = $request->validate([
+            //     'Id_Status_Log'=>'required',
+            //     'Nom_Status_Log' => 'required'
+            // ]); 
             DB::table('status_log')
             ->where('Id_Status_Log', $request->Id_Status_Log)
             ->update(['Nom_Status_Log' => $request->Nom_Status_Log]);

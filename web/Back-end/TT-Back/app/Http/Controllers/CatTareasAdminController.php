@@ -108,12 +108,12 @@ class CatTareasAdminController extends Controller
     {
         //
         try {
-            $validated = $request->validate([
-                'Id_Tipo_Admin_Tareas'=> 'required',
-                'Id_Administrador'=> 'required',
-                'Id_Cat_Tareas'=> 'required',
-                'Fecha_Ult_Mod'=> 'required'
-            ]); 
+            // $validated = $request->validate([
+            //     'Id_Tipo_Admin_Tareas'=> 'required',
+            //     'Id_Administrador'=> 'required',
+            //     'Id_Cat_Tareas'=> 'required',
+            //     'Fecha_Ult_Mod'=> 'required'
+            // ]); 
             DB::table('tipo_admin_cat_tareas')
             ->where('Id_Tipo_Admin_Tareas', $request->Id_Tipo_Admin_Tareas)
             ->update([

@@ -108,12 +108,12 @@ class CatServiciosAdminController extends Controller
     {
         //
         try {
-            $validated = $request->validate([
-                'Id_Tipo_Admin_Servicios'=> 'required',
-                'Id_Administrador'=> 'required',
-                'Id_Cat_Servicios'=> 'required',
-                'Fecha_Ult_Mod'=> 'required'
-            ]); 
+            // $validated = $request->validate([
+            //     'Id_Tipo_Admin_Servicios'=> 'required',
+            //     'Id_Administrador'=> 'required',
+            //     'Id_Cat_Servicios'=> 'required',
+            //     'Fecha_Ult_Mod'=> 'required'
+            // ]); 
             DB::table('tipo_admin_cat_servicios')
             ->where('Id_Tipo_Admin_Servicios', $request->Id_Tipo_Admin_Servicios)
             ->update([

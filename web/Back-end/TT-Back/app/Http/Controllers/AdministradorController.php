@@ -117,19 +117,19 @@ class AdministradorController extends Controller
     {
         //
         try {
-            $validated = $request->validate([
-                'Id_Administradores'=>'required',
-                'Id_Status_Admin'=>'required', 
-                'Id_Tipo_Admin'=>'required', 
-                'Nombre_Admin'=>'required',
-                'Apellido_P_Admin'=>'required',
-                'Apellido_M_Admin'=>'required',
-                'Fecha_ingreso'=>'required',
-                'Nombre_Usuario'=>'required', 
-                'Password_Hash'=>'required', 
-                'Fecha_Ultimo_Cambio_Pass'=>'required', 
-                'Cant_dias_limit'=>'required'
-            ]); 
+            // $validated = $request->validate([
+            //     'Id_Administradores'=>'required',
+            //     'Id_Status_Admin'=>'required', 
+            //     'Id_Tipo_Admin'=>'required', 
+            //     'Nombre_Admin'=>'required',
+            //     'Apellido_P_Admin'=>'required',
+            //     'Apellido_M_Admin'=>'required',
+            //     'Fecha_ingreso'=>'required',
+            //     'Nombre_Usuario'=>'required', 
+            //     'Password_Hash'=>'required', 
+            //     'Fecha_Ultimo_Cambio_Pass'=>'required', 
+            //     'Cant_dias_limit'=>'required'
+            // ]); 
             DB::table('administradores')
             ->where('Id_Administradores', $request->Id_Administradores)
             ->update([

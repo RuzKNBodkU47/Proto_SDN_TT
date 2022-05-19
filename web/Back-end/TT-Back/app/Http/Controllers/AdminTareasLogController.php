@@ -119,17 +119,17 @@ class AdminTareasLogController extends Controller
     {
         //
         try {
-            $validated = $request->validate([
-                'Id_Administradores_Tareas_Log'=> 'required',
-                'Id_Status_Log'=> 'required', 
-                'Id_Administradores'=> 'required', 
-                'Id_Cat_Tareas'=> 'required', 
-                'Ip_Dispositivo_Orig'=> 'required', 
-                'MAC_Dispositivo_Orig'=> 'required', 
-                'Id_Admin_Obj'=> 'required', 
-                'Fecha_Init_Serv'=> 'required',
-                'Fecha_Fin_Serv'=> 'required'
-            ]); 
+            // $validated = $request->validate([
+            //     'Id_Administradores_Tareas_Log'=> 'required',
+            //     'Id_Status_Log'=> 'required', 
+            //     'Id_Administradores'=> 'required', 
+            //     'Id_Cat_Tareas'=> 'required', 
+            //     'Ip_Dispositivo_Orig'=> 'required', 
+            //     'MAC_Dispositivo_Orig'=> 'required', 
+            //     'Id_Admin_Obj'=> 'required', 
+            //     'Fecha_Init_Serv'=> 'required',
+            //     'Fecha_Fin_Serv'=> 'required'
+            // ]); 
             DB::table('administradores_tareas_log')
             ->where('Id_Administradores_Tareas_Log', $request->Id_Administradores_Tareas_Log)
             ->update([

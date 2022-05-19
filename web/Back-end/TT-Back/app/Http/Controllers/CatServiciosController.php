@@ -108,10 +108,10 @@ class CatServiciosController extends Controller
     {
         //
         try {
-            $validated = $request->validate([
-                'Id_Cat_Servicios'=>'required',
-                'Nom_Cat_Servicios' => 'required'
-            ]); 
+            // $validated = $request->validate([
+            //     'Id_Cat_Servicios'=>'required',
+            //     'Nom_Cat_Servicios' => 'required'
+            // ]); 
             DB::table('cat_servicios')
             ->where('Id_Cat_Servicios', $request->Id_Cat_Servicios)
             ->update(['Nom_Cat_Servicios' => $request->Nom_Cat_Servicios]);

@@ -125,19 +125,19 @@ class AdminServiciosLogController extends Controller
     {
         //
         try {
-            $validated = $request->validate([
-                'Id_Administradores_Servicios_Log'=> 'required',
-                'Id_Status_Log' => 'required',
-                'Id_Administradores' => 'required',
-                'Id_Cat_Servicios' => 'required',
-                'Ip_Dispositivo_Orig'=>'required',
-                'MAC_Dispositivo_Orig'=>'required',
-                'Ip_Dispositivo_Ant' => 'required',
-                'Ip_Dispositivo_Desp' => 'required',
-                'Dir_MAC_Disp_Fin' => 'required',
-                'Fecha_Init_Serv' => 'required',
-                'Fecha_Fin_Serv' => 'required',
-            ]); 
+            // $validated = $request->validate([
+            //     'Id_Administradores_Servicios_Log'=> 'required',
+            //     'Id_Status_Log' => 'required',
+            //     'Id_Administradores' => 'required',
+            //     'Id_Cat_Servicios' => 'required',
+            //     'Ip_Dispositivo_Orig'=>'required',
+            //     'MAC_Dispositivo_Orig'=>'required',
+            //     'Ip_Dispositivo_Ant' => 'required',
+            //     'Ip_Dispositivo_Desp' => 'required',
+            //     'Dir_MAC_Disp_Fin' => 'required',
+            //     'Fecha_Init_Serv' => 'required',
+            //     'Fecha_Fin_Serv' => 'required',
+            // ]); 
             DB::table('administradores_servicios_log')
             ->where('Id_Administradores_Servicios_Log', $request->Id_Administradores_Servicios_Log)
             ->update([

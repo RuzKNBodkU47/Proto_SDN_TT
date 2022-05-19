@@ -103,10 +103,10 @@ class StatusAdminController extends Controller
     {
         //
         try {
-            $validated = $request->validate([
-                'Id_Status_Admin'=>'required',
-                'Nom_Tipo_Admin' => 'required'
-            ]); 
+            // $validated = $request->validate([
+            //     'Id_Status_Admin'=>'required',
+            //     'Nom_Tipo_Admin' => 'required'
+            // ]); 
             DB::table('status_admin')
             ->where('Id_Status_Admin', $request->Id_Status_Admin)
             ->update(['Nom_Tipo_Admin' => $request->Nom_Tipo_Admin]);

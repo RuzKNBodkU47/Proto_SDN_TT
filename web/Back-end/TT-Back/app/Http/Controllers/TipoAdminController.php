@@ -97,10 +97,10 @@ class TipoAdminController extends Controller
     {
         //
         try {
-            $validated = $request->validate([
-                'Id_Tipo_Admin'=> 'required',
-                'Nom_Tipo_Admin' => 'required'
-            ]); 
+            // $validated = $request->validate([
+            //     'Id_Tipo_Admin'=> 'required',
+            //     'Nom_Tipo_Admin' => 'required'
+            // ]); 
             DB::table('tipo_admin')
             ->where('Id_Tipo_Admin', $request->Id_Tipo_Admin)
             ->update(['Nom_Tipo_Admin' => $request->Nom_Tipo_Admin]);
