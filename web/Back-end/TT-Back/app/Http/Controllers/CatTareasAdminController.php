@@ -144,4 +144,45 @@ class CatTareasAdminController extends Controller
             return \Response::json(['created' => false,"message"=>$th], 422);
         }
     }
+    public function buscatarea($id)
+    {
+        //
+        // return tipo_admin_cat_tareas::get();
+        try {
+            $ctareaadmin = tipo_admin_cat_tareas::where('Id_Administrador', '=', $id)->get();
+            $global['admins']=[];
+            for ($i=0; $i <count($ctareaadmin); $i++) {
+                $datos['tareaenadmin']=$ctareaadmin[$i]->Id_Cat_Tareas;
+                array_push($global['admins'],$datos);
+            }
+            return $global;
+            // if (count($ctareaadmin) == 0) {
+            //     return response()->json(["message"=>"Tarea en catalogo de administrador no encontrado","code"=>404],404);
+            // }else {
+            //     return response()->json(['data'=>$ctareaadmin,"message"=>"Tarea en catalogo de administrador encontrado con éxito","code"=>200]);
+            // }
+        } catch (\Throwable $th) {
+            return \Response::json(['find' => false,"message"=>$th], 404);
+        }
+    }
+    public function agregartarea(Request $request) {
+        try {
+            $lista['tareas']=[];
+            $lista['tareasacomparar']=[];
+            $ctareaadmin = tipo_admin_cat_tareas::where('Id_Administrador', '=', $request->Id_Administrador)->get();
+            $necio = str_split($request->Arreglo);
+            for ($i=0; $i < count($necio); $i++) {
+                if ($necio[$i]!="[" && $necio[$i]!="]" && $necio[$i]!=",") {
+                    array_push($lista['tareas'],$necio[$i]);
+                }
+                // return $necio;
+            }
+            for ($i=0; $i < count($ctareaadmin); $i++) {
+                array_push($lista['tareasacomparar'],$ctareaadmin[$i]->Id_Cat_Tareas);
+            }
+            return $lista['tareasacomparar'];
+        } catch (\Throwable $th) {
+            return \Response::json(['find' => false,"message"=>$th], 404);
+        }
+    }
 }

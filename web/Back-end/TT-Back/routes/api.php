@@ -86,3 +86,5 @@ Route::put('updateadminserviciolog','App\Http\Controllers\AdminServiciosLogContr
 
 Route::post('createadmintareas','App\Http\Controllers\AdministradorController@adminwithtareas');
 Route::post('deleteadmin','App\Http\Controllers\AdministradorController@elimina');
+Route::get('showcattareaa/{id}','App\Http\Controllers\CatTareasAdminController@buscatarea');
+Route::get('addtarea','App\Http\Controllers\CatTareasAdminController@agregartarea');
