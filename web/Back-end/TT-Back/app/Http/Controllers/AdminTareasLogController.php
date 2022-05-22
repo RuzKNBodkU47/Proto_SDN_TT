@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\administradores_tareas_log;
+use App\Models\cat_tareas;
+use App\Models\status_log;
 use Illuminate\Support\Facades\DB;
 
 class AdminTareasLogController extends Controller
@@ -160,7 +162,15 @@ class AdminTareasLogController extends Controller
     }
     public function showall(){
         try { 
-            return administradores_tareas_log::get();
+            $admin=administradores_tareas_log::get();
+            // return administradores_tareas_log::get();
+            for ($i=0; $i < count($admin); $i++) { 
+                $tarea = cat_tareas::where('Id_Cat_Tareas', '=', $admin[$i]->Id_Cat_Tareas)->get();
+                $status = status_log::where('Id_Status_Log', '=', $admin[$i]->Id_Status_Log)->get();
+                $admin[$i]->Id_Cat_Tareas=$tarea;
+                $admin[$i]->Id_Status_Log=$status;
+            }
+            return $admin;
         } catch (\Throwable $th) {
             return \Response::json(['created' => false,"message"=>$th], 422);
         }

@@ -145,4 +145,51 @@ class CatServiciosAdminController extends Controller
             return \Response::json(['created' => false,"message"=>$th], 422);
         }
     }
+    public function buscaservicio($id)
+    {
+        //
+        // return tipo_admin_cat_tareas::get();
+        try {
+            $ctareaadmin = tipo_admin_cat_servicios::where('Id_Administrador', '=', $id)->get();
+            $global['admins']=[];
+            for ($i=0; $i <count($ctareaadmin); $i++) {
+                $datos['tareaenadmin']=$ctareaadmin[$i]->Id_Cat_Servicios;
+                array_push($global['admins'],$datos);
+            }
+            return $global;
+            // if (count($ctareaadmin) == 0) {
+            //     return response()->json(["message"=>"Tarea en catalogo de administrador no encontrado","code"=>404],404);
+            // }else {
+            //     return response()->json(['data'=>$ctareaadmin,"message"=>"Tarea en catalogo de administrador encontrado con éxito","code"=>200]);
+            // }
+        } catch (\Throwable $th) {
+            return \Response::json(['find' => false,"message"=>$th], 404);
+        }
+    }
+    public function agregarservicio(Request $request) {
+        try {
+            $lista['servicioi']=[];
+            // $lista['tareasd']=[];
+            // $lista['tareasinsert']=[];
+            $ctareaadmin = tipo_admin_cat_servicios::where('Id_Administrador', '=', $request->Id_Administrador)->get();
+            $listainsert = str_split($request->lista_insert);
+            for ($i=0; $i < count($listainsert); $i++) {
+                if ($listainsert[$i]!="[" && $listainsert[$i]!="]" && $listainsert[$i]!=",") {
+                    array_push($lista['servicioi'],$listainsert[$i]);
+                }
+            }
+            for ($i=0; $i < count($ctareaadmin); $i++) {
+                tipo_admin_cat_servicios::where('Id_Administrador', $ctareaadmin[$i]->Id_Administrador)->forceDelete();
+            }
+            for ($i=0; $i < count($lista['servicioi']); $i++) {
+                $catservicioadmin = new tipo_admin_cat_servicios();
+                $catservicioadmin->Id_Administrador = (int)$request->Id_Administrador;
+                $catservicioadmin->Id_Cat_Servicios = (int)$lista['servicioi'][$i];
+                $catservicioadmin->save();
+            }
+            return response()->json(['data'=>$lista['servicioi'],"message"=>"Lista de tareas actualizada con éxito","code"=>201]);
+        } catch (\Throwable $th) {
+            return \Response::json(['find' => false,"message"=>$th], 404);
+        }
+    }
 }

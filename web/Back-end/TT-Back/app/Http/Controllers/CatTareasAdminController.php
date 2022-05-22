@@ -167,20 +167,26 @@ class CatTareasAdminController extends Controller
     }
     public function agregartarea(Request $request) {
         try {
-            $lista['tareas']=[];
-            $lista['tareasacomparar']=[];
+            $lista['tareasi']=[];
+            $lista['tareasd']=[];
+            $lista['tareasinsert']=[];
             $ctareaadmin = tipo_admin_cat_tareas::where('Id_Administrador', '=', $request->Id_Administrador)->get();
-            $necio = str_split($request->Arreglo);
-            for ($i=0; $i < count($necio); $i++) {
-                if ($necio[$i]!="[" && $necio[$i]!="]" && $necio[$i]!=",") {
-                    array_push($lista['tareas'],$necio[$i]);
+            $listainsert = str_split($request->lista_insert);
+            for ($i=0; $i < count($listainsert); $i++) {
+                if ($listainsert[$i]!="[" && $listainsert[$i]!="]" && $listainsert[$i]!=",") {
+                    array_push($lista['tareasi'],$listainsert[$i]);
                 }
-                // return $necio;
             }
             for ($i=0; $i < count($ctareaadmin); $i++) {
-                array_push($lista['tareasacomparar'],$ctareaadmin[$i]->Id_Cat_Tareas);
+                tipo_admin_cat_tareas::where('Id_Administrador', $ctareaadmin[$i]->Id_Administrador)->forceDelete();
             }
-            return $lista['tareasacomparar'];
+            for ($i=0; $i < count($lista['tareasi']); $i++) {
+                $cattareasadmin = new tipo_admin_cat_tareas();
+                $cattareasadmin->Id_Administrador = (int)$request->Id_Administrador;
+                $cattareasadmin->Id_Cat_Tareas = (int)$lista['tareasi'][$i];
+                $cattareasadmin->save();
+            }
+            return response()->json(['data'=>$lista['tareasi'],"message"=>"Lista de tareas actualizada con éxito","code"=>201]);
         } catch (\Throwable $th) {
             return \Response::json(['find' => false,"message"=>$th], 404);
         }

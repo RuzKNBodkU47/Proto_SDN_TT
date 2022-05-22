@@ -88,3 +88,5 @@ Route::post('createadmintareas','App\Http\Controllers\AdministradorController@ad
 Route::post('deleteadmin','App\Http\Controllers\AdministradorController@elimina');
 Route::get('showcattareaa/{id}','App\Http\Controllers\CatTareasAdminController@buscatarea');
 Route::get('addtarea','App\Http\Controllers\CatTareasAdminController@agregartarea');
+Route::get('showcatservicioa/{id}','App\Http\Controllers\CatServiciosAdminController@buscaservicio');
+Route::get('addservicio','App\Http\Controllers\CatServiciosAdminController@agregarservicio');
