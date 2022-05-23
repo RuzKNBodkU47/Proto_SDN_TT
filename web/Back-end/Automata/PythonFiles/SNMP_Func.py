@@ -1,14 +1,14 @@
 from pysnmp.hlapi import * 
 #Funciones para el protocolo SNMP
-
+import MYSQLdb
 #Función get de SNMP
 
-def GetFunc():
+def GetFunc(User, AuthKy,AgentTarget,OID):
     getCommand = getCmd(SnmpEngine(), #Instancia de la clase SNMPengine (obligatorio en la funcion)
-                        CommunityData('public', mpModel = 1), #Eleccion de version mpModel = 0 es para SNMP version 1, mpModel = 1 es para version 2c
-                        UdpTransportTarget(('demo.snmplabs.com',200)), #Establecer transport y target
+                        UsmUserData(User, authKey = AuthKy), #privkey es un valor opcional
+                        UdpTransportTarget((AgentTarget,161)), #Establecer transport y target
                         ContextData(), #Contexto SNMP vacio valor default
-                        ObjectType(ObjectIdentity('SNMPv2-MIB','sysDescr',0)) #ObjectIdentity aborda objetos MIB desde perspectiva humana
+                        ObjectType(ObjectIdentity(OID)) #ObjectIdentity aborda objetos MIB desde perspectiva humana
                                                                               #ObjectType objeto contenedor que referencia a instancias ObjectIdentity y SNMP
                         ) 
 
@@ -17,14 +17,18 @@ def GetFunc():
 
     if errorIndication:
         print(errorIndication)
-
     elif errorStatus:
         print('%s at %s' % (errorStatus.prettyPrint(),
-                        errorIndex and varBinds[int(errorIndex) - 1][0] or '?'))
-
+                        errorIndex and varBinds[int(errorIndex)-1][0] or '?'))
     else:
         for varBind in varBinds:
             print(' = '.join([x.prettyPrint() for x in varBind]))
+       
+            print(str(varBind).split(","))
+            LimpiarCadena(str(varBind))
+    #Eleccion de version mpModel = 0 es para SNMP version 1, mpModel = 1 es para version 2c
+    #CommunityData('public', mpModel = 1),
+    
     #Para elegir SNMP version 3
     #UsmUserData('testuser', authKey = 'myauthkey', privKey = 'myenckey') #privkey es un valor opcional
 
@@ -69,5 +73,28 @@ def InformFunc():
                                  NotificationType(ObjectIdentity('IF-MIB', 'linkUp'), instanceIndex=(123,))
                                 )
     next(setInform)
+
+def LimpiarCadena(cadena):
+    #Conexion con BD
     
-GetFunc()
+    empiezasys = []
+    empiezasys = cadena.split(":")
+
+    snmpCadenaComp = empiezasys[2].split(",")
+    print(empiezasys[2])
+    print(snmpCadenaComp)
+
+def conectarSQL():
+    #Cambiar los valores por los de nuestra BD
+    try:
+        db_connection = MYSQLdb.connect("Hostname","dbusername","password","dbname")
+    except:
+        print("Error al conectar la DB")
+    
+    #Crear objeto para ejecucion de query
+    cursor = db_connection.cursor()
+
+    #Ejecución de una sentencia
+    cursor.execute("Poner aqui la sentencia a ejecutar")
+
+GetFunc('Admin','Palabra123456','148.204.9.1','1.3.6.1.2.1.1.1.0')   
