@@ -9,4 +9,16 @@
                     SDNTT> userconfig
                     SDNTT>USERCONFIG>
                 
-                
+                [-] moddata.- Con este subcomando accede a las funciones que le permiten al usuario modificar su propia informacion.
+                            En este apartado lo que puede modifcar el usuario es, su nombre, sus apellidos ya sea materno o paterno.
+
+                            Ejemplo:
+                            SDNTT>USERCONFIG> moddata
+
+                [-] modpass.- Con este subcomando el usuario puede acceder a las funciones para el cambio de la contrasena de su usuario.
+
+                            Ejemplo:
+                            SDNTT>USERCONFIG> modpass
+                            Ingrese la nueva contrasena:xxxxx
+                            contrasena actualizada
+                            SDNTT>USERCONFIG> 

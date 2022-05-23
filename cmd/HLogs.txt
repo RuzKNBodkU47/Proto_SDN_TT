@@ -1,0 +1,5 @@
+<< Bienvenido a la ayuda de SDNTT >>
+
+#- SDNTT es un prototipo de red definida por sofware desarrollado especificamente para el Instituto Politecnico Nacional.
+
+    [X] 

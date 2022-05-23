@@ -175,9 +175,15 @@ void funcion_user_syst()
             else
                 printf("\nContrasena no se actualizo correctamente.");
         }
+<<<<<<< Updated upstream
         else if(strcmp(subcomando,HELP_CMD))
         {
 
+=======
+        else if (strcmp(subcomando,HELP_CMD)==0)
+        {
+            
+>>>>>>> Stashed changes
         }
         else if(strcmp(subcomando,EXIT_CMD)==0)
             break;

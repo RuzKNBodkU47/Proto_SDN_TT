@@ -106,7 +106,7 @@ CREATE TABLE tipo_admin_cat_servicios(
 -- tabla Tipo_Admin_Cat_Servicios
 -- tabla donde se relacionan los permisos a los cuales los administradores y super administradores tienen permitido
 CREATE TABLE tipo_admin_cat_tareas(
-	Id_Tipo_Admin_Servicios int(10) NOT NULL AUTO_INCREMENT,
+	Id_Tipo_Admin_tareas int(10) NOT NULL AUTO_INCREMENT,
 	Id_Administrador int(2) NOT NULL,
 	Id_Cat_Tareas int(2) NOT NULL,
 	Fecha_Ult_Mod varchar(60) NOT NULL,
