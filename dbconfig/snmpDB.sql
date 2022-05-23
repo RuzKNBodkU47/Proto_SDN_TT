@@ -8,6 +8,7 @@ CREATE TABLE Datos_SNMP(
     UserNameAgente VARCHAR(100),
     PassA VARCHAR(100),
     PassX VARCHAR(100),
+    OIDaConsultar(30),
     PRIMARY KEY (idAgente)
 );
 
