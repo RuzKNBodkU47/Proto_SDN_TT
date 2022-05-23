@@ -175,6 +175,10 @@ void funcion_user_syst()
             else
                 printf("\nContrasena no se actualizo correctamente.");
         }
+        else if(strcmp(subcomando,HELP_CMD))
+        {
+
+        }
         else if(strcmp(subcomando,EXIT_CMD)==0)
             break;
         else
