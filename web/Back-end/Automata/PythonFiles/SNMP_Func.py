@@ -1,6 +1,7 @@
+
 from pysnmp.hlapi import * 
 #Funciones para el protocolo SNMP
-import MYSQLdb
+import pymysql.cursors
 #Función get de SNMP
 
 def GetFunc(User, AuthKy,AgentTarget,OID):
@@ -25,7 +26,7 @@ def GetFunc(User, AuthKy,AgentTarget,OID):
             print(' = '.join([x.prettyPrint() for x in varBind]))
        
             print(str(varBind).split(","))
-            LimpiarCadena(str(varBind))
+            NombreDispositivo(str(varBind),OID)
     #Eleccion de version mpModel = 0 es para SNMP version 1, mpModel = 1 es para version 2c
     #CommunityData('public', mpModel = 1),
     
@@ -53,13 +54,13 @@ def SetFunc():
     next(setCommand)
 
 #Envio de una trampa SNMP (establecimiento de comunicación agent-to-manager de una sola via)
-def TrapFunc():
+def TrapFunc(User, AuthKy,AgentTarget):
     setTrap = sendNotification(SnmpEngine(),
-                               CommunityData('public', mpModel = 1),
-                               Udp6TransportTarget(('demo.snmplabs.com',162)),
+                               UsmUserData(User, authKey = AuthKy),
+                               Udp6TransportTarget((AgentTarget,162)),
                                ContextData(),
                                'trap',
-                               NotificationType(ObjectIdentity('IF-MIB', 'linkup'),instanceIndex=(123,))
+                               NotificationType(ObjectIdentity('1.3.6.1.4.1.2021.4.5.0'))
                                )
     next(setTrap)
 
@@ -74,27 +75,80 @@ def InformFunc():
                                 )
     next(setInform)
 
-def LimpiarCadena(cadena):
-    #Conexion con BD
-    
-    empiezasys = []
-    empiezasys = cadena.split(":")
+def NombreDispositivo(cadena,oid):
+    #Establecer conexión con BD (cambiar los datos aqui por los requeridos para nuestra conexion)
+    conexion = pymysql.connect(host = 'localhost',
+                               user = 'user',
+                               password = 'passwd',
+                               database = 'db',
+                               charset = 'utf8mb4',
+                               cursorclass = pymysql.cursors.DictCursor)
 
-    snmpCadenaComp = empiezasys[2].split(",")
-    print(empiezasys[2])
-    print(snmpCadenaComp)
+    #Evaluar el oid ingresado
+    if(oid == '1.3.6.1.2.1.1.1.0'): #Oid SysDescr Obtener nombre del agente
+        #Obtener el nombre del dispositivo al que se realizo la petición snmpget
+        empiezasys = []
+        empiezasys = cadena.split("=") #Separa la cadena en el MIB que se consulto
 
-def conectarSQL():
+        snmpCadenaComp = empiezasys[1].split("(") #Se separa la cadena para obtener unicamente el nombre del dispositivo
+        nombreDispositivo = snmpCadenaComp[0] #Se asigna el nombre a la variable para hacer el insert en la base de datos
+        print(nombreDispositivo)
+
+        with conexion:
+            with conexion.cursor() as cursor:
+                #Crear nuevo registro
+                register = "INSERT INTO `Datos_Dispo` (`NombreDispo`) VALUES (%s)"
+                cursor.execute(register,(nombreDispositivo))
+
+            #Se usa el siguiente commit para guardar los cambios
+            conexion.commit()   
+    elif(oid == '1.3.6.1.4.1.2021.4.5.0'):
+        #Obtener los datos de memoria
+        cadenaOid = []
+        cadenaOid = cadena.split("=") #Separa la cadena para obtener el dato de relevancia
+        
+        RAMmem = ''
+        with conexion:
+            with conexion.cursor() as cursor:
+                #Crear nuevo registro
+                register = "INSERT INTO `Datos_Dispo` (`Memoria`) VALUES (%s)"    
+                cursor.execute(register(RAMmem))
+    elif(oid == '1.3.6.1.4.1.2021.9.1.6.1'):
+        #Obtener los datos de disco
+        cadenaOid = []
+        cadenaOid = cadena.split("=") #Separa la cadena para obtener el dato de relevancia
+        
+        Disksize = ''
+        with conexion:
+            with conexion.cursor() as cursor:
+                #Crear nuevo registro
+                register = "INSERT INTO `Datos_Dispo` (`Storage`) VALUES (%s)"    
+                cursor.execute(register(Disksize))
+    elif(oid == '1.3.6.1.4.1.2021.11.9.0'):
+        #Obtener los datos de cpu
+        cadenaOid = []
+        cadenaOid = cadena.split("=") #Separa la cadena para obtener el dato de relevancia
+        
+        CPUporcentaje = ''
+        with conexion:
+            with conexion.cursor() as cursor:
+                #Crear nuevo registro
+                register = "INSERT INTO `Datos_Dispo` (`CPU`) VALUES (%s)"    
+                cursor.execute(register(CPUporcentaje))
+    else:
+        print("Oid no reconocido")
+
+#def conectarSQL():
     #Cambiar los valores por los de nuestra BD
-    try:
-        db_connection = MYSQLdb.connect("Hostname","dbusername","password","dbname")
-    except:
-        print("Error al conectar la DB")
+ #   try:
+  #      db_connection = MYSQLdb.connect("Hostname","dbusername","password","dbname")
+   # except:
+    #    print("Error al conectar la DB")
     
     #Crear objeto para ejecucion de query
-    cursor = db_connection.cursor()
+    #cursor = db_connection.cursor()
 
     #Ejecución de una sentencia
-    cursor.execute("Poner aqui la sentencia a ejecutar")
+    #cursor.execute("Poner aqui la sentencia a ejecutar")
 
-GetFunc('Admin','Palabra123456','148.204.9.1','1.3.6.1.2.1.1.1.0')   
+GetFunc('Admin','Palabra123456','148.204.9.1','1.3.6.1.2.1.1.1.0')  
