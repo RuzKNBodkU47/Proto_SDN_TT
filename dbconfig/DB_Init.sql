@@ -110,7 +110,7 @@ CREATE TABLE tipo_admin_cat_tareas(
 	Id_Administrador int(2) NOT NULL,
 	Id_Cat_Tareas int(2) NOT NULL,
 	Fecha_Ult_Mod varchar(60) NOT NULL,
-	PRIMARY KEY(Id_Tipo_Admin_Servicios),
+	PRIMARY KEY(Id_Tipo_Admin_tareas),
 	FOREIGN KEY (Id_Administrador) REFERENCES administradores(Id_Administradores),
 	FOREIGN KEY (Id_Cat_Tareas) REFERENCES cat_tareas(Id_Cat_Tareas)
 );
