@@ -14,7 +14,7 @@
                 Ejemplo:
                 SDNTT>CONFIG> router
 
-        [-] switch.- Esta seccion permite ejeutar todos los comandos de configuracion para los switches.
+        [-] switch.- Esta seccion permite ejecutar todos los comandos de configuracion para los switches.
                 
                 Ejemplo:
                 SDNTT>CONFIG> switch

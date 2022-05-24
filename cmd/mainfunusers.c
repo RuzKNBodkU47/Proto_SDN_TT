@@ -1253,15 +1253,15 @@ int ImLogServicios()
  */
 int ImLogTareasTxt()
 {
-    char *nomarch;
-    nomarch = (char*) malloc(sizeof(char)* 30);
+   // char *nomarch;
+   // nomarch = (char*) malloc(sizeof(char)* 30);
     printf("\n\n==>Imprimiendo Todos los logs...");
     obfecha();
-    strcat(strcpy(nomarch,FechaFunUser),"_tarlog.dat");
-    if(GenLogTareasTxt(nomarch)!=1)
+    //strcat(strcpy(nomarch,FechaFunUser),"_tarlog.dat");
+    if(GenLogTareasTxt("Tareaslogs.dat")!=1)
         return 0;
     printf("\n\n==> Archivo Log finalizado");
-    free(nomarch);
+    //free(nomarch);
     return 1;
 }
 /**
@@ -1271,15 +1271,15 @@ int ImLogTareasTxt()
  */
 int ImLogServiciosTxt()
 {
-    char *nomarch;
-    nomarch = (char*) malloc(sizeof(char)* 30);
+    //char *nomarch;
+    //nomarch = (char*) malloc(sizeof(char)* 30);
     printf("\n\n==>Imprimiendo Todos los logs...");
     obfecha();
-    strcat(strcpy(nomarch,FechaFunUser),"_servlog.dat");
-    if(GenLogServiciosTxt(nomarch)!=1)
+    //strcat(strcpy(nomarch,FechaFunUser),"_servlog.dat");
+    if(GenLogServiciosTxt("Servicioslogs.dat")!=1)
         return 0;
     printf("\n\n==> Archivo Log finalizado");
-    free(nomarch);
+    //free(nomarch);
     return 1;
 }
 /**
@@ -1398,7 +1398,12 @@ int fun_fech(int flag,int flag2)
     }
     return 1;
 }
-
+/**
+ * @brief FUncion que busca logs por fecha inicial
+ * 
+ * @param flag2 
+ * @return int 
+ */
 int busc_fechainitlog(int flag2)
 {
     int flag, ciclo=1;
@@ -1425,60 +1430,99 @@ int busc_fechainitlog(int flag2)
     }
     return 1;
 }
-
-
-/*int opc=0;
-    int flag, ciclo=1,subciclo=1;
-    while(ciclo)
+/**
+ * @brief Funcion que busca logs por servicios o tareas
+ * 
+ * @param flag recibe un entero para saber si es servicio o tarea.
+ * @return int 
+ */
+int buscarlogstarserv(int flag)
+{
+    int x=1;
+    int opc=0;
+    switch (flag)
     {
-        menusublogs();
-        scanf("%d",&flag);
-        switch (flag)
+    case 1:
+        while(x)
         {
-        case 1:
-            while(subciclo)
+            printf("\nTareas a buscar\n1.Iniciar Sesion\n2.Cerrar Sesion\n3.Modicar Datos Propios Administrador\n4.Alta Administrador\n5.Modicacion de Datos Administrador\n6.Eliminar Administrador\n7.Eliminar Privilegios\n8. Agregar Privilegios.\n9.Salir\nElija Opcion:");
+            scanf("%d",&opc);
+            switch (opc)
             {
-                printf("\nLogs de Tareas");
-                printf("\n1.Iniciar Sesion");
-                printf("\n2.Cerrar Sesion");
-                printf("\n3.Modificar Datos Propios");
-                printf("\n4.Alta Administrador");
-                printf("\n5.Modificacion Datos Administradores");
-                printf("\n6.Eliminar Administrador");
-                printf("\n7.Eliminar Privilegios");
-                printf("\n8.Agregar Privilegios");
-                printf("\n9.Salir");
-                printf("\nElija la tarea a buscar en los logs de tareas: ");
-                scanf("%d",&opc);
-                switch (opc)
-                {
-                case 1:
+                case 1:printf("\nBuscando Tareas de Inicio de Sesion..");
+                    if(busquedatar_serv(1,1)==0)
+                        return 0;
                     break;
-                case 2:
+                case 2:printf("\nBuscando Tareas de Cerrar Sesion..");
+                    if(busquedatar_serv(1,2)==0)
+                        return 0;
                     break;
-                case 3:
+                case 3:printf("\nBuscando Tareas de Modificar Datos Propios Administrador..");
+                    if(busquedatar_serv(1,3)==0)
+                        return 0;
                     break;
-                case 4:
+                case 4:printf("\nBuscando Tareas de Alta de Adminsistrador..");
+                    if(busquedatar_serv(1,4)==0)
+                        return 0;
                     break;
-                case 5:
+                case 5:printf("\nBuscando Tareas de Modificacion de Datos Administrador..");
+                    if(busquedatar_serv(1,5)==0)
+                        return 0;
                     break;
-                default:
+                case 6:printf("\nBuscando Tareas de Eliminacion de Administrador..");
+                    if(busquedatar_serv(1,6)==0)
+                        return 0;
                     break;
-                }   
+                case 7:printf("\nBuscando Tareas de Eliminar Privilegios..");
+                    if(busquedatar_serv(1,7)==0)
+                        return 0;
+                    break;
+                case 8:printf("\nBuscando Tareas de Agregar Privilegios..");
+                    if(busquedatar_serv(1,8)==0)
+                        return 0;
+                    break;
+                case 9:printf("\nSaliendo..");
+                    x=0;
+                    break;
+                default:printf("\nError en la opcion por favor elija una");
+                    break;
             }
-            if(busquedaloguser(nomuser,flag)!=1)
-                return 0;
-            break;
-        case 2:printf("\nLogs de Servicios");
-            printf("\nIngrese el nombre del usuario: ");
-            scanf("%s",nomuser);
-            if(busquedaloguser(nomuser,flag)!=1)
-                return 0;
-            break;
-        case 3:printf("\nSaliendo..");
-            ciclo=0;
-            break;
-        default:printf("\nError escoja una correcta opcion");
-            break;
         }
-    }*/
+        break;
+    case 2:
+        while(x)
+        {
+            printf("\nServicios a Buscar\n1.Monitorizacion\n2.Configuracion de Router\n3.Configuracion de Switch\n4.Configuracion de Servidor.\n5. Salir\nElija una opcion: ");
+            scanf("%d",&opc);
+            switch (opc)
+            {
+                case 1:printf("\nBuscando servicios de Monitorizacion..");
+                    if(busquedatar_serv(2,1)==0)
+                        return 0;
+                    break;
+                case 2:printf("\nBuscando servicios de Configuracion de Router..");
+                    if(busquedatar_serv(2,2)==0)
+                        return 0;
+                    break;
+                case 3:printf("\nBuscando servicios de Configuracion de Switch..");
+                    if(busquedatar_serv(2,3)==0)
+                        return 0;
+                    break;
+                case 4:printf("\nBuscando servicios de Configuracion de Servidor..");
+                    if(busquedatar_serv(2,4)==0)
+                        return 0;
+                    break;
+                case 5:printf("\nSaliendo...");
+                    x=0;
+                    break;
+                default:printf("\nError en las opciones.");
+                    break;
+            }
+        }
+        break;
+    default: printf("\nError en las flags");
+        return 0;
+        break;
+    }
+    return 1;
+}

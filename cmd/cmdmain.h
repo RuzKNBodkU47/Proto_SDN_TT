@@ -14,8 +14,8 @@
 #ifndef CMDMAIN_H
 #define CMDMAIN_H
 char *servidor = "localhost";
-//char *user = "ruzkn47";
-char *user = "root";
+char *user = "ruzkn47";
+//char *user = "root";
 char *password ="inquisidor1922";
 char *database = "SDNTT2";
 
@@ -79,4 +79,5 @@ int GenLogTareasTxt(char *nomarch);
 int GenLogServiciosTxt(char *nomarch);
 int busquedaloguser(char * nomuser, int flag);
 int busquedalogfecha(char * fecha, int flag, int flag2, int flag3);
+
 #endif

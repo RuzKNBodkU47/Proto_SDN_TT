@@ -30,4 +30,5 @@ void menusublogs();
 int busc_userlog();
 int fun_fech(int flag,int flag2);
 int busc_fechainitlog(int flag2);
+int buscarlogstarserv(int flag);
 #endif

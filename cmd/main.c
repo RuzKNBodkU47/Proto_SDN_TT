@@ -38,6 +38,7 @@ void funcion_log();
 void funcion_system();
 void funcion_user_syst();
 void imprimirbanner();
+int imprimir_arch_help2(int flag);
 
 /**
  * @brief funcion principal del programa SDNTT de la linea de comandos
@@ -175,15 +176,9 @@ void funcion_user_syst()
             else
                 printf("\nContrasena no se actualizo correctamente.");
         }
-<<<<<<< Updated upstream
         else if(strcmp(subcomando,HELP_CMD))
         {
-
-=======
-        else if (strcmp(subcomando,HELP_CMD)==0)
-        {
-            
->>>>>>> Stashed changes
+            imprimir_arch_help2(1);
         }
         else if(strcmp(subcomando,EXIT_CMD)==0)
             break;
@@ -298,17 +293,17 @@ void funcion_log()
                 }
                 else if(strcmp(subcomando,LOGS_SUBCMD_6)==0)//buscar por tarea
                 {
-                    //if()
-                      //  printf("\nObtencion de logs exitoso.");
-                    //else
-                      //  printf("\nObtencion de logs no exitoso.");
+                    if(buscarlogstarserv(1)==1)
+                        printf("\nObtencion de logs exitoso.");
+                    else
+                        printf("\nObtencion de logs no exitoso.");
                 }
                 else if(strcmp(subcomando,LOGS_SUBCMD_7)==0)//buscar por servicio
                 {
-                    //if()
-                      //  printf("\nObtencion de logs exitoso.");
-                    //else
-                      //  printf("\nObtencion de logs no exitoso.");
+                    if(buscarlogstarserv(2)==1)
+                        printf("\nObtencion de logs exitoso.");
+                    else
+                        printf("\nObtencion de logs no exitoso.");
                 }
                 else if(strcmp(subcomando,LOGS_SUBCMD_8)==0)//buscar por id
                 {
@@ -326,6 +321,10 @@ void funcion_log()
                     printf("\nElija una opcion correcta.");
                 }
             }
+        }
+        else if(strcmp(subcomando,HELP_CMD)==0)
+        {
+            imprimir_arch_help2(2);
         }
         else if(strcmp(subcomando,EXIT_CMD)==0)
             break;
@@ -547,6 +546,38 @@ int imprimir_arch_help()
     char Nom_arch[40]="Help.txt";
     FILE *archivo_ayuda;
     archivo_ayuda=fopen(Nom_arch,"r");
+    if(archivo_ayuda==NULL)
+    {
+        printf("Error al abrir el archivo de ayuda.\n");
+        return 0;
+    }
+    while(feof(archivo_ayuda)==0)
+    {
+        fgets(cadenas,100,archivo_ayuda);
+        printf("%s",cadenas);
+    }
+    fclose(archivo_ayuda);
+    return 1;
+}
+/**
+ * @brief Funcion que imprime los otros archivos help para las otras funciones
+ * 
+ * @param flag 
+ * @return int 
+ */
+
+int imprimir_arch_help2(int flag)
+{
+    char cadenas[100];
+    //char Nom_arch[40]="Help.txt";
+    FILE *archivo_ayuda;
+    if(flag == 1)
+        archivo_ayuda=fopen("HUserConfig","r");
+    if(flag == 2)
+        archivo_ayuda=fopen("HLogs.txt","r");
+    if(flag == 3)
+        archivo_ayuda=fopen("HUserConfig","r");
+    
     if(archivo_ayuda==NULL)
     {
         printf("Error al abrir el archivo de ayuda.\n");

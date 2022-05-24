@@ -1636,18 +1636,28 @@ int busquedaloguser(char * nomuser, int flag)
     printf("\nArchivo %s listo..",nomarch);
     return 1;
 }
-
+/**
+ * @brief Busqueda de log por fecha
+ * 
+ * @param fecha recibe la fecha del log
+ * @param flag bandera que establece si es tarea o servicio donde 1 = tarea y 2 = servicio
+ * @param flag2 bandera que establece si es de fecha inicial o fecha final
+ * @param flag3 bandera que establece el metodo de busqueda si por dia mes anio.
+ * @return int 
+ */
 
 int busquedalogfecha(char * fecha, int flag, int flag2, int flag3)//flag 1 tarea/servicio logs flag 2 fecha inicio fecha fin flag3 metodo busqueda
 {
     ControladorBD2();
-    char nomarch[30]="logsF_";
+    FILE *archivo;
+    //char nomarch[30]="logsF_";
     if(flag==1)
-        strcat(nomarch,"tareas");
+        //strcat(nomarch,"tareas");
+        archivo = fopen("tareas_log.dat","w");
     if(flag==2)
-        strcat(nomarch,"servicios");
-    strcat(nomarch,".dat");
-    FILE *archivo = fopen(nomarch,"w");
+        //strcat(nomarch,"servicios");
+        archivo = fopen("servicios_log.dat","w");
+    //strcat(nomarch,".dat");
     char *consulta;
     consulta = (char *) malloc(sizeof(char)*MAXConsulta);
     if(consulta==NULL)
@@ -1836,6 +1846,100 @@ int busquedalogfecha(char * fecha, int flag, int flag2, int flag3)//flag 1 tarea
         }
     }
     fclose(archivo);
-    printf("\nArchivo %s listo..",nomarch);
+    printf("\nArchivo listo..");
+    return 1;
+}
+
+/**
+ * @brief Funcion que busca por tareas y por servicios
+ * 
+ * @param flag especifica si es es tarea o servicio.
+ * @param flag2 especifica el id de tarea o servicio
+ * @return int 
+ */
+int busquedatar_serv(int flag,int flag2)
+{
+    ControladorBD2();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    if(flag == 1)
+    {
+        if(flag2==1)
+            sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Id_Cat_Tareas = 1 ;");
+        if(flag2==2)
+            sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Id_Cat_Tareas = 2 ;");
+        if(flag2==3)
+            sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Id_Cat_Tareas = 3 ;");
+        if(flag2==4)
+            sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Id_Cat_Tareas = 4 ;");
+        if(flag2==5)
+            sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Id_Cat_Tareas = 5 ;");
+        if(flag2==6)
+            sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Id_Cat_Tareas = 6 ;");
+        if(flag2==7)
+            sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Id_Cat_Tareas = 7 ;");
+        if(flag2==8)
+            sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Id_Cat_Tareas = 8 ;");
+    }    
+    if(flag==2)
+    {
+        if(flag2==1)
+            sprintf(consulta,"SELECT * FROM administradores_servicios_log WHERE Id_Cat_Servicios = 1;");
+        if(flag2==2)
+            sprintf(consulta,"SELECT * FROM administradores_servicios_log WHERE Id_Cat_Servicios = 2;");
+        if(flag2==3)
+            sprintf(consulta,"SELECT * FROM administradores_servicios_log WHERE Id_Cat_Servicios = 3;");
+        if(flag2==4)
+            sprintf(consulta,"SELECT * FROM administradores_servicios_log WHERE Id_Cat_Servicios = 4;");
+    }    
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion);
+    free(consulta);
+    if(flag==1)
+        printf("\n|| IdLog || StatusLog ||    UserAdmin   ||        Tarea        ||     IpOrigen     ||     MACOrigen     ||   AdminObj   ||      FechaInit      ||      FechaFin      ||");
+    if(flag==2)
+        printf("\n|| IdLog || StatusLog ||    UserAdmin   ||        Servicio         ||   IPOrigen   ||   MACOrigen   ||   IPDispositivoDest   ||   IPDispositivoDestActual   ||   MACDispositivoDest   ||        FechaInit       ||       FechaFin       ||");
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        printf("\n|| %s   ",row[0]);
+        if(atoi(row[1]) == 1 )
+            printf("|| En Ejecucion ");
+        if(atoi(row[1]) == 2 )
+            printf("|| Error ");
+        if(atoi(row[1]) == 3 )
+            printf("|| Completado ");
+        ObtenerNomUser(atoi(row[2]));
+        printf("|| %s ",Nom_user);
+        //printf("|| %s ",row[2]);
+        if(atoi(row[3]) == 1 )
+            printf("|| Iniciar Sesion ");
+        if(atoi(row[3]) == 2 )
+            printf("|| Cerrar Sesion ");
+        if(atoi(row[3]) == 3 )
+            printf("|| Modificar Datos Propios ");
+        if(atoi(row[3]) == 4 )
+            printf("|| Alta Administrador ");
+        if(atoi(row[3]) == 5 )
+            printf("|| Modificar Datos Administrador ");
+        if(atoi(row[3]) == 6 )
+            printf("|| Eliminar Administrador ");
+        if(atoi(row[3]) == 7 )
+            printf("|| Eliminar Privilegios ");
+        if(atoi(row[3]) == 8 )
+            printf("|| Agregar Privilegios ");
+        printf("||  %s ",row[4]);
+        printf("||  %s ",row[5]);
+        ObtenerNomUser(atoi(row[6]));
+        printf("|| %s ",Nom_user);
+        //printf("|| %s ",row[6]);
+        printf("||  %s ",row[7]);
+        printf("||  %s ",row[8]);
+    }
     return 1;
 }

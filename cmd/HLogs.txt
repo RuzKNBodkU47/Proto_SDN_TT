@@ -2,4 +2,129 @@
 
 #- SDNTT es un prototipo de red definida por sofware desarrollado especificamente para el Instituto Politecnico Nacional.
 
-    [X] 
+    [X] logs.- Subcomando que permite entrar a las opciones de los logs entre estas opciones, tiene desde buscar, imprimir o mostrar.
+
+                Ejemplo:
+                SDNTT> logs
+                SDNTT>LOG>
+
+        [-]mostrar.- Funcion que nos permite entrar a las funciones para mostrar todos los logs.
+
+                Ejemplo:
+                SNDTT>LOG>mostrar
+                SDNTT>LOG>MOSTRAR>
+            
+            [-]tareas.- Funcion que muestra todos los logs de las tareas del sistema.
+
+                Ejemplo:
+                SDNTT>LOG>MOSTRAR>tareas
+                || IdLog || StatusLog ||    UserAdmin   ||        Tarea        ||     IpOrigen     ||     MACOrigen     ||   AdminObj   ||      FechaInit      ||      FechaFin      ||
+                
+                    1. IdLog -> es el id de ese evento en especifico
+                    2. StatuLog -> es el status del evento en ese momento.
+                    3. UserAdmin -> nombre del usuario implicado en ese evento.
+                    4. Tarea -> la tarea que realizo ese usuario.
+                    5. IpOrigen -> Direccion ip de la maquina en la que se esta logeando.
+                    6. MACOrigen -> Direccion MAC de la maquina en la que se esta logeando.
+                    7. AdminObj -> Administrador al cual se le ejecuta la tarea.
+                    8. FechaInit -> Fecha de inicio de la tarea.
+                    9. FechaFin -> Fecha de finalizacion de la tarea.
+
+            [-]servicios.-Funcion que muestra todos los logs de los servicios del sistema.
+
+                Ejemplo:
+                SDNTT>LOG>MOSTRAR>servicios
+                || IdLog || StatusLog ||    UserAdmin   ||        servicios        ||     IpOrigen     ||     MACOrigen     ||   IpDest     ||     MACDestin   ||      FechaInit      ||      FechaFin      ||
+                    1. IdLog -> es el id de ese evento en especifico
+                    2. StatuLog -> es el status del evento en ese momento.
+                    3. UserAdmin -> nombre del usuario implicado en ese evento.
+                    4. servicios -> el servicio que realizo ese usuario.
+                    5. IpOrigen -> Direccion ip de la maquina en la que se esta logeando.
+                    6. MACOrigen -> Direccion MAC de la maquina en la que se esta logeando.
+                    7. IpDest -> Direccion ip de la maquina en la que se le esta realizando la configuracion.
+                    8. MACDestin -> Direccion MAC de la maquina en la que se le esta realizando la configuracion.
+                    9. FechaInit -> Fecha de inicio de la tarea.
+                    10. FechaFin -> Fecha de finalizacion de la tarea.
+
+
+        [-]imprimir.- Funcion que permite generar un archivo de .dat con los logs de los servicios o tareas.
+            
+                Ejemplo:
+                SDNTT>LOG> imprimir
+                SDNTT>LOG>IMPRIMIR>
+
+            [-]tareas.-  Funcion que especifica que se genere el archivo log de las tareas.
+
+                Ejemplo:
+                SDNTT>LOG>IMPRIMIR> tareas
+                Obtencion de logs exitoso
+            [-]servicios.- Funcion que especifica que se genere el archivo log de los servicios.
+
+                Ejemplo:
+                SDNTT>LOG>IMPRIMIR> servicios
+                Obtencion de logs exitoso
+
+        [-]buscar.- Funcion que permite buscar logs especificos ya sea por usuario, fecha de inicio, fecha finalizacion, tarea, servicio o id.
+
+                Ejemplo:
+                SDNTT>LOG> buscar
+                SDNTT>LOG>BUSCAR>
+
+            [-]user.- Funcion que permite buscar por nombre de usuario.
+
+                Ejemplo:
+                SDNTT>LOG>BUSCAR>user
+                1.Logs de Tareas
+                2.Logs de Servicios
+                3.Salir
+                Elija en cual log desea realizar la busqueda: 
+
+            [-]fechainit.- Funcion que permite buscar por fecha de inicio.
+
+                Ejemplo:
+                SDNTT>LOG>BUSCAR>fechainit
+                1.Logs de Tareas
+                2.Logs de Servicios
+                3.Salir
+                Elija en cual log desea realizar la busqueda: 
+
+
+            [-]fechafin.- Funcion que permite buscar por fecha de finalizacion.
+
+                Ejemplo:
+                SDNTT>LOG>BUSCAR>fechafin
+                1.Logs de Tareas
+                2.Logs de Servicios
+                3.Salir
+                Elija en cual log desea realizar la busqueda: 
+
+            [-]tarea.- Funcion que permite buscar por tarea en especifico.
+
+                Ejemplo:
+                SDNTT>LOG>BUSCAR>tarea
+
+                Tareas a buscar
+                1.Iniciar Sesion
+                2.Cerrar Sesion
+                3.Modicar Datos Propios Administrador
+                4.Alta Administrador
+                5.Modicacion de Datos Administrador
+                6.Eliminar Administrador
+                7.Eliminar Privilegios
+                8. Agregar Privilegios.
+                9.Salir
+                Elija Opcion:
+
+            [-]servicio.- Funcion que permite buscar por servicio en especifico.
+                Ejemplo:
+                SDNTT>LOG>BUSCAR>servicio
+
+                Servicios a Buscar
+                1.Monitorizacion
+                2.Configuracion de Router
+                3.Configuracion de Switch
+                4.Configuracion de Servidor.
+                5. Salir
+                Elija una opcion: 
+
+            [-]id.- Funcion que busca por id del log.   
