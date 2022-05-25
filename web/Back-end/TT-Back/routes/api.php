@@ -90,3 +90,4 @@ Route::get('showcattareaa/{id}','App\Http\Controllers\CatTareasAdminController@b
 Route::get('addtarea','App\Http\Controllers\CatTareasAdminController@agregartarea');
 Route::get('showcatservicioa/{id}','App\Http\Controllers\CatServiciosAdminController@buscaservicio');
 Route::get('addservicio','App\Http\Controllers\CatServiciosAdminController@agregarservicio');
+Route::post('login','App\Http\Controllers\AdministradorController@login');

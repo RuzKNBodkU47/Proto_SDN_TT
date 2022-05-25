@@ -185,6 +185,7 @@ class CatServiciosAdminController extends Controller
                 $catservicioadmin = new tipo_admin_cat_servicios();
                 $catservicioadmin->Id_Administrador = (int)$request->Id_Administrador;
                 $catservicioadmin->Id_Cat_Servicios = (int)$lista['servicioi'][$i];
+                $catservicioadmin->Fecha_Ult_Mod = date("Y-m-d H:i:s"); 
                 $catservicioadmin->save();
             }
             return response()->json(['data'=>$lista['servicioi'],"message"=>"Lista de tareas actualizada con éxito","code"=>201]);

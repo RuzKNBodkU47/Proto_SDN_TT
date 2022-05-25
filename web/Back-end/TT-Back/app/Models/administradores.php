@@ -10,6 +10,7 @@ class administradores extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table="administradores";
+    protected $primaryKey='Id_Administradores';
 
     // Todos los campos que se les permiten asignar masivamente
     protected $fillable = [

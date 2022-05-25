@@ -202,7 +202,7 @@ class AdministradorController extends Controller
                     $cattareasadmin = new tipo_admin_cat_tareas();
                     $cattareasadmin->Id_Administrador = $admin->id;
                     $cattareasadmin->Id_Cat_Tareas = $arreglo[$i];
-                    $cattareasadmin->Fecha_Ult_Mod = $request->date("Y-m-d H:i:s");
+                    $cattareasadmin->Fecha_Ult_Mod = date("Y-m-d H:i:s");
                     // return $cattareasadmin;
                     $cattareasadmin->save();
                 }
@@ -221,6 +221,24 @@ class AdministradorController extends Controller
             return response()->json(['data'=>[],"message"=>"Administrador eliminado con éxito","code"=>201]);
         } catch (\Throwable $th) {
             return response(["message"=>"error", 'error'=>$th],422);
+        }
+    }
+    public function login(Request $request) {
+        $user = administradores::where('Nombre_Usuario',$request->Nombre_Usuario)->first();
+        if (isset($user->Id_Administradores)) {
+            // if(Hash::check($request->Password,$user->Password_Hash)){
+            if (strcmp($request->Password,$user->Password_Hash)==0) {
+                if ($user->Id_Status_Admin==1) {
+                    
+                    return response(["message"=>"Usuario ingresado con éxito",'code'=>201, 'data'=>$user]);
+                }else {
+                    return response(["message"=>"Usuario no cuenta con permisos para poder ingresar", 'code'=>403]);
+                }
+            }else {
+                return response(["message"=>"Contraseña incorrecta", 'code'=>403]);
+            }
+        }else {
+            return response(["message"=>"Usuario no registrado", 'code'=>404]);
         }
     }
 }
