@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\GuardarAdministradorRequest;
 use App\Models\administradores;
 use App\Models\tipo_admin_cat_tareas;
+use App\Models\tipo_admin_cat_servicios;
 use App\Models\status_admin;
 use App\Models\tipo_admin;
 use App\Models\administradores_tareas_log;
@@ -145,6 +146,31 @@ class AdministradorController extends Controller
                 'Fecha_Ultimo_Cambio_Pass'=>$request->Fecha_Ultimo_Cambio_Pass, 
                 'Cant_dias_limit'=>$request->Cant_dias_limit
             ]);
+            if ($request->Id_Status_Admin==3) {
+                $admintareaslog = new administradores_tareas_log();
+                $admintareaslog->Id_Status_Log = 3;
+                $admintareaslog->Id_Administradores = $request->id;
+                $admintareaslog->Id_Cat_Tareas = 6;
+                $admintareaslog->Ip_Dispositivo_Orig = \Request::ip();
+                $admintareaslog->MAC_Dispositivo_Orig = 'Inalcanzable';
+                $admintareaslog->Id_Admin_Obj = null;
+                $admintareaslog->Fecha_Init_Serv = date("Y-m-d H:i:s");
+                $admintareaslog->Fecha_Fin_Serv = date("Y-m-d H:i:s");
+                $admintareaslog->save();
+                return response()->json(['data'=>[],"message"=>"Administrador eliminado con éxito","code"=>201]);
+            }else{
+                $admintareaslog = new administradores_tareas_log();
+                $admintareaslog->Id_Status_Log = 3;
+                $admintareaslog->Id_Administradores = $request->id;
+                $admintareaslog->Id_Cat_Tareas = 5;
+                $admintareaslog->Ip_Dispositivo_Orig = \Request::ip();
+                $admintareaslog->MAC_Dispositivo_Orig = 'Inalcanzable';
+                $admintareaslog->Id_Admin_Obj = null;
+                $admintareaslog->Fecha_Init_Serv = date("Y-m-d H:i:s");
+                $admintareaslog->Fecha_Fin_Serv = date("Y-m-d H:i:s");
+                $admintareaslog->save();
+                return response()->json(['data'=>[],"message"=>"Administrador eliminado con éxito","code"=>201]);
+            }
             return response()->json(['data'=>[],"message"=>"Administrador actualizado con éxito","code"=>201]);
         } catch (\Throwable $th) {
             return response(["message"=>"error", 'error'=>$th],422);
@@ -200,13 +226,23 @@ class AdministradorController extends Controller
             // return str_replace(array("[", "]"), '', $request->Id_Cat_Tareas);
             $arreglo = explode(",", $cadena);
                 for ($i=0; $i < count($arreglo); $i++) { 
-                    $cattareasadmin = new tipo_admin_cat_tareas();
-                    $cattareasadmin->Id_Administrador = $admin->id;
-                    $cattareasadmin->Id_Cat_Tareas = $arreglo[$i];
+                    $cattareasadmin = new tipo_admin_cat_servicios();
+                    $cattareasadmin->Id_Administrador = $admin->Id_Administradores;
+                    $cattareasadmin->Id_Cat_Servicios = $arreglo[$i];
                     $cattareasadmin->Fecha_Ult_Mod = date("Y-m-d H:i:s");
                     // return $cattareasadmin;
                     $cattareasadmin->save();
                 }
+            $admintareaslog = new administradores_tareas_log();
+            $admintareaslog->Id_Status_Log = 3;
+            $admintareaslog->Id_Administradores = $request->id;
+            $admintareaslog->Id_Cat_Tareas = 4;
+            $admintareaslog->Ip_Dispositivo_Orig = \Request::ip();
+            $admintareaslog->MAC_Dispositivo_Orig = 'Inalcanzable';
+            $admintareaslog->Id_Admin_Obj = null;
+            $admintareaslog->Fecha_Init_Serv = date("Y-m-d H:i:s");
+            $admintareaslog->Fecha_Fin_Serv = date("Y-m-d H:i:s");
+            $admintareaslog->save();
             return response()->json(['data'=>[],"message"=>"Administrador y tareas regristradas con éxito","code"=>201]);
         } catch (\Throwable $th) {
             return \Response::json(['created' => false,"message"=>$th], 422);
@@ -219,7 +255,31 @@ class AdministradorController extends Controller
             ->update([
                 'Id_Status_Admin'=>$request->Id_Status_Admin, 
             ]);
-            return response()->json(['data'=>[],"message"=>"Administrador eliminado con éxito","code"=>201]);
+            if ($request->Id_Status_Admin==3) {
+                $admintareaslog = new administradores_tareas_log();
+                $admintareaslog->Id_Status_Log = 3;
+                $admintareaslog->Id_Administradores = $request->id;
+                $admintareaslog->Id_Cat_Tareas = 6;
+                $admintareaslog->Ip_Dispositivo_Orig = \Request::ip();
+                $admintareaslog->MAC_Dispositivo_Orig = 'Inalcanzable';
+                $admintareaslog->Id_Admin_Obj = null;
+                $admintareaslog->Fecha_Init_Serv = date("Y-m-d H:i:s");
+                $admintareaslog->Fecha_Fin_Serv = date("Y-m-d H:i:s");
+                $admintareaslog->save();
+                return response()->json(['data'=>[],"message"=>"Administrador eliminado con éxito","code"=>201]);
+            }else{
+                $admintareaslog = new administradores_tareas_log();
+                $admintareaslog->Id_Status_Log = 3;
+                $admintareaslog->Id_Administradores = $request->id;
+                $admintareaslog->Id_Cat_Tareas = 5;
+                $admintareaslog->Ip_Dispositivo_Orig = \Request::ip();
+                $admintareaslog->MAC_Dispositivo_Orig = 'Inalcanzable';
+                $admintareaslog->Id_Admin_Obj = null;
+                $admintareaslog->Fecha_Init_Serv = date("Y-m-d H:i:s");
+                $admintareaslog->Fecha_Fin_Serv = date("Y-m-d H:i:s");
+                $admintareaslog->save();
+                return response()->json(['data'=>[],"message"=>"Administrador eliminado con éxito","code"=>201]);
+            }
         } catch (\Throwable $th) {
             return response(["message"=>"error", 'error'=>$th],422);
         }

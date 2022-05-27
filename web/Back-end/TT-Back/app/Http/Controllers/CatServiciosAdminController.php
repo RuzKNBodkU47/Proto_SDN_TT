@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\tipo_admin_cat_servicios;
+use App\Models\administradores_tareas_log;
 use Illuminate\Support\Facades\DB;
 
 class CatServiciosAdminController extends Controller
@@ -188,6 +189,16 @@ class CatServiciosAdminController extends Controller
                 $catservicioadmin->Fecha_Ult_Mod = date("Y-m-d H:i:s"); 
                 $catservicioadmin->save();
             }
+            $admintareaslog = new administradores_tareas_log();
+            $admintareaslog->Id_Status_Log = 3;
+            $admintareaslog->Id_Administradores = $request->id;
+            $admintareaslog->Id_Cat_Tareas = 5;
+            $admintareaslog->Ip_Dispositivo_Orig = \Request::ip();
+            $admintareaslog->MAC_Dispositivo_Orig = 'Inalcanzable';
+            $admintareaslog->Id_Admin_Obj = null;
+            $admintareaslog->Fecha_Init_Serv = date("Y-m-d H:i:s");
+            $admintareaslog->Fecha_Fin_Serv = date("Y-m-d H:i:s");
+            $admintareaslog->save();
             return response()->json(['data'=>$lista['servicioi'],"message"=>"Lista de tareas actualizada con éxito","code"=>201]);
         } catch (\Throwable $th) {
             return \Response::json(['find' => false,"message"=>$th], 404);
