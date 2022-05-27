@@ -8,6 +8,7 @@ use App\Models\administradores;
 use App\Models\tipo_admin_cat_tareas;
 use App\Models\status_admin;
 use App\Models\tipo_admin;
+use App\Models\administradores_tareas_log;
 use Illuminate\Support\Facades\DB;
 
 class AdministradorController extends Controller
@@ -229,7 +230,16 @@ class AdministradorController extends Controller
             // if(Hash::check($request->Password,$user->Password_Hash)){
             if (strcmp($request->Password,$user->Password_Hash)==0) {
                 if ($user->Id_Status_Admin==1) {
-                    
+                    $admintareaslog = new administradores_tareas_log();
+                    $admintareaslog->Id_Status_Log = 3;
+                    $admintareaslog->Id_Administradores = $user->Id_Administradores;
+                    $admintareaslog->Id_Cat_Tareas = 1;
+                    $admintareaslog->Ip_Dispositivo_Orig = \Request::ip();
+                    $admintareaslog->MAC_Dispositivo_Orig = 'Inalcanzable';
+                    $admintareaslog->Id_Admin_Obj = null;
+                    $admintareaslog->Fecha_Init_Serv = date("Y-m-d H:i:s");
+                    $admintareaslog->Fecha_Fin_Serv = date("Y-m-d H:i:s");
+                    $admintareaslog->save();
                     return response(["message"=>"Usuario ingresado con éxito",'code'=>201, 'data'=>$user]);
                 }else {
                     return response(["message"=>"Usuario no cuenta con permisos para poder ingresar", 'code'=>403]);
@@ -239,6 +249,14 @@ class AdministradorController extends Controller
             }
         }else {
             return response(["message"=>"Usuario no registrado", 'code'=>404]);
+        }
+    }
+    public function obtenermac(){
+        $macAddr = exec('getmac');
+        if(isset($macAddr)){
+            return $macAddr;
+        }else {
+            return 'unattainable';
         }
     }
 }
