@@ -1,15 +1,14 @@
-
 from pysnmp.hlapi import * 
 #Funciones para el protocolo SNMP
 import pymysql.cursors
 #Función get de SNMP
 
-def GetFunc(User, AuthKy,AgentTarget,OID):
+def GetFunc(User, AuthKy,AgentTarget,OIDN, OIDMem, OIDcpu, OIDDisk):
     getCommand = getCmd(SnmpEngine(), #Instancia de la clase SNMPengine (obligatorio en la funcion)
                         UsmUserData(User, authKey = AuthKy), #privkey es un valor opcional
                         UdpTransportTarget((AgentTarget,161)), #Establecer transport y target
                         ContextData(), #Contexto SNMP vacio valor default
-                        ObjectType(ObjectIdentity(OID)) #ObjectIdentity aborda objetos MIB desde perspectiva humana
+                        ObjectType(ObjectIdentity(OIDN)) #ObjectIdentity aborda objetos MIB desde perspectiva humana
                                                                               #ObjectType objeto contenedor que referencia a instancias ObjectIdentity y SNMP
                         ) 
 
@@ -26,7 +25,7 @@ def GetFunc(User, AuthKy,AgentTarget,OID):
             print(' = '.join([x.prettyPrint() for x in varBind]))
        
             print(str(varBind).split(","))
-            NombreDispositivo(str(varBind),OID)
+            NombreDispositivo(str(varBind), OIDN, OIDMem,OIDcpu,OIDDisk)
     #Eleccion de version mpModel = 0 es para SNMP version 1, mpModel = 1 es para version 2c
     #CommunityData('public', mpModel = 1),
     
@@ -75,7 +74,7 @@ def InformFunc():
                                 )
     next(setInform)
 
-def NombreDispositivo(cadena,oid):
+def NombreDispositivo(cadena,oid, oidmem, oidcpu, oidisk):
     #Establecer conexión con BD (cambiar los datos aqui por los requeridos para nuestra conexion)
     conexion = pymysql.connect(host = 'localhost',
                                user = 'user',
@@ -89,9 +88,10 @@ def NombreDispositivo(cadena,oid):
         #Obtener el nombre del dispositivo al que se realizo la petición snmpget
         empiezasys = []
         empiezasys = cadena.split("=") #Separa la cadena en el MIB que se consulto
-
-        snmpCadenaComp = empiezasys[1].split("(") #Se separa la cadena para obtener unicamente el nombre del dispositivo
-        nombreDispositivo = snmpCadenaComp[0] #Se asigna el nombre a la variable para hacer el insert en la base de datos
+        quitarStringElemento = empiezasys[1].split("STRING:")
+        snmpCadenaComp = quitarStringElemento[1].split("(") #Se separa la cadena para obtener unicamente el nombre del dispositivo
+        limpiarGato = snmpCadenaComp[0].split("#")
+        nombreDispositivo = limpiarGato[0] #Se asigna el nombre a la variable para hacer el insert en la base de datos
         print(nombreDispositivo)
 
         with conexion:
@@ -102,53 +102,50 @@ def NombreDispositivo(cadena,oid):
 
             #Se usa el siguiente commit para guardar los cambios
             conexion.commit()   
-    elif(oid == '1.3.6.1.4.1.2021.4.5.0'):
+    
+    if(oidmem == '1.3.6.1.4.1.2021.4.5.0'):
         #Obtener los datos de memoria
         cadenaOid = []
         cadenaOid = cadena.split("=") #Separa la cadena para obtener el dato de relevancia
-        
-        RAMmem = ''
+        quitarStringElemento = cadenaOid[1].split("STRING:")
+        snmpMemComp = quitarStringElemento[1].split("(")
+        RAMmem = snmpMemComp[0]
+        print(RAMmem)
+
         with conexion:
             with conexion.cursor() as cursor:
                 #Crear nuevo registro
                 register = "INSERT INTO `Datos_Dispo` (`Memoria`) VALUES (%s)"    
                 cursor.execute(register(RAMmem))
-    elif(oid == '1.3.6.1.4.1.2021.9.1.6.1'):
+    
+    if(oidisk == '1.3.6.1.4.1.2021.9.1.6.1'):
         #Obtener los datos de disco
         cadenaOid = []
         cadenaOid = cadena.split("=") #Separa la cadena para obtener el dato de relevancia
-        
-        Disksize = ''
+        quitarStringElemento = cadenaOid[1].split("STRING:")
+        snmpDiskComp = quitarStringElemento[1].split("(")
+
+        Disksize = snmpDiskComp[0]
         with conexion:
             with conexion.cursor() as cursor:
                 #Crear nuevo registro
                 register = "INSERT INTO `Datos_Dispo` (`Storage`) VALUES (%s)"    
                 cursor.execute(register(Disksize))
-    elif(oid == '1.3.6.1.4.1.2021.11.9.0'):
+    
+    if(oidcpu == '1.3.6.1.4.1.2021.11.9.0'):
         #Obtener los datos de cpu
         cadenaOid = []
         cadenaOid = cadena.split("=") #Separa la cadena para obtener el dato de relevancia
-        
-        CPUporcentaje = ''
+        quitarStringElemento = cadenaOid[1].split("STRING:")
+        snmpCPUComp = quitarStringElemento[1].split("(")
+
+        CPUporcentaje = snmpCPUComp[0]
         with conexion:
             with conexion.cursor() as cursor:
                 #Crear nuevo registro
                 register = "INSERT INTO `Datos_Dispo` (`CPU`) VALUES (%s)"    
                 cursor.execute(register(CPUporcentaje))
-    else:
-        print("Oid no reconocido")
 
-#def conectarSQL():
-    #Cambiar los valores por los de nuestra BD
- #   try:
-  #      db_connection = MYSQLdb.connect("Hostname","dbusername","password","dbname")
-   # except:
-    #    print("Error al conectar la DB")
-    
-    #Crear objeto para ejecucion de query
-    #cursor = db_connection.cursor()
 
-    #Ejecución de una sentencia
-    #cursor.execute("Poner aqui la sentencia a ejecutar")
 
-GetFunc('Admin','Palabra123456','148.204.9.1','1.3.6.1.2.1.1.1.0')  
+GetFunc('Admin','Palabra123456','148.204.9.1','1.3.6.1.2.1.1.1.0','1.3.6.1.4.1.2021.4.5.0', '1.3.6.1.4.1.2021.9.1.6.1', '1.3.6.1.4.1.2021.11.9.0')  
