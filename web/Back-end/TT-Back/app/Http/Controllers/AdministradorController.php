@@ -289,7 +289,7 @@ class AdministradorController extends Controller
         if (isset($user->Id_Administradores)) {
             // if(Hash::check($request->Password,$user->Password_Hash)){
             if (strcmp($request->Password,$user->Password_Hash)==0) {
-                if ($user->Id_Status_Admin==1) {
+                if ($user->Id_Status_Admin==1||$user->Id_Status_Admin==2) {
                     $admintareaslog = new administradores_tareas_log();
                     $admintareaslog->Id_Status_Log = 3;
                     $admintareaslog->Id_Administradores = $user->Id_Administradores;
@@ -307,6 +307,29 @@ class AdministradorController extends Controller
             }else {
                 return response(["message"=>"Contraseña incorrecta", 'code'=>403]);
             }
+        }else {
+            return response(["message"=>"Usuario no registrado", 'code'=>404]);
+        }
+    }
+    public function logout(Request $request) {
+        $user = administradores::where('Id_Administradores',$request->id)->first();
+        if (isset($user->Id_Administradores)) {
+            $admintareaslog = new administradores_tareas_log();
+            $admintareaslog->Id_Status_Log = 3;
+            $admintareaslog->Id_Administradores = $user->Id_Administradores;
+            $admintareaslog->Id_Cat_Tareas = 2;
+            $admintareaslog->Ip_Dispositivo_Orig = \Request::ip();
+            $admintareaslog->MAC_Dispositivo_Orig = 'Inalcanzable';
+            $admintareaslog->Id_Admin_Obj = null;
+            $admintareaslog->Fecha_Init_Serv = date("Y-m-d H:i:s");
+            $admintareaslog->Fecha_Fin_Serv = date("Y-m-d H:i:s");
+            $admintareaslog->save();
+            DB::table('administradores')
+            ->where('Id_Administradores', $user->Id_Administradores)
+            ->update([
+                'Id_Status_Admin'=>2, 
+            ]);
+            return response(["message"=>"Logout",'code'=>201, 'data'=>[]]);
         }else {
             return response(["message"=>"Usuario no registrado", 'code'=>404]);
         }
