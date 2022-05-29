@@ -1543,18 +1543,18 @@ int idbuslog()
         switch (opc)
         {
         case 1:printf("\nBuscando Logs de tareas");
-            printf("\nIngrese el Id a buscar: ")
+            printf("\nIngrese el Id a buscar: ");
             scanf("%d",&id);
             if (buslogid(1,id))
-                return 0:
+                return 0;
             
             break;
 
         case 2:printf("\nBuscando Logs de Servicios");
-            printf("\nIngrese el Id a buscar: ")
+            printf("\nIngrese el Id a buscar: ");
             scanf("%d",&id);
             if (buslogid(2,id))
-                return 0:
+                return 0;
             break;
         case 3:printf("\nSaliendo");
             x=0;
