@@ -307,10 +307,10 @@ void funcion_log()
                 }
                 else if(strcmp(subcomando,LOGS_SUBCMD_8)==0)//buscar por id
                 {
-                    //if()
-                      //  printf("\nObtencion de logs exitoso.");
-                    //else
-                      //  printf("\nObtencion de logs no exitoso.");
+                    if(idbuslog())
+                      printf("\nObtencion de logs exitoso.");
+                    else
+                      printf("\nObtencion de logs no exitoso.");
                 }
                 else if(strcmp(subcomando,EXIT_CMD)==0)
                 {

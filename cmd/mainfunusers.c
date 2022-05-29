@@ -1526,3 +1526,42 @@ int buscarlogstarserv(int flag)
     }
     return 1;
 }
+/**
+ * @brief 
+ * 
+ * @return int 
+ */
+int idbuslog()
+{
+    int x=1;
+    int opc=0;
+    int id=0;
+    while(x)
+    {
+        printf("\n1.Logs de Tareas\n2.Logs de Servicios\n3.salir\nElija una opcion:");
+        scanf("%d",&opc);
+        switch (opc)
+        {
+        case 1:printf("\nBuscando Logs de tareas");
+            printf("\nIngrese el Id a buscar: ")
+            scanf("%d",&id);
+            if (buslogid(1,id))
+                return 0:
+            
+            break;
+
+        case 2:printf("\nBuscando Logs de Servicios");
+            printf("\nIngrese el Id a buscar: ")
+            scanf("%d",&id);
+            if (buslogid(2,id))
+                return 0:
+            break;
+        case 3:printf("\nSaliendo");
+            x=0;
+            break;
+        default:printf("\nError en las opciones");
+            break;
+        }
+    }
+    return 1;
+}

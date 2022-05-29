@@ -1917,29 +1917,149 @@ int busquedatar_serv(int flag,int flag2)
         ObtenerNomUser(atoi(row[2]));
         printf("|| %s ",Nom_user);
         //printf("|| %s ",row[2]);
-        if(atoi(row[3]) == 1 )
+        if(flag==1)
+        {
+            if(atoi(row[3]) == 1 )
             printf("|| Iniciar Sesion ");
-        if(atoi(row[3]) == 2 )
+            if(atoi(row[3]) == 2 )
             printf("|| Cerrar Sesion ");
-        if(atoi(row[3]) == 3 )
+            if(atoi(row[3]) == 3 )
             printf("|| Modificar Datos Propios ");
-        if(atoi(row[3]) == 4 )
+            if(atoi(row[3]) == 4 )
             printf("|| Alta Administrador ");
-        if(atoi(row[3]) == 5 )
+            if(atoi(row[3]) == 5 )
             printf("|| Modificar Datos Administrador ");
-        if(atoi(row[3]) == 6 )
+            if(atoi(row[3]) == 6 )
             printf("|| Eliminar Administrador ");
-        if(atoi(row[3]) == 7 )
+            if(atoi(row[3]) == 7 )
             printf("|| Eliminar Privilegios ");
-        if(atoi(row[3]) == 8 )
+            if(atoi(row[3]) == 8 )
             printf("|| Agregar Privilegios ");
+        }
+        if(flag==2)
+        {
+            if(atoi(row[3]) == 1 )
+                printf("||  Monitorizacion ");
+            if(atoi(row[3]) == 2 )
+                printf("|| Configuracion de Router");
+            if(atoi(row[3]) == 3 )
+                printf("|| Configuracion de Switch ");
+            if(atoi(row[3]) == 4 )
+                printf("|| COnfiguracion de Servidor ");
+        }
         printf("||  %s ",row[4]);
         printf("||  %s ",row[5]);
-        ObtenerNomUser(atoi(row[6]));
-        printf("|| %s ",Nom_user);
-        //printf("|| %s ",row[6]);
+        if(flag==1)
+        {
+            ObtenerNomUser(atoi(row[6]));
+            printf("|| %s ",Nom_user);
+        }    
+        if (flag == 2 )
+            printf("||  %s ",row[6]);
+                
         printf("||  %s ",row[7]);
         printf("||  %s ",row[8]);
+        if(flag==2)
+        {
+            printf("||  %s ",row[9]);
+            printf("||  %s ",row[10]);
+        }
+    }
+    return 1;
+}
+/**
+ * @brief Funcion que busca el log especifico por id
+ * 
+ * @param flag parametro que almacena el tipo de log
+ * @param id parametro que almacena el id del log
+ * @return int 
+ */
+
+int buslogid(int flag,int id)
+{
+    ControladorBD2();
+    char *consulta;
+    consulta = (char *) malloc(sizeof(char)*MAXConsulta);
+    if(consulta==NULL)
+        return -1;
+    if(flag == 1)
+    {
+            sprintf(consulta,"SELECT * FROM administradores_tareas_log WHERE Id_Administradores_Tareas_Log = %d ;",id);
+    }    
+    if(flag==2)
+    {
+            sprintf(consulta,"SELECT * FROM administradores_servicios_log WHERE Id_Administradores_Servicios_Log = %d;",id);
+    }    
+    if(mysql_query(conexion,consulta))
+    {
+        fprintf(stderr,"%s\n",mysql_error(conexion));
+        return 0;
+    }
+    res=mysql_use_result(conexion);
+    free(consulta);
+    if(flag==1)
+        printf("\n|| IdLog || StatusLog ||    UserAdmin   ||        Tarea        ||     IpOrigen     ||     MACOrigen     ||   AdminObj   ||      FechaInit      ||      FechaFin      ||");
+    if(flag==2)
+        printf("\n|| IdLog || StatusLog ||    UserAdmin   ||        Servicio         ||   IPOrigen   ||   MACOrigen   ||   IPDispositivoDest   ||   IPDispositivoDestActual   ||   MACDispositivoDest   ||        FechaInit       ||       FechaFin       ||");
+    while((row=mysql_fetch_row(res)) != NULL)
+    {
+        printf("\n|| %s   ",row[0]);
+        if(atoi(row[1]) == 1 )
+            printf("|| En Ejecucion ");
+        if(atoi(row[1]) == 2 )
+            printf("|| Error ");
+        if(atoi(row[1]) == 3 )
+            printf("|| Completado ");
+        ObtenerNomUser(atoi(row[2]));
+        printf("|| %s ",Nom_user);
+        //printf("|| %s ",row[2]);
+        if(flag==1)
+        {
+            if(atoi(row[3]) == 1 )
+            printf("|| Iniciar Sesion ");
+            if(atoi(row[3]) == 2 )
+            printf("|| Cerrar Sesion ");
+            if(atoi(row[3]) == 3 )
+            printf("|| Modificar Datos Propios ");
+            if(atoi(row[3]) == 4 )
+            printf("|| Alta Administrador ");
+            if(atoi(row[3]) == 5 )
+            printf("|| Modificar Datos Administrador ");
+            if(atoi(row[3]) == 6 )
+            printf("|| Eliminar Administrador ");
+            if(atoi(row[3]) == 7 )
+            printf("|| Eliminar Privilegios ");
+            if(atoi(row[3]) == 8 )
+            printf("|| Agregar Privilegios ");
+        }
+        if(flag==2)
+        {
+            if(atoi(row[3]) == 1 )
+                printf("||  Monitorizacion ");
+            if(atoi(row[3]) == 2 )
+                printf("|| Configuracion de Router");
+            if(atoi(row[3]) == 3 )
+                printf("|| Configuracion de Switch ");
+            if(atoi(row[3]) == 4 )
+                printf("|| COnfiguracion de Servidor ");
+        }
+        printf("||  %s ",row[4]);
+        printf("||  %s ",row[5]);
+        if(flag==1)
+        {
+            ObtenerNomUser(atoi(row[6]));
+            printf("|| %s ",Nom_user);
+        }    
+        if (flag == 2 )
+            printf("||  %s ",row[6]);
+                
+        printf("||  %s ",row[7]);
+        printf("||  %s ",row[8]);
+        if(flag==2)
+        {
+            printf("||  %s ",row[9]);
+            printf("||  %s ",row[10]);
+        }
     }
     return 1;
 }
