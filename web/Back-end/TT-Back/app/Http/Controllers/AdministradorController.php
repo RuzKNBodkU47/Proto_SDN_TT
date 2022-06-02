@@ -222,13 +222,24 @@ class AdministradorController extends Controller
             $admin->Fecha_Ultimo_Cambio_Pass = $request->Fecha_Ultimo_Cambio_Pass;
             $admin->Cant_dias_limit = $request->Cant_dias_limit;
             $admin->save();
-            $cadena = trim($request->Id_Cat_Tareas, '[]');
+            $cadena = trim($request->Servicios, '[]');
             // return str_replace(array("[", "]"), '', $request->Id_Cat_Tareas);
             $arreglo = explode(",", $cadena);
                 for ($i=0; $i < count($arreglo); $i++) { 
                     $cattareasadmin = new tipo_admin_cat_servicios();
                     $cattareasadmin->Id_Administrador = $admin->Id_Administradores;
                     $cattareasadmin->Id_Cat_Servicios = $arreglo[$i];
+                    $cattareasadmin->Fecha_Ult_Mod = date("Y-m-d H:i:s");
+                    // return $cattareasadmin;
+                    $cattareasadmin->save();
+                }
+            $cadena2 = trim($request->Tareas, '[]');
+            // return str_replace(array("[", "]"), '', $request->Id_Cat_Tareas);
+            $arreglo = explode(",", $cadena2);
+                for ($i=0; $i < count($arreglo); $i++) { 
+                    $cattareasadmin = new tipo_admin_cat_tareas();
+                    $cattareasadmin->Id_Administrador = $admin->Id_Administradores;
+                    $cattareasadmin->Id_Cat_Tareas = $arreglo[$i];
                     $cattareasadmin->Fecha_Ult_Mod = date("Y-m-d H:i:s");
                     // return $cattareasadmin;
                     $cattareasadmin->save();
@@ -340,6 +351,39 @@ class AdministradorController extends Controller
             return $macAddr;
         }else {
             return 'unattainable';
+        }
+    }
+    public function cambiapass(Request $request){
+        
+        //
+        try {
+            DB::table('administradores')
+            ->where('Id_Administradores', $request->Id_Administradores)
+            ->update([
+                'Id_Status_Admin'=>$request->Id_Status_Admin, 
+                'Id_Tipo_Admin'=>$request->Id_Tipo_Admin, 
+                'Nombre_Admin'=>$request->Nombre_Admin,
+                'Apellido_P_Admin'=>$request->Apellido_P_Admin,
+                'Apellido_M_Admin'=>$request->Apellido_M_Admin,
+                'Fecha_ingreso'=>$request->Fecha_ingreso,
+                'Nombre_Usuario'=>$request->Nombre_Usuario, 
+                'Password_Hash'=>$request->Password_Hash, 
+                'Fecha_Ultimo_Cambio_Pass'=>$request->Fecha_Ultimo_Cambio_Pass, 
+                'Cant_dias_limit'=>$request->Cant_dias_limit
+            ]);
+            $admintareaslog = new administradores_tareas_log();
+            $admintareaslog->Id_Status_Log = 3;
+            $admintareaslog->Id_Administradores = $request->id;
+            $admintareaslog->Id_Cat_Tareas = 3;
+            $admintareaslog->Ip_Dispositivo_Orig = \Request::ip();
+            $admintareaslog->MAC_Dispositivo_Orig = 'Inalcanzable';
+            $admintareaslog->Id_Admin_Obj = null;
+            $admintareaslog->Fecha_Init_Serv = date("Y-m-d H:i:s");
+            $admintareaslog->Fecha_Fin_Serv = date("Y-m-d H:i:s");
+            $admintareaslog->save();
+            return response()->json(['data'=>[],"message"=>"Administrador actualizado con éxito","code"=>201]);
+        } catch (\Throwable $th) {
+            return response(["message"=>"error", 'error'=>$th],422);
         }
     }
 }

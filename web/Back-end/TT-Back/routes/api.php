@@ -92,3 +92,4 @@ Route::get('showcatservicioa/{id}','App\Http\Controllers\CatServiciosAdminContro
 Route::get('addservicio','App\Http\Controllers\CatServiciosAdminController@agregarservicio');
 Route::post('login','App\Http\Controllers\AdministradorController@login');
 Route::post('logout','App\Http\Controllers\AdministradorController@logout');
+Route::put('updateperfil','App\Http\Controllers\AdministradorController@cambiapass');
