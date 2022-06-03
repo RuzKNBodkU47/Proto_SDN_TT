@@ -222,28 +222,32 @@ class AdministradorController extends Controller
             $admin->Fecha_Ultimo_Cambio_Pass = $request->Fecha_Ultimo_Cambio_Pass;
             $admin->Cant_dias_limit = $request->Cant_dias_limit;
             $admin->save();
-            $cadena = trim($request->Servicios, '[]');
-            // return str_replace(array("[", "]"), '', $request->Id_Cat_Tareas);
-            $arreglo = explode(",", $cadena);
-                for ($i=0; $i < count($arreglo); $i++) { 
-                    $cattareasadmin = new tipo_admin_cat_servicios();
-                    $cattareasadmin->Id_Administrador = $admin->Id_Administradores;
-                    $cattareasadmin->Id_Cat_Servicios = $arreglo[$i];
-                    $cattareasadmin->Fecha_Ult_Mod = date("Y-m-d H:i:s");
-                    // return $cattareasadmin;
-                    $cattareasadmin->save();
-                }
-            $cadena2 = trim($request->Tareas, '[]');
-            // return str_replace(array("[", "]"), '', $request->Id_Cat_Tareas);
-            $arreglo = explode(",", $cadena2);
-                for ($i=0; $i < count($arreglo); $i++) { 
-                    $cattareasadmin = new tipo_admin_cat_tareas();
-                    $cattareasadmin->Id_Administrador = $admin->Id_Administradores;
-                    $cattareasadmin->Id_Cat_Tareas = $arreglo[$i];
-                    $cattareasadmin->Fecha_Ult_Mod = date("Y-m-d H:i:s");
-                    // return $cattareasadmin;
-                    $cattareasadmin->save();
-                }
+            if ($request->Servicios) {
+                $cadena = trim($request->Servicios, '[]');
+                // return str_replace(array("[", "]"), '', $request->Id_Cat_Tareas);
+                $arreglo = explode(",", $cadena);
+                    for ($i=0; $i < count($arreglo); $i++) { 
+                        $cattareasadmin = new tipo_admin_cat_servicios();
+                        $cattareasadmin->Id_Administrador = $admin->Id_Administradores;
+                        $cattareasadmin->Id_Cat_Servicios = $arreglo[$i];
+                        $cattareasadmin->Fecha_Ult_Mod = date("Y-m-d H:i:s");
+                        // return $cattareasadmin;
+                        $cattareasadmin->save();
+                    }
+            }
+            if ($request->Tareas) {
+                $cadena2 = trim($request->Tareas, '[]');
+                // return str_replace(array("[", "]"), '', $request->Id_Cat_Tareas);
+                $arreglo = explode(",", $cadena2);
+                    for ($i=0; $i < count($arreglo); $i++) { 
+                        $cattareasadmin = new tipo_admin_cat_tareas();
+                        $cattareasadmin->Id_Administrador = $admin->Id_Administradores;
+                        $cattareasadmin->Id_Cat_Tareas = $arreglo[$i];
+                        $cattareasadmin->Fecha_Ult_Mod = date("Y-m-d H:i:s");
+                        // return $cattareasadmin;
+                        $cattareasadmin->save();
+                    }
+            }
             $admintareaslog = new administradores_tareas_log();
             $admintareaslog->Id_Status_Log = 3;
             $admintareaslog->Id_Administradores = $request->id;
