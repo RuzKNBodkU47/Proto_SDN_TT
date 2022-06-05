@@ -8,18 +8,18 @@ CREATE TABLE Datos_SNMP(
     UserNameAgente VARCHAR(100),
     PassA VARCHAR(100),
     PassX VARCHAR(100),
-    OIDaConsultar(30),
-    PRIMARY KEY (idAgente)
+    OIDaConsultar VARCHAR(30),
+    PRIMARY KEY (idSegmentoDatos)
 );
 
 CREATE TABLE Datos_Dispo(
     idSolicitud int NOT NULL AUTO_INCREMENT,
     NombreDispo VARCHAR (300),
     OIDConsultado VARCHAR(30),
-    Memoria int,
-    CPU int,
-    AnchoB int,
-    Storage int,
+    Memoria VARCHAR(20),
+    CPU VARCHAR(20),
+    AnchoB VARCHAR(20),
+    Storage VARCHAR(20),
     PRIMARY KEY (idSolicitud),
     SegData int NOT NULL,
     FOREIGN KEY(SegData) REFERENCES Datos_SNMP(idSegmentoDatos)
