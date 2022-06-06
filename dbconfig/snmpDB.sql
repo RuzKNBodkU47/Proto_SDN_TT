@@ -15,12 +15,11 @@ CREATE TABLE Datos_SNMP(
 CREATE TABLE Datos_Dispo(
     idSolicitud int NOT NULL AUTO_INCREMENT,
     NombreDispo VARCHAR (300),
-    OIDConsultado VARCHAR(30),
-    Memoria VARCHAR(20),
-    CPU VARCHAR(20),
-    AnchoB VARCHAR(20),
-    Storage VARCHAR(20),
-    PRIMARY KEY (idSolicitud),
-    SegData int NOT NULL,
-    FOREIGN KEY(SegData) REFERENCES Datos_SNMP(idSegmentoDatos)
+    IPDispositivo VARCHAR (16),
+    OIDConsultado VARCHAR(300),
+    Memoria VARCHAR(50),
+    CPU VARCHAR(50),
+    AnchoB VARCHAR(50),
+    Storage VARCHAR(50),
+    PRIMARY KEY (idSolicitud)
 );
