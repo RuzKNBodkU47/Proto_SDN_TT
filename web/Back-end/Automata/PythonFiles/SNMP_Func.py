@@ -1,6 +1,7 @@
 from pysnmp.hlapi import * 
 #Funciones para el protocolo SNMP
 import pymysql.cursors
+import sys
 #Función get de SNMP
 
 def GetFunc(User, AuthKy,AgentTarget,OIDN, OIDMem, OIDcpu, OIDDisk,PrivKy):
@@ -152,5 +153,8 @@ def DatosSNMP(IPDir,User,AuthKy,PrivKy,OIDN):
             #Se usa el siguiente commit para guardar los cambios
             conexion.commit()
 
+user=sys.argv[1]
+authk=sys.argv[2]
+IPdelAgente=sys.argv[3]
+GetFunc(user,authk,IPdelAgente,'1.3.6.1.2.1.1.1.0','1.3.6.1.4.1.2021.4.5.0', '1.3.6.1.4.1.2021.9.1.6.1', '1.3.6.1.4.1.2021.11.9.0','')   
 
-GetFunc('Admin','Palabra123456','148.204.9.1','1.3.6.1.2.1.1.1.0','1.3.6.1.4.1.2021.4.5.0', '1.3.6.1.4.1.2021.9.1.6.1', '1.3.6.1.4.1.2021.11.9.0','') 
