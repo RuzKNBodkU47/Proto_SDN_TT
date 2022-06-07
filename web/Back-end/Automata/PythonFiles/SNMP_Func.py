@@ -126,11 +126,22 @@ def NombreDispositivo(cadena,oid, cadmem, cadcpu, cadisk, ipDisp):
 
         CPUporcentaje = snmpCPUComp[0]
 
+        status = 1
+        #Update de la columna status.
         with conexion:
+            with conexion.cursor() as mycursor:
+                #Actualizar columna status para realizar un mejor trackeo
+                trackstatus = "UPDATE `Datos_Dispo` SET `Status` = %s WHERE `Status` = %s"
+                updatevalues = (0,1)
+                mycursor.execute(trackstatus,updatevalues)
+            
+            conexion.commit()
+        #Insert de nueva consulta de dispositivo
+        
             with conexion.cursor() as cursor:
-                #Crear nuevo registro
-                register = "INSERT INTO `Datos_Dispo` (`NombreDispo`,`IPDispositivo`,`OIDConsultado`,`Memoria`,`Storage`,`CPU`) VALUES (%s,%s,%s,%s,%s,%s)"
-                cursor.execute(register,(nombreDispositivo,ipDisp,oid,RAMmem,Disksize,CPUporcentaje))
+                #Crear nuevo registro de dispositivo
+                register = "INSERT INTO `Datos_Dispo` (`NombreDispo`,`IPDispositivo`,`OIDConsultado`,`Memoria`,`Storage`,`CPU`,`Status`) VALUES (%s,%s,%s,%s,%s,%s,%s)"
+                cursor.execute(register,(nombreDispositivo,ipDisp,oid,RAMmem,Disksize,CPUporcentaje,status))
 
                 #Se usa el siguiente commit para guardar los cambios
             conexion.commit()  
@@ -156,5 +167,4 @@ def DatosSNMP(IPDir,User,AuthKy,PrivKy,OIDN):
 user=sys.argv[1]
 authk=sys.argv[2]
 IPdelAgente=sys.argv[3]
-GetFunc(user,authk,IPdelAgente,'1.3.6.1.2.1.1.1.0','1.3.6.1.4.1.2021.4.5.0', '1.3.6.1.4.1.2021.9.1.6.1', '1.3.6.1.4.1.2021.11.9.0','')   
-
+GetFunc(user,authk,IPdelAgente,'1.3.6.1.2.1.1.1.0','1.3.6.1.4.1.2021.4.5.0', '1.3.6.1.4.1.2021.9.1.6.1', '1.3.6.1.4.1.2021.11.9.0','')
