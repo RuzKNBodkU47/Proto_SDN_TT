@@ -315,6 +315,11 @@ class AdministradorController extends Controller
                     $admintareaslog->Fecha_Init_Serv = date("Y-m-d H:i:s");
                     $admintareaslog->Fecha_Fin_Serv = date("Y-m-d H:i:s");
                     $admintareaslog->save();
+                    DB::table('administradores')
+                    ->where('Id_Administradores', $user->Id_Administradores)
+                    ->update([
+                        'Id_Status_Admin'=>1, 
+                    ]);
                     return response(["message"=>"Usuario ingresado con éxito",'code'=>201, 'data'=>$user]);
                 }else {
                     return response(["message"=>"Usuario no cuenta con permisos para poder ingresar", 'code'=>403]);

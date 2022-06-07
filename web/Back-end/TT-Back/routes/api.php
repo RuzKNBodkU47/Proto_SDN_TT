@@ -93,3 +93,10 @@ Route::get('addservicio','App\Http\Controllers\CatServiciosAdminController@agreg
 Route::post('login','App\Http\Controllers\AdministradorController@login');
 Route::post('logout','App\Http\Controllers\AdministradorController@logout');
 Route::put('updateperfil','App\Http\Controllers\AdministradorController@cambiapass');
+
+
+
+//EndPoints de la base de datos del protocolo SNMP para
+
+Route::get('dipositivo','App\Http\Controllers\DatosDispoController@index');
+Route::get('snmp','App\Http\Controllers\DatosSNMPController@index');

@@ -63,6 +63,18 @@ return [
             ]) : [],
         ],
 
+        'comments'  => [
+        'driver'     => 'mysql',
+        'host'       => env('COMMENTS_HOST', 'localhost'),
+        'database'   => env('COMMENTS_DATABASE', 'forge'),
+        'username'   => env('COMMENTS_USERNAME', 'forge'),
+        'password'   => env('COMMETNS_PASSWORD', ''),
+        'charset'    => 'utf8',
+        'collation'  => 'utf8_unicode_ci',
+        'prefix'     => '',
+        'strict'     => false,
+         ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
