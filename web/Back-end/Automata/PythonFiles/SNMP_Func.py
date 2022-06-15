@@ -2,18 +2,68 @@ from pysnmp.hlapi import *
 #Funciones para el protocolo SNMP
 import pymysql.cursors
 import sys
+import time
 #Función get de SNMP
+NomDispOID = '1.3.6.1.2.1.1.1.0'
+MemoriaOID = "1.3.6.1.4.1.2021.4.5.0"
+CPUOID = "1.3.6.1.4.1.2021.11.9.0"
+DiscoOID = '1.3.6.1.4.1.2021.9.1.7.1'
+OctRecib = "1.3.6.1.2.1.2.2.1.10"
+OctTrans = "1.3.6.1.2.1.2.2.1.16"
+AnchoTot = "1.3.6.1.2.1.2.2.1.5"
+DiffInOct = []
+DiffOutOct = []
+ArrayVarBinds = []
+def GetInOcts(OctetRecib,IPDir):
+    #for i in range(1):
+        iterator = nextCmd(SnmpEngine(),
+                           CommunityData('ProyR', mpModel = 1),
+                           UdpTransportTarget((IPDir,161)),
+                           ContextData(),
+                           ObjectType(ObjectIdentity(OctetRecib)),
+        )
+        errorIndication, errorStatus, errorIndex, varBinds = next(iterator)
+        if errorIndication:
+            print(errorIndication)
+        elif errorStatus:
+            print('%s at %s' % (errorStatus.prettyPrint(),
+                            errorIndex and varBinds[int(errorIndex)-1][0] or '?'))
+        else:
+            for varBind in varBinds:
+                print(' = '.join([x.prettyPrint() for x in varBind]))
+                DiffInOct.append(str(varBind))
 
-def GetFunc(User, AuthKy,AgentTarget,OIDN, OIDMem, OIDcpu, OIDDisk,PrivKy):
-    ArrayVarBinds = []
-    getCommand = getCmd(SnmpEngine(), #Instancia de la clase SNMPengine (obligatorio en la funcion)
-                        UsmUserData(User, authKey = AuthKy), #privkey es un valor opcional
+def GetOutOcts(OctetTrans,IPDir):
+    #for i in range(1):
+        iterator = nextCmd(SnmpEngine(),
+                           CommunityData('ProyR', mpModel = 1),
+                           UdpTransportTarget((IPDir,161)),
+                           ContextData(),
+                           ObjectType(ObjectIdentity(OctetTrans)),
+        )
+        errorIndication, errorStatus, errorIndex, varBinds = next(iterator)
+        if errorIndication:
+            print(errorIndication)
+        elif errorStatus:
+            print('%s at %s' % (errorStatus.prettyPrint(),
+                            errorIndex and varBinds[int(errorIndex)-1][0] or '?'))
+        else:
+            for varBind in varBinds:
+                print(' = '.join([x.prettyPrint() for x in varBind]))
+                DiffOutOct.append(str(varBind))
+
+def GetFunc(User, AuthKy,AgentTarget,PrivKy):
+    
+    getCommand = nextCmd(SnmpEngine(), #Instancia de la clase SNMPengine (obligatorio en la funcion)
+                        CommunityData('ProyR', mpModel = 1),
+                        #UsmUserData(User, authKey = AuthKy), #privkey es un valor opcional
                         UdpTransportTarget((AgentTarget,161)), #Establecer transport y target
                         ContextData(), #Contexto SNMP vacio valor default
-                        ObjectType(ObjectIdentity(OIDN)), #ObjectIdentity aborda objetos MIB desde perspectiva humana #ObjectType objeto contenedor que referencia a instancias ObjectIdentity y SNMP
-                        ObjectType(ObjectIdentity(OIDMem)),
-                        ObjectType(ObjectIdentity(OIDcpu)),
-                        ObjectType(ObjectIdentity(OIDDisk))
+                        ObjectType(ObjectIdentity(NomDispOID)), #ObjectIdentity aborda objetos MIB desde perspectiva humana #ObjectType objeto contenedor que referencia a instancias ObjectIdentity y SNMP
+                        ObjectType(ObjectIdentity(MemoriaOID)),
+                        ObjectType(ObjectIdentity(CPUOID)),
+                        ObjectType(ObjectIdentity(DiscoOID)),
+                        ObjectType(ObjectIdentity(AnchoTot))
                         ) 
 
 
@@ -27,11 +77,20 @@ def GetFunc(User, AuthKy,AgentTarget,OIDN, OIDMem, OIDcpu, OIDDisk,PrivKy):
     else:
         for varBind in varBinds:
             print(' = '.join([x.prettyPrint() for x in varBind]))
-            print("AQUI ESTAN LOS VARBINDS")
             ArrayVarBinds.append(str(varBind))
-        print(ArrayVarBinds)
-        DatosSNMP(AgentTarget,User,AuthKy,PrivKy,OIDN)
-        NombreDispositivo(ArrayVarBinds[0], OIDN, ArrayVarBinds[1],ArrayVarBinds[2],ArrayVarBinds[3],AgentTarget)
+    
+    DispoName = ArrayVarBinds[0]
+    Mem = ArrayVarBinds[1]
+    Procesador = ArrayVarBinds[2]
+    Disco = ArrayVarBinds[3]
+    AnchoT = ArrayVarBinds[4]
+    
+    OctetoR1 = DiffInOct[0]
+    OctetoT1 = DiffOutOct[0]
+    OctetoR2 = DiffInOct[1]
+    OctetoT2 = DiffOutOct[1]
+    DatosSNMP(AgentTarget,User,AuthKy,PrivKy,NomDispOID)
+    NombreDispositivo(DispoName, NomDispOID, Mem,Procesador,OctetoR1,OctetoT1,OctetoR2,OctetoT2,AnchoT,Disco,AgentTarget)
         
     #Eleccion de version mpModel = 0 es para SNMP version 1, mpModel = 1 es para version 2c
     #CommunityData('public', mpModel = 1),
@@ -81,7 +140,7 @@ def InformFunc():
                                 )
     next(setInform)
 
-def NombreDispositivo(cadena,oid, cadmem, cadcpu, cadisk, ipDisp):
+def NombreDispositivo(cadena,oid, memoria,procesador,octetoR1,octetoT1,octetoR2,octetoT2,anchoT,disco,dirip):
     #oidConsultados = [oid,cadmem,cadcpu,cadisk]
     #Establecer conexión con BD (cambiar los datos aqui por los requeridos para nuestra conexion)
     conexion = pymysql.connect(host = 'localhost',
@@ -102,30 +161,31 @@ def NombreDispositivo(cadena,oid, cadmem, cadcpu, cadisk, ipDisp):
         print(nombreDispositivo) 
     
         #Obtener los datos de memoria
-        cadenaOidMem = []
-        cadenaOidMem = cadmem.split("=") #Separa la cadena para obtener el dato de relevancia
-        quitarStringElemento = cadenaOidMem[1].split("STRING:")
-        snmpMemComp = quitarStringElemento[0].split("(")
-        RAMmem = snmpMemComp[0]
+        memoria = memoria.split("=") #Separa la cadena para obtener el dato de relevancia
+        RAMmem = memoria[1]
         #print(RAMmem)
 
-        #Obtener los datos de disco
-        cadenaOiDisk = []
-        cadenaOiDisk = cadisk.split("=") #Separa la cadena para obtener el dato de relevancia
-        quitarStringElementoDisk = cadenaOiDisk[1].split("STRING:")
-        snmpDiskComp = quitarStringElementoDisk[0].split("(")
-
-        Disksize = snmpDiskComp[0]
-
-            
         #Obtener los datos de cpu
-        cadenaOidCPU = []
-        cadenaOidCPU = cadcpu.split("=") #Separa la cadena para obtener el dato de relevancia
-        quitarStringElementoCpu = cadenaOidCPU[1].split("STRING:")
-        snmpCPUComp = quitarStringElementoCpu[0].split("(")
+        procesador = procesador.split("=") #Separa la cadena para obtener el dato de relevancia
+        process = procesador[1]
+        
+        #Obtener los datos de disco
+        #El dato de disco se obtiene directamente, no se necesita limpiar la cadena
 
-        CPUporcentaje = snmpCPUComp[0]
+        #Obtener datos para ancho de banda
+        octetoR1 = octetoR1.split("=")
+        octetoT1 =  octetoT1.split("=")
+        octetoR2 = octetoR2.split("=")
+        octetoT2 =  octetoT2.split("=")
+        anchoT = anchoT.split("=")
 
+        octR1 = octetoR1[1]
+        octT1 = octetoT1[1]
+        octR2 = octetoR2[1]
+        octT2 = octetoT2[1]
+        ancT = anchoT[1]
+
+        AnchoB = CalcularAncho(int(octR1),int(octT1),int(octR2),int(octT2),int(ancT))
         status = 1
         #Update de la columna status.
         with conexion:
@@ -140,12 +200,25 @@ def NombreDispositivo(cadena,oid, cadmem, cadcpu, cadisk, ipDisp):
         
             with conexion.cursor() as cursor:
                 #Crear nuevo registro de dispositivo
-                register = "INSERT INTO `Datos_Dispo` (`NombreDispo`,`IPDispositivo`,`OIDConsultado`,`Memoria`,`Storage`,`CPU`,`Status`) VALUES (%s,%s,%s,%s,%s,%s,%s)"
-                cursor.execute(register,(nombreDispositivo,ipDisp,oid,RAMmem,Disksize,CPUporcentaje,status))
+                register = "INSERT INTO `Datos_Dispo` (`NombreDispo`,`IPDispositivo`,`OIDConsultado`,`Memoria`,`Storage`,`CPU`,`AnchoB`,`Status`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+                cursor.execute(register,(nombreDispositivo,dirip,oid,RAMmem,disco,process,AnchoB,status))
 
                 #Se usa el siguiente commit para guardar los cambios
             conexion.commit()  
 
+def CalcularAncho(Recib1,Trans1,Recib2,Trans2,ifSpeed):
+    RestaIn = Recib2 - Recib1
+    RestaOut = Trans2 - Trans1
+
+    NumSegs = (RestaIn + RestaOut)
+    DivSup = NumSegs * 8 * 100
+    DivInf = NumSegs * ifSpeed
+
+    AnchoBanda = DivSup/DivInf
+    print(DivSup)
+    print(DivInf)
+    print(AnchoBanda)
+    return AnchoBanda
 
 def DatosSNMP(IPDir,User,AuthKy,PrivKy,OIDN):
     #Establecer conexión con BD (cambiar los datos aqui por los requeridos para nuestra conexion)
@@ -167,4 +240,10 @@ def DatosSNMP(IPDir,User,AuthKy,PrivKy,OIDN):
 user=sys.argv[1]
 authk=sys.argv[2]
 IPdelAgente=sys.argv[3]
-GetFunc(user,authk,IPdelAgente,'1.3.6.1.2.1.1.1.0','1.3.6.1.4.1.2021.4.5.0', '1.3.6.1.4.1.2021.9.1.6.1', '1.3.6.1.4.1.2021.11.9.0','')
+for i in range(2):
+    GetInOcts(OctRecib,IPdelAgente)
+    GetOutOcts(OctTrans,IPdelAgente)
+    time.sleep(15)#tiempo en segundos
+    i = i + 1
+GetFunc(user,authk,IPdelAgente,'')   
+#Admin, Palabra123456,148.204.9.1 
